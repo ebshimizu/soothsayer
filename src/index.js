@@ -1,5 +1,18 @@
 import { app, BrowserWindow } from 'electron';
 
+// attempted creation of a socket server
+const socketApp = require('express')();
+const http = require('http').Server(socketApp);
+const io = require('socket.io')(http);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+http.listen(3005, function(){
+  console.log('listening on *:3005');
+});
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -8,7 +21,9 @@ const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
+    minWidth: 800,
     height: 600,
+    minHeight: 400,
   });
 
   // and load the index.html of the app.
@@ -16,6 +31,8 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  // create a socket server
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
