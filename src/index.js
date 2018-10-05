@@ -1,17 +1,5 @@
 import { app, BrowserWindow } from 'electron';
 
-// attempted creation of a socket server
-const socketApp = require('express')();
-const http = require('http').Server(socketApp);
-const io = require('socket.io')(http);
-
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
-
-http.listen(3005, function(){
-  console.log('listening on *:3005');
-});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

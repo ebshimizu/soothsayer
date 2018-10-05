@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  overflow: hidden;
+  font-family: "Brandon Groteqsue Medium", sans-serif;
+}
+
+#in-game-wrapper {
+  background-image: url("../images/in-game-hud.png");
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.team-name {
+  position: absolute;
+  font-family: "Brandon Grotesque Medium";
+  font-size: 19pt;
+  color: #FFF;
+}
+
+.team-score {
+  position: absolute;
+  color: #FFF;
+  font-size: 22pt;
+}
+
+#blue-team-name {
+  right: 73.8vw;
+  top: 7.3vh;
+}
+
+#blue-team-score {
+  top: 7.4vh;
+  right: 71.3vw;
+}
+
+#red-team-name {
+  left: 73.2vw;
+  top: 7.3vh;
+}
+
+#red-team-score {
+  left: 70.9vw;
+  top: 7.4vh;
+}

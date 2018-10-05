@@ -9,15 +9,48 @@
     <script>window.$ = window.jQuery = require('jquery');</script>
 
     <script src="semantic/dist/semantic.min.js"></script>
+    <script src="main.js"></script>
   </head>
   <body>
-    <div class="ui top attached tabular menu">
-      <a class="active item">Team Data</a>
-      <a class="item">Map Data</a>
-      <a class="item">Settings</a>
+    <div class="ui top attached tabular menu" id="section-menu">
+      <a class="active item" data-tab="team">Team Data</a>
+      <a class="item" data-tab="map">Map Data</a>
+      <a class="item" data-tab="settings">Settings</a>
     </div>
-    <div class="ui bottom attached active tab segment">
-      <p>Team Data</p>
+    <div class="ui bottom attached active tab segment" data-tab="team">
+      <div class="ui two column grid">
+        <div class="ui column">
+          <h2 class="ui blue dividing header">Blue Team</h2>
+          <form class="ui form">
+            <div class="fields">
+              <div class="twelve wide field">
+                <label>Name</label>
+                <input type="text" name="blue-name" id="team-blue-name">
+              </div>
+              <div class="four wide field">
+                <label>Score</label>
+                <input type="text" name="blue-score" id="team-blue-score">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="ui column">
+          <h2 class="ui red dividing header">Red Team</h2>
+          <form class="ui form">
+            <div class="fields">
+              <div class="four wide field">
+                <label>Score</label>
+                <input type="text" name="red-score" id="team-red-score">
+              </div>
+              <div class="twelve wide field">
+                <label>Name</label>
+                <input type="text" name="red-name" id="team-red-name">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+    <div class="ui green button" id="update-button">UPDATE</div>
   </body>
 </html>
