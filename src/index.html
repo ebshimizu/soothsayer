@@ -14,10 +14,10 @@
   <body>
     <div class="ui top attached tabular menu" id="section-menu">
       <a class="active item" data-tab="team">Team Data</a>
-      <a class="item" data-tab="map">Map Data</a>
+      <a class="item" data-tab="map">Match Data</a>
       <a class="item" data-tab="settings">Settings</a>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="team">
+    <div class="ui bottom attached active tab segment" data-tab="team" id="team-data">
       <div class="ui two column grid">
         <div class="ui column">
           <h2 class="ui blue dividing header">Blue Team</h2>
@@ -30,6 +30,16 @@
               <div class="four wide field">
                 <label>Score</label>
                 <input type="text" name="blue-score" id="team-blue-score">
+              </div>
+            </div>
+            <div class="field">
+              <label>Team Logo</label>
+              <div class="ui action input find-logo" id="team-blue-logo">
+                <input type="text" placeholder="Team Logo">
+                <div class="ui buttons">
+                  <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                  <div class="ui left attached button browse">Browse</div>
+                </div>
               </div>
             </div>
           </form>
@@ -47,9 +57,73 @@
                 <input type="text" name="red-name" id="team-red-name">
               </div>
             </div>
+            <div class="field">
+              <label>Team Logo</label>
+              <div class="ui action input find-logo" id="team-red-logo">
+                <input type="text" placeholder="Team Logo">
+                <div class="ui buttons">
+                  <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                  <div class="ui left attached button browse">Browse</div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="map" id="map-data">
+      <div class="ui segment">
+        <form class="ui form">
+          <div class="field">
+            <label>Best Of</label>
+            <div class="ui selection dropdown">
+              <i class="dropdown icon"></i>
+              <div class="default text">3</div>
+              <div class="menu">
+                <div class="item" data-value="1">1</div>
+                <div class="item" data-value="2">2</div>
+                <div class="item" data-value="3">3</div>
+                <div class="item" data-value="4">4</div>
+                <div class="item" data-value="5">5</div>
+              </div>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="twelve wide field">
+              <label>Map Pool</label>
+            </div>
+            <div class="four wide field">
+              <div class="ui fluid button">Load Preset Pool</div>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="eight wide field">
+              <label>Blue Map Ban</label>
+            </div>
+            <div class="eight wide field">
+              <label>Red Map Ban</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="ui segment game-data" game-number="1">
+        <h3 class="ui dividing header">Game 1</h3>
+        <form class="ui form">
+          <div class="fields">
+            <div class="ten wide field">
+              <label>Map</label>
+            </div>
+            <div class="three wide field">
+              <label>Picked By</label>
+            </div>
+            <div class="three wide field">
+              <label>Winner</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="settings" id="settings">
     </div>
     <div class="ui green button" id="update-button">UPDATE</div>
   </body>

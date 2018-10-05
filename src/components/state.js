@@ -15,16 +15,10 @@ class State {
     this.redTeam = settings.get('redTeam');
 
     if (!this.blueTeam) {
-      this.blueTeam = {
-        name: '',
-        score: 0,
-      };
+      this.blueTeam = { };
     }
     if (!this.redTeam) {
-      this.redTeam = {
-        name: '',
-        score: 0,
-      };
+      this.redTeam = { };
     }
 
     this.displayTeamData();
@@ -62,15 +56,21 @@ class State {
   updateTeamData() {
     this.blueTeam.name = $('#team-blue-name').val();
     this.blueTeam.score = $('#team-blue-score').val();
+    this.blueTeam.logo = $('#team-blue-logo input').val();
+
     this.redTeam.name = $('#team-red-name').val();
     this.redTeam.score = $('#team-red-score').val();
+    this.redTeam.logo = $('#team-red-logo input').val();
   }
 
   displayTeamData() {
     $('#team-blue-name').val(this.blueTeam.name);
-    $('#team-red-name').val(this.redTeam.name);
     $('#team-blue-score').val(this.blueTeam.score);
+    $('#team-blue-logo input').val(this.blueTeam.logo); 
+
+    $('#team-red-name').val(this.redTeam.name);
     $('#team-red-score').val(this.redTeam.score);
+    $('#team-red-logo input').val(this.redTeam.logo); 
   }
 }
 

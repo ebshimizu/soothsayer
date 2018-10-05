@@ -2,6 +2,7 @@
 // seems ok for a quick prototype, may want to move to main at some point
 // but the behavior of "the app stops updating when the controls close" seems good
 const { State } = require('./components/state');
+const { TeamData } = require('./components/team-data');
 
 const socketApp = require('express')();
 const http = require('http').Server(socketApp);
@@ -9,6 +10,7 @@ const io = require('socket.io')(http);
 
 $(document).ready(() => {
   const appState = new State(io);
+  TeamData();
 
   http.listen(3005, function () {
     console.log('listening on *:3005');
