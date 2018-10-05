@@ -47,6 +47,7 @@
     },
     "dependencies": {
         "electron-compile": "^6.4.3",
+        "electron-settings": "^3.2.0",
         "express": "^4.16.3",
         "jquery": "^3.3.1",
         "semantic-ui": "^2.4.0",
