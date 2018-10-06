@@ -47,3 +47,21 @@ body {
   left: 70.9vw;
   top: 7.4vh;
 }
+
+.team-logo {
+  width: 105px;
+  height: 105px;
+  position: absolute;
+  top: 5px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#blue-team-logo {
+  left: 5px;
+}
+
+#red-team-logo {
+  right: 5px;
+}
