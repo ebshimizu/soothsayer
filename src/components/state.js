@@ -177,6 +177,10 @@ function constructState(io) {
     socket.on('requestState', () => {
       socket.emit('update', state);
     });
+
+    socket.on('requestMapPool', () => {
+      socket.emit('mapPool', state.match.mapPool);
+    });
   });
 
   return state;

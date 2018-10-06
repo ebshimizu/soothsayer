@@ -1,0 +1,176 @@
+:root {
+  --blue-border-color: #2185d0;
+  --red-border-color: #db2828;
+  --tile-border-size: 6px;
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  overflow: hidden;
+  background-image: url("../images/generic-nexus-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.map-grid-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90vmin;
+  height: 90vmin;
+  position: absolute;
+  left: 6vw;
+  top: 8vh;
+  align-content: center;
+}
+
+.map-grid-item {
+  width: 30%;
+  height: 30%;
+  border: 1px black solid;
+  position: relative;
+}
+
+.four-up .map-grid-item {
+  width: 23%;
+  height: 23%;
+}
+
+.map-grid-item .map-tile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.map-grid-item.blue-ban .map-tile,
+.map-grid-item.red-ban .map-tile
+{
+  filter: grayscale(100%);
+}
+
+.status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - var(--tile-border-size)*2);
+  height: calc(100% - var(--tile-border-size)*2);
+  display: none;
+  filter: grayscale(0) !important;
+}
+
+.status .text {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 20%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  font-family: "Nexa", sans-serif;
+  font-weight: bold;
+}
+
+.status .text .text-item {
+  color: #FFF;
+  font-size: 200%;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+.blue-pick .pick.status,
+.blue-ban .ban.status
+{
+  display: block;
+  border: var(--tile-border-size) solid var(--blue-border-color);
+}
+
+.blue-pick .pick.status .text,
+.blue-ban .ban.status .text
+{
+  border-top: var(--tile-border-size) solid var(--blue-border-color);
+  background-color: #1b659cd9;
+}
+
+.red-pick .pick.status,
+.red-ban .ban.status
+{
+  display: block;
+  border: var(--tile-border-size) solid var(--red-border-color);
+}
+
+.red-pick .pick.status .text,
+.red-ban .ban.status .text
+{
+  border-top: var(--tile-border-size) solid var(--red-border-color);
+  background-color: #ab2020d1;
+}
+
+.doom .map-tile {
+  background-image: url("../images/panels/doom.png");
+}
+
+.boe .map-tile {
+  background-image: url("../images/panels/boe.png");
+}
+
+.dragon .map-tile {
+  background-image: url("../images/panels/dragon.png");
+}
+
+.blackheart .map-tile {
+  background-image: url("../images/panels/blackheart.png");
+}
+
+.mines .map-tile {
+  background-image: url("../images/panels/mines.png");
+}
+
+.shrines .map-tile {
+  background-image: url("../images/panels/shrines.png");
+}
+
+.garden .map-tile {
+  background-image: url("../images/panels/garden.png");
+}
+
+.tomb .map-tile {
+  background-image: url("../images/panels/tomb.png");
+}
+
+.warhead .map-tile {
+  background-image: url("../images/panels/warhead.png");
+}
+
+.cursed .map-tile {
+  background-image: url("../images/panels/cursed.png");
+}
+
+.volskaya .map-tile {
+  background-image: url("../images/panels/volskaya.png");
+}
+
+.sky .map-tile {
+  background-image: url("../images/panels/sky.png");
+}
+
+.braxis .map-tile {
+  background-image: url("../images/panels/braxis.png");
+}
+
+.hanamura .map-tile {
+  background-image: url("../images/panels/hanamura.png");
+}
+
+.alterac .map-tile {
+  background-image: url("../images/panels/alterac.png");
+}
