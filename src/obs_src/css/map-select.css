@@ -15,6 +15,104 @@ body {
   background-repeat: no-repeat;
 }
 
+#map-select-title {
+  position: absolute;
+  text-align: center;
+  width: 44vw;
+  font-family: 'Nexa', sans-serif;
+  font-size: 8vmin;
+  font-weight: bold;
+  color: #FFF;
+  right: 1.5vw;
+  top: 8vh;
+}
+
+.team {
+  background-size: contain;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  width: 17.5vw;
+  background-position: center;
+  height: 20vh;
+  top: 20vh;
+  position: absolute;
+}
+
+#blue-team {
+  left: 55vw;
+}
+
+#red-team {
+  right: 2vw;
+}
+
+.team-logo {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  width: 100%;
+  height: 70%;
+}
+
+.team-name-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 30%;
+  align-content: center;
+  justify-content: center;
+}
+
+.team-name-container .team-name {
+  font-family: 'Nexa', sans-serif;
+  color: #FFF;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2.6vmin;
+}
+
+#vs-graphic-opt {
+  background-image: url(../images/vs-graphic.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 18vw;
+  height: 7vh;
+  top: 24vh;
+  right: 14.4vw;
+  z-index: -1;
+}
+
+.score-container {
+  width: 5vw;
+  height: 10vh;
+  font-family: 'Nexa', sans-serif;
+  font-weight: bold;
+  font-size: 7vmin;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  position: absolute;
+  top: 22.6vh;
+}
+
+.blue.score-container {
+  right: 25.4vw;
+  color: var(--blue-border-color);
+}
+
+.red.score-container {
+  left: 78.9vw;
+  color: var(--red-border-color);
+}
+
+.score-container .score {
+  text-align: center;
+}
+
 .map-grid-container {
   display: flex;
   flex-direction: row;

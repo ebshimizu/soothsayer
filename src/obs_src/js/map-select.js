@@ -31,6 +31,14 @@ class MapSelect {
         this.setTileState(Maps[g.map].classname, `${g.pick}-pick`);
       }
     }
+
+    // logos and results
+    $('.blue.team-name').text(state.blueTeam.name);
+    $('.red.team-name').text(state.redTeam.name);
+    $('.score.blue').text(state.blueTeam.score);
+    $('.score.red').text(state.redTeam.score);
+    setCSSImage('.blue.team-logo', state.blueTeam.logo);
+    setCSSImage('.red.team-logo', state.redTeam.logo);
   }
 
   setTileState(tileClass, newClass) {
