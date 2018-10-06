@@ -9,3 +9,5 @@ function setCSSImage(elem, url) {
     $(elem).css('background-image', `url("${path}")`);
   }
 }
+
+const mapClassList = 'doom boe dragon blackheart mines shrines garden tomb warhead cursed volskaya sky braxis hanamura alterac';

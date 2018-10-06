@@ -5,6 +5,7 @@
     <title>OBS In-Game HUD</title>
     <script src="lib/jquery-3.3.1.min.js"></script>
     <script src="http://localhost:3005/socket.io/socket.io.js"></script>
+    <script src="../data/maps.js"></script>
     <script src="js/util.js"></script>
     <script src="js/in-game.js"></script>
     <link rel="stylesheet" type="text/css" href="css/in-game.css" />
@@ -17,6 +18,13 @@
       <div id="red-team-score" class="team-score">0</div>
       <div id="blue-team-logo" class="team-logo"></div>
       <div id="red-team-logo" class="team-logo"></div>
+      <div id="best-of">Bo2</div>
+      <!-- Separated for customization -->
+      <div id="match-1-tile" class="match-tile"></div>
+      <div id="match-2-tile" class="match-tile"></div>
+      <div id="match-3-tile" class="match-tile"></div>
+      <div id="match-4-tile" class="match-tile"></div>
+      <div id="match-5-tile" class="match-tile"></div>
     </div>
   </body>
 </html>

@@ -1,3 +1,4 @@
+
 const socket = io('http://localhost:3005/');
 
 class InGameHUD {
@@ -17,6 +18,15 @@ class InGameHUD {
     $('#red-team-name').text(state.redTeam.name);
     $('#blue-team-score').text(state.blueTeam.score);
     $('#red-team-score').text(state.redTeam.score);
+    $('#best-of').text(`Bo${state.match.bestOf}`);
+
+    $('.match-tile').removeClass(mapClassList);
+
+    for (let i = 0; i < state.match.games.length; i++) {
+      if (state.match.games[i].map in Maps) {
+        $(`#match-${i + 1}-tile`).addClass(Maps[state.match.games[i].map].classname);
+      }
+    }
 
     this.setLogo('#blue-team-logo', state.blueTeam.logo);
     this.setLogo('#red-team-logo', state.redTeam.logo);

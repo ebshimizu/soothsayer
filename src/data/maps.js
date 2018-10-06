@@ -78,5 +78,10 @@ const MapPools = {
   },
 };
 
-exports.Maps = Maps;
-exports.MapPools = MapPools;
+try {
+  exports.Maps = Maps;
+  exports.MapPools = MapPools;
+}
+catch (e) {
+  // this is just to let this file be included as a linked script in the obs sources
+}

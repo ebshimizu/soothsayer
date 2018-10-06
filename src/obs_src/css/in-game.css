@@ -4,6 +4,7 @@ body {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0);
   overflow: hidden;
+  color: white;
   font-family: "Brandon Groteqsue Medium", sans-serif;
 }
 
@@ -17,7 +18,7 @@ body {
 
 .team-name {
   position: absolute;
-  font-family: "Brandon Grotesque Medium";
+  font-family: "Brandon Grotesque Medium", sans-serif;
   font-size: 19pt;
   color: #FFF;
 }
@@ -26,6 +27,8 @@ body {
   position: absolute;
   color: #FFF;
   font-size: 22pt;
+  font-family: "Brandon Grotesque Medium", sans-serif;
+  top: 6.9vh
 }
 
 #blue-team-name {
@@ -34,8 +37,7 @@ body {
 }
 
 #blue-team-score {
-  top: 7.4vh;
-  right: 71.3vw;
+  right: 71.5vw;
 }
 
 #red-team-name {
@@ -45,7 +47,6 @@ body {
 
 #red-team-score {
   left: 70.9vw;
-  top: 7.4vh;
 }
 
 .team-logo {
@@ -64,4 +65,104 @@ body {
 
 #red-team-logo {
   right: 5px;
+}
+
+#best-of {
+  font-size: 2.8rem;
+  position: absolute;
+  font-family: "Brandon Grotesque Medium", sans-serif;
+  top: 5.8vh;
+  right: 54.3vw;
+}
+
+.match-tile {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 3.6vw;
+  height: 4.2vh;
+  top: 6.7vh;
+  background-image: url("");
+}
+
+#match-1-tile {
+  right: 41vw;
+}
+
+#match-2-tile {
+  right: 43.3vw;
+}
+
+#match-3-tile {
+  right: 45.3vw;
+}
+
+#match-4-tile {
+  right: 47.9vw;
+}
+
+#match-5-tile {
+  right: 50.2vw;
+}
+
+.doom {
+  background-image: url("../images/tiles/doom.png");
+}
+
+.boe {
+  background-image: url("../images/tiles/boe.png");
+}
+
+.dragon {
+  background-image: url("../images/tiles/dragon.png");
+}
+
+.blackheart {
+  background-image: url("../images/tiles/blackheart.png");
+}
+
+.mines {
+  background-image: url("../images/tiles/mines.png");
+}
+
+.shrines {
+  background-image: url("../images/tiles/boe.png");
+}
+
+.garden {
+  background-image: url("../images/tiles/garden.png");
+}
+
+.tomb {
+  background-image: url("../images/tiles/tomb.png");
+}
+
+.warhead {
+  background-image: url("../images/tiles/warhead.png");
+}
+
+.cursed {
+  background-image: url("../images/tiles/cursed.png");
+}
+
+.volskaya {
+  background-image: url("../images/tiles/volskaya.png");
+}
+
+.sky {
+  background-image: url("../images/tiles/sky.png");
+}
+
+.braxis {
+  background-image: url("../images/tiles/braxis.png");
+}
+
+.hanamura {
+  background-image: url("../images/tiles/hanamura.png");
+}
+
+.alterac {
+  background-image: url("../images/tiles/alterac.png");
 }
