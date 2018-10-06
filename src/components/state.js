@@ -36,7 +36,7 @@ class State {
   // and that's about it for now.
   registerOverlay(socket, overlayData) {
     this.overlays[socket.id] = overlayData;
-    console.log(`Registered '${overlayData.name} from ${socket.id}.`);
+    console.log(`Registered '${overlayData.name}' from ${socket.id}.`);
   }
 
   unregisterOverlay(socketID) {

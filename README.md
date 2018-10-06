@@ -10,7 +10,9 @@ Currently in development. There is no dist for the project yet.
 ### Available Overlays
 
 Overlays should be added to OBS as a Browser Source using the Local File option
-and no custom CSS. They are found in `src/obs_src`.
+and no custom CSS. They are found in `src/obs_src`. All of the files in the root
+of this directory should be treated as the demo files. You'll likely want to either
+find a theme for your overlays or make your own theme (theming guide coming soon).
 
 If you are using team logos, make sure they are on the same disk partition. OBS does not
 like the `file:///` protocol so the tool uses relative paths that only resolve if they're on the same partition.
