@@ -22,8 +22,12 @@ class MapSelect {
 
     // bans
     $('.map-grid-item').removeClass(this.tileClasses);
-    this.setTileState(Maps[state.match.blueMapBan].classname, 'blue-ban');
-    this.setTileState(Maps[state.match.redMapBan].classname, 'red-ban');
+
+    if (state.match.blueMapBan in Maps)
+      this.setTileState(Maps[state.match.blueMapBan].classname, 'blue-ban');
+
+    if (state.match.redMapBan in Maps)
+      this.setTileState(Maps[state.match.redMapBan].classname, 'red-ban');
 
     // picks
     for (let g of state.match.games) {
@@ -143,4 +147,6 @@ $(document).ready(() => {
     mapSelect.updateMapPool.call(mapSelect, pool);
     socket.emit('requestState');
   });
+
+  socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'map-select.css'); });
 });

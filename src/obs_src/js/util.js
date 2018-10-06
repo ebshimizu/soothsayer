@@ -12,8 +12,10 @@ function setCSSImage(elem, url) {
 
 // injects a css file right into the dom
 function changeTheme(themeDir, target) {
+  console.log(`Theme Change: ${themeDir}`);
+
   // default reset
-  if (themeDir === '') {
+  if (!themeDir) {
     $('link#theme-css').remove();
     return;
   }

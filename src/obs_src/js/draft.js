@@ -38,4 +38,5 @@ $(document).ready(() => {
   });
 
   socket.on('update', (state) => { draft.updateState.call(draft, state); });
+  socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'draft.css'); });
 });

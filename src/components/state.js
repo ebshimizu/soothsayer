@@ -15,6 +15,7 @@ class State {
     this.blueTeam = settings.get('blueTeam');
     this.redTeam = settings.get('redTeam');
     this.match = settings.get('match');
+    this.theme = settings.get('theme');
 
     if (!this.blueTeam) {
       this.blueTeam = { };
@@ -26,9 +27,13 @@ class State {
       this.match = {};
       this.match.games = [];
     }
+    if (!this.theme) {
+      this.theme = {};
+    }
 
     this.displayTeamData();
     this.displayMatchData();
+    $('#set-theme').dropdown('set value', this.theme.name);
   }
 
   // expected format:
@@ -67,10 +72,25 @@ class State {
     }
   }
 
+  broadcastThemeChange() {
+    this.updateTheme();
+    io.sockets.emit('changeTheme', this.theme.folderName);
+    this.save();
+  }
+
+  updateTheme() {
+    // get val from the dropdown, load the theme data
+    this.theme = Themes.getTheme($('#theme-menu').dropdown('get value'));
+
+    if (!this.theme)
+      this.theme = {};
+  }
+
   save() {
     settings.set('blueTeam', this.blueTeam);
     settings.set('redTeam', this.redTeam);
     settings.set('match', this.match);
+    settings.set('theme', this.theme);
   }
 
   updateTeamData() {
@@ -165,6 +185,7 @@ function constructState(io) {
   io.on('connection', (socket) => {
     console.log(`New connection from ${socket.id}. Requesting id.`);
     socket.emit('requestID');
+    socket.emit('changeTheme', state.theme.folderName);
 
     socket.on('disconnect', function (reason) {
       state.unregisterOverlay(socket.id, reason);

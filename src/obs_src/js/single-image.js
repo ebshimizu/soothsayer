@@ -30,4 +30,5 @@ function syncImage(name, fieldAccessor) {
   });
 
   socket.on('update', (state) => { singleImage.updateState.call(singleImage, state); });
+  socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'single-image.css'); });
 }

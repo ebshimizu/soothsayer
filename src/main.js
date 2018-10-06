@@ -4,6 +4,7 @@
 const { State } = require('./components/state');
 const { TeamData } = require('./components/team-data');
 const MapData = require('./components/map-data');
+const Themes = require('./components/themes');
 
 const socketApp = require('express')();
 const http = require('http').Server(socketApp);
@@ -15,10 +16,12 @@ let appState;
 $(document).ready(() => {
   TeamData();
   MapData.Init();
+  Themes.Init();
 
   appState = new State(io);
 
   MapData.InitWithState(appState);
+  Themes.InitWithState(appState);
 
   http.listen(3005, function () {
     console.log('listening on *:3005');

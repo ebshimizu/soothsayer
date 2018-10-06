@@ -47,4 +47,5 @@ $(document).ready(() => {
   });
 
   socket.on('update', (state) => { inGameHUD.updateState.call(inGameHUD, state); });
+  socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'in-game.css'); });
 });
