@@ -22,9 +22,10 @@ body {
   width: 90vmin;
   height: 90vmin;
   position: absolute;
-  left: 6vw;
-  top: 8vh;
+  left: 5vw;
+  top: 5vh;
   align-content: center;
+  justify-content: center;
 }
 
 .map-grid-item {
