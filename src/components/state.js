@@ -1,5 +1,6 @@
 // the application state. Should send events to all sockets on change.
 const settings = require('electron-settings');
+const fs = require('fs');
 
 class State {
   constructor() {
@@ -53,6 +54,17 @@ class State {
 
   broadcastStateChange() {
     io.sockets.emit('update', this);
+
+    // snapshot some stuff to disk
+    try {
+      fs.writeFileSync('src/obs_src/text/blue_team.txt', this.blueTeam.name, { flag: 'w+' });
+      fs.writeFileSync('src/obs_src/text/red_team.txt', this.redTeam.name, { flag: 'w+' });
+      fs.writeFileSync('src/obs_src/text/blue_team_score.txt', this.blueTeam.score, { flag: 'w+' });
+      fs.writeFileSync('src/obs_src/text/red_team_score.txt', this.redTeam.score, { flag: 'w+' });
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
 
   save() {
