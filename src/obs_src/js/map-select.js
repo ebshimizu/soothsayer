@@ -39,6 +39,13 @@ class MapSelect {
     $('.score.red').text(state.redTeam.score);
     setCSSImage('.blue.team-logo', state.blueTeam.logo);
     setCSSImage('.red.team-logo', state.redTeam.logo);
+
+    // results
+    $('.map-select-row').remove();
+    for (let i = 0; i < state.match.games.length; i++) {
+      $('.map-selection-container').append(this.createMapBanner(state.match.games[i].map, i + 1));
+      this.setBannerState(state, state.match.games[i], i + 1);
+    }
   }
 
   setTileState(tileClass, newClass) {
@@ -64,7 +71,7 @@ class MapSelect {
     }
   }
 
-  createMapTile(classname) {
+  createMapTile(classname,) {
     return `
       <div class="${classname} map-grid-item">
         <div class="map-tile"></div>
@@ -80,6 +87,45 @@ class MapSelect {
         </div>
       </div>
     `;
+  }
+
+  createMapBanner(map, index) {
+    // map may not have been picked yet
+    let classname = 'no-pick';
+    if (map in Maps) {
+      classname = Maps[map].classname;
+    }
+
+    return `
+      <div class="${classname} map-select-row"  game-number="${index}">
+        <div class="map-banner"></div>
+        <div class="picked-by">
+          <div class="label">Pick</div>
+          <div class="banner-team-logo"></div>
+        </div>
+        <div class="winner">
+          <div class="label">Winner</div>
+          <div class="banner-team-logo"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  setBannerState(state, game, index) {
+    let elem = $(`.map-select-row[game-number="${index}"]`);
+
+    if (game.pick === 'red' || game.pick === 'blue') {
+      setCSSImage(elem.find('.picked-by .banner-team-logo'), game.pick === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
+    }
+
+    if (game.win === 'red' || game.win === 'blue') {
+      elem.find('.winner').show();
+      setCSSImage(elem.find('.winner .banner-team-logo'), game.win === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
+      elem.addClass(`${game.win} win`);
+    }
+    else {
+      elem.find('.winner').hide();
+    }
   }
 }
 

@@ -214,6 +214,93 @@ body {
   background-color: #ab2020d1;
 }
 
+.map-selection-container {
+  width: 43vw;
+  height: 50vh;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 2vw;
+  top: 41vh;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.map-select-row {
+  max-height: 15vh;
+  width: 100%;
+  flex-grow: 1;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.map-select-row.win {
+  border-width: var(--tile-border-size);
+  border-style: solid;
+  width: calc(100% - var(--tile-border-size) * 2);
+  max-height: calc(15vh - var(--tile-border-size) * 2);
+}
+
+.map-select-row.win.blue {
+  border-color: var(--blue-border-color);
+}
+
+.map-select-row.win.red{
+  border-color: var(--red-border-color);
+}
+
+.map-select-row.no-pick .win,
+.map-select-row.no-pick .picked-by {
+  display: none;
+}
+
+.map-select-row .map-banner {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: brightness(0.8);
+}
+
+.map-select-row .picked-by {
+  height: 100%;
+  width: 25%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.map-select-row .winner {
+  height: 100%;
+  width: 25%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.picked-by .label,
+.winner .label
+{
+  height: calc(20% - 5px);
+  font-family: 'Nexa', sans-serif;
+  color: #FFF;
+  text-align: center;
+  padding-top: 5px;
+  font-size: 120%;
+}
+
+.banner-team-logo {
+  height: 70%;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: 3%;
+}
+
 .doom .map-tile {
   background-image: url("../images/panels/doom.png");
 }
@@ -272,4 +359,64 @@ body {
 
 .alterac .map-tile {
   background-image: url("../images/panels/alterac.png");
+}
+
+.doom .map-banner {
+  background-image: url("../images/banners/doom.png");
+}
+
+.boe .map-banner {
+  background-image: url("../images/banners/boe.png");
+}
+
+.dragon .map-banner {
+  background-image: url("../images/banners/dragon.png");
+}
+
+.blackheart .map-banner {
+  background-image: url("../images/banners/blackheart.png");
+}
+
+.mines .map-banner {
+  background-image: url("../images/banners/mines.png");
+}
+
+.shrines .map-banner {
+  background-image: url("../images/banners/shrines.png");
+}
+
+.garden .map-banner {
+  background-image: url("../images/banners/garden.png");
+}
+
+.tomb .map-banner {
+  background-image: url("../images/banners/tomb.png");
+}
+
+.warhead .map-banner {
+  background-image: url("../images/banners/warhead.png");
+}
+
+.cursed .map-banner {
+  background-image: url("../images/banners/cursed.png");
+}
+
+.volskaya .map-banner {
+  background-image: url("../images/banners/volskaya.png");
+}
+
+.sky .map-banner {
+  background-image: url("../images/banners/sky.png");
+}
+
+.braxis .map-banner {
+  background-image: url("../images/banners/braxis.png");
+}
+
+.hanamura .map-banner {
+  background-image: url("../images/banners/hanamura.png");
+}
+
+.alterac .map-banner {
+  background-image: url("../images/banners/alterac.png");
 }
