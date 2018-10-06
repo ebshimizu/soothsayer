@@ -35,8 +35,6 @@ New overlays should be placed in `src/obs_src`. See the existing overlays for ex
 Semantic-ui and jQuery are available in both the controller and the overlays.
 
 ### Roadmap
-* Implement full in-game HUD (with map selections, series count, etc)
-* Implement map selection overlays
 * Implement caster utility overlays (backgrounds, frames, scoreboards, etc)
 * Investigate integration with other hots apps (specifically stats of the storm)
 * Themes
