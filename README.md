@@ -12,7 +12,12 @@ Currently in development. There is no dist for the project yet.
 Overlays should be added to OBS as a Browser Source using the Local File option
 and no custom CSS. They are found in `src/obs_src`.
 
+If you are using team logos, make sure they are on the same disk partition. OBS does not
+like the `file:///` protocol so the tool uses relative paths that only resolve if they're on the same partition.
+
 * `in-game.html` - An in-game HUD displaying team names and the current match score.
+* `blue-team-logo.html` - Auto-sized blue team logo.
+* `red-team-logo.html` - Auto-sized red team logo.
 
 ## Developing
 
