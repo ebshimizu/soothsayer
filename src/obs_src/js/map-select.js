@@ -5,6 +5,7 @@ class MapSelect {
   constructor() {
     this.name = 'Map Draft';
     this.tileClasses = 'blue-pick blue-ban red-pick red-ban';
+    this.pool = [];
   }
 
   ID() {

@@ -17,14 +17,13 @@
         "forge": {
             "make_targets": {
                 "win32": [
-                    "squirrel"
+                    "zip"
                 ],
                 "darwin": [
                     "zip"
                 ],
                 "linux": [
-                    "deb",
-                    "rpm"
+                    "zip"
                 ]
             },
             "electronPackagerConfig": {

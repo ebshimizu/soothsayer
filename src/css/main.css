@@ -3,3 +3,8 @@
   top: 3px;
   right: 0;
 }
+
+.bottom.attached.tab.segment {
+  overflow-y: auto;
+  height: calc(100vh - 57px);
+}

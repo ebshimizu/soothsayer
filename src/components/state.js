@@ -1,6 +1,7 @@
 // the application state. Should send events to all sockets on change.
 const settings = require('electron-settings');
-const fs = require('fs');
+const fs = require('fs-extra');
+const path = require('path');
 
 class State {
   constructor() {
@@ -8,6 +9,12 @@ class State {
 
     // always clear overlays
     this.overlays = {};
+
+    this.rootOBS = path.join(__dirname, '../obs_src');
+
+    if (!fs.existsSync(this.rootOBS)) {
+      this.rootOBS = path.join(process.resourcesPath, 'app', 'src', 'obs_src');
+    }
   }
 
   loadState() {
@@ -41,11 +48,13 @@ class State {
   // and that's about it for now.
   registerOverlay(socket, overlayData) {
     this.overlays[socket.id] = overlayData;
+    $('#overlay-table').append(`<tr socket-id="${socket.id}"><td>${overlayData.name}</td><td>${socket.id}</td></tr>`);
     console.log(`Registered '${overlayData.name}' from ${socket.id}.`);
   }
 
   unregisterOverlay(socketID) {
     console.log(`Socket ${socketID} disconnected. Deleted overlay ${this.overlays[socketID].name}.`);
+    $(`#overlay-table tr[socket-id="${socketID}"]`).remove();
     delete this.overlays[socketID];
   }
 
@@ -62,10 +71,10 @@ class State {
 
     // snapshot some stuff to disk
     try {
-      fs.writeFileSync('src/obs_src/text/blue_team.txt', this.blueTeam.name, { flag: 'w+' });
-      fs.writeFileSync('src/obs_src/text/red_team.txt', this.redTeam.name, { flag: 'w+' });
-      fs.writeFileSync('src/obs_src/text/blue_team_score.txt', this.blueTeam.score, { flag: 'w+' });
-      fs.writeFileSync('src/obs_src/text/red_team_score.txt', this.redTeam.score, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team.txt'), this.blueTeam.name, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team.txt'), this.redTeam.name, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team_score.txt'), this.blueTeam.score, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team_score.txt'), this.redTeam.score, { flag: 'w+' });
     }
     catch (e) {
       console.log(e);

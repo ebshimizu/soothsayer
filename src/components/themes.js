@@ -11,17 +11,25 @@ function initThemes() {
 
 function initWithState(state) {
   $('#set-theme').click(() => state.broadcastThemeChange());
+  $('#theme-menu').dropdown('set exactly', appState.theme.name);
 }
 
 function scanThemes() {
   // list things in themes dir. Looking for a 'themes.json' and will check to see if it works.
-  let files = fs.readdirSync('src/obs_src/themes');
+  // annoyingly configs are different for package and dev
+  let themeFolder = 'src/obs_src/themes';
+
+  if (!fs.existsSync('src/obs_src/themes')) {
+    themeFolder = `${process.resourcesPath}/app/${themeFolder}`;
+  }
+
+  let files = fs.readdirSync(themeFolder);
 
   loadedThemes = {};
   for (let file of files) {
-    if (fs.existsSync(`src/obs_src/themes/${file}/theme.json`)) {
+    if (fs.existsSync(`${themeFolder}/${file}/theme.json`)) {
       // read the file
-      let themeData = fs.readJsonSync(`src/obs_src/themes/${file}/theme.json`, { throws: false });
+      let themeData = fs.readJsonSync(`${themeFolder}/${file}/theme.json`, { throws: false });
 
       // check for required themes
       if ('name' in themeData && 'version' in themeData && 'author' in themeData && 'folderName' in themeData) {
@@ -38,6 +46,9 @@ function scanThemes() {
   }
 
   $('#theme-menu').dropdown('setup menu', values);
+
+  if (appState)
+    $('#theme-menu').dropdown('set exactly', appState.theme.name);
 }
 
 function getTheme(id) {

@@ -1,6 +1,7 @@
 // this file manages callbacks required for the team data entry page
 const { dialog } = require('electron').remote;
 const path = require('path');
+const fs = require('fs-extra');
 
 function initTeamData() {
   $('#team-data .find-logo .browse.button').click(findTeamLogo);
@@ -19,8 +20,14 @@ function findTeamLogo() {
     properties: ['openFile'],
   }, function(files) {
     if (files) {
+      let rootFolder = path.join(__dirname, '../obs_src');
+
+      if (!fs.existsSync(rootFolder)) {
+        rootFolder = path.join(process.resourcesPath, 'app', 'src', 'obs_src');
+      }
+
       // needs relative path from the files. they're all here.
-      input.val(path.relative('obs_src/in-game.html', files[0]));
+      input.val(path.relative(rootFolder, files[0]));
     }
   });
 }

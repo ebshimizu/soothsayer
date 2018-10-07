@@ -15,7 +15,8 @@
     <div class="ui top attached tabular menu" id="section-menu">
       <a class="item" data-tab="team">Team Data</a>
       <a class="item" data-tab="map">Match Data</a>
-      <a class="active item" data-tab="settings">Overlay Config</a>
+      <a class="item" data-tab="settings">Overlay Config</a>
+      <a class="item active" data-tab="status">Status</a>
     </div>
     <div class="ui bottom attached tab segment" data-tab="team" id="team-data">
       <div class="ui two column grid">
@@ -137,7 +138,7 @@
         </form>
       </div>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="settings" id="settings">
+    <div class="ui bottom attached tab segment" data-tab="settings" id="settings">
       <div class="ui segment">
         <h2 class="ui dividing header">Theme</h2>
         <div class="ui info message">
@@ -173,6 +174,30 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+    <div class="ui bottom attached active tab segment" data-tab="status" id="status">
+      <div class="ui segment">
+        <h2 class="ui dividing header">Hots Caster Tool v<span class="app-version"></span></h2>
+        <p>
+          Hots Caster Tool is maintained by Falindrith on <a href="https://github.com/ebshimizu/hots-caster-tool">GitHub</a>.
+          Questions, comments, feature requests,
+          help with themeing questions, etc. should all be directed to the Project Page on there.
+        </p>
+      </div>
+      <div class="ui segment">
+        <h2 class="ui dividing header">Active Overlays</h2>
+        <table class="ui table" id="overlay-table">
+          <thead>
+            <tr>
+              <th>Overlay Name</th>
+              <th>Socket ID</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="ui green button" id="update-button">UPDATE</div>

@@ -9,11 +9,21 @@ const Themes = require('./components/themes');
 const socketApp = require('express')();
 const http = require('http').Server(socketApp);
 const io = require('socket.io')(http);
+const appVersion = require('electron').remote.app.getVersion();
+const { shell } = require('electron');
 
 // global for debug
 let appState;
 
 $(document).ready(() => {
+  $('.app-version').text(appVersion);
+
+  // auto open external links
+  $(document).on('click', 'a[href^="http"]', function(event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+  });
+
   TeamData();
   MapData.Init();
   Themes.Init();
