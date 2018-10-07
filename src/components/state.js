@@ -23,6 +23,7 @@ class State {
     this.redTeam = settings.get('redTeam');
     this.match = settings.get('match');
     this.theme = settings.get('theme');
+    this.casters = settings.get('casters');
 
     if (!this.blueTeam) {
       this.blueTeam = { };
@@ -37,9 +38,13 @@ class State {
     if (!this.theme) {
       this.theme = {};
     }
+    if (!this.casters) {
+      this.casters = {};
+    }
 
     this.displayTeamData();
     this.displayMatchData();
+    this.displayCasterData();
     $('#set-theme').dropdown('set value', this.theme.name);
   }
 
@@ -61,6 +66,7 @@ class State {
   updateAndBroadcast() {
     this.updateTeamData();
     this.updateMatchData();
+    this.updateCasterData();
 
     this.broadcastStateChange();
     this.save();
@@ -100,6 +106,7 @@ class State {
     settings.set('redTeam', this.redTeam);
     settings.set('match', this.match);
     settings.set('theme', this.theme);
+    settings.set('casters', this.casters);
   }
 
   updateTeamData() {
@@ -115,11 +122,18 @@ class State {
   displayTeamData() {
     $('#team-blue-name').val(this.blueTeam.name);
     $('#team-blue-score').val(this.blueTeam.score);
-    $('#team-blue-logo input').val(this.blueTeam.logo); 
+    $('#team-blue-logo input').val(this.blueTeam.logo);
 
     $('#team-red-name').val(this.redTeam.name);
     $('#team-red-score').val(this.redTeam.score);
-    $('#team-red-logo input').val(this.redTeam.logo); 
+    $('#team-red-logo input').val(this.redTeam.logo);
+  }
+
+  resetTeamData() {
+    this.blueTeam = { };
+    this.redTeam = { };
+
+    this.displayTeamData();
   }
 
   updateMatchData() {
@@ -184,6 +198,26 @@ class State {
     elem.find('.map-menu').dropdown('set exactly', data.map);
     elem.find('.team-pick-menu').dropdown('set exactly', data.pick);
     elem.find('.team-winner-menu').dropdown('set exactly', data.win);
+  }
+
+  resetMatchData() {
+    this.match = {};
+    this.match.games = [];
+
+    this.displayMatchData();
+  }
+
+  updateCasterData() {
+    this.casters = {};
+    this.casters.one = { name: $('#caster-1-name').val(), social: $('#caster-1-social').val() };
+    this.casters.two = { name: $('#caster-2-name').val(), social: $('#caster-2-social').val() };
+  }
+
+  displayCasterData() {
+    $('#caster-1-name').val(this.casters.one ? this.casters.one.name : '');
+    $('#caster-1-social').val(this.casters.one ? this.casters.one.social : '');
+    $('#caster-2-name').val(this.casters.two ? this.casters.two.name : '');
+    $('#caster-2-social').val(this.casters.two ? this.casters.two.social : '');
   }
 }
 

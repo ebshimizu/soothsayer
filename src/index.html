@@ -15,8 +15,8 @@
     <div class="ui top attached tabular menu" id="section-menu">
       <a class="item" data-tab="team">Team Data</a>
       <a class="item" data-tab="map">Match Data</a>
-      <a class="item" data-tab="settings">Overlay Config</a>
-      <a class="item active" data-tab="status">Status</a>
+      <a class="item active" data-tab="settings">Overlay Config</a>
+      <a class="item" data-tab="status">Status</a>
     </div>
     <div class="ui bottom attached tab segment" data-tab="team" id="team-data">
       <div class="ui two column grid">
@@ -138,7 +138,43 @@
         </form>
       </div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="settings" id="settings">
+    <div class="ui bottom attached active tab segment" data-tab="settings" id="settings">
+      <div class="ui segment">
+        <h2 class="ui dividing header">Caster Data</h2>
+        <form class="ui form">
+          <div class="fields">
+            <div class="twelve wide field">
+              <label>Caster 1</label>
+              <input type="text" name="caster-1-name" id="caster-1-name">
+            </div>
+            <div class="four wide field">
+              <label>Caster 1 Social</label>
+              <input type="text" name="caster-1-social" id="caster-1-social">
+            </div>
+          </div>
+          <div class="fields">
+            <div class="twelve wide field">
+              <label>Caster 2</label>
+              <input type="text" name="caster-2-name" id="caster-2-name">
+            </div>
+            <div class="four wide field">
+              <label>Caster 2 Social</label>
+              <input type="text" name="caster-2-social" id="caster-2-social">
+            </div>
+          </div>
+          <!-- There are no templates that currently use triple casters, so this is here for future use 
+          <div class="fields">
+            <div class="twelve wide field">
+              <label>Caster 3</label>
+              <input type="text" name="caster-2-name" id="caster-3-name">
+            </div>
+            <div class="four wide field">
+              <label>Caster 3 Social</label>
+              <input type="text" name="caster-2-social" id="caster-3-social">
+            </div>
+          </div> -->
+        </form>
+      </div>
       <div class="ui segment">
         <h2 class="ui dividing header">Theme</h2>
         <div class="ui info message">
@@ -176,7 +212,7 @@
         </form>
       </div>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="status" id="status">
+    <div class="ui bottom attached tab segment" data-tab="status" id="status">
       <div class="ui segment">
         <h2 class="ui dividing header">Hots Caster Tool v<span class="app-version"></span></h2>
         <p>
