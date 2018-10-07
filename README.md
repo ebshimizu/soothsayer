@@ -62,6 +62,19 @@ to replace one of the default `src/obs_src/css` files. You must name the theme c
 as one of the default css files, and you must place it in a `css` folder in your theme directory.
 If you do not do this, the system will be unable to properly load your theme.
 
+The theme directory structure should look like this:
+```
+themes
+  /my-theme
+    theme.json
+    /css
+    /images
+    ...
+  /other-theme
+    theme.json
+    ...
+```
+
 At this time, themes may not provide js override files.
 
 A list of available overrides is not available, but you can look at the html files themselves
