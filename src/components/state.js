@@ -81,6 +81,16 @@ class State {
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team.txt'), this.redTeam.name, { flag: 'w+' });
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team_score.txt'), this.blueTeam.score, { flag: 'w+' });
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team_score.txt'), this.redTeam.score, { flag: 'w+' });
+
+      if (this.casters.one) {
+        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_one_name.txt'), this.casters.one.name, { flag: 'w+' });
+        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_one_social.txt'), this.casters.one.social, { flag: 'w+' });
+      }
+
+      if (this.casters.two) {
+        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_two_name.txt'), this.casters.two.name, { flag: 'w+' });
+        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_two_social.txt'), this.casters.two.social, { flag: 'w+' });
+      }
     }
     catch (e) {
       console.log(e);
