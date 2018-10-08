@@ -2,8 +2,8 @@
 const socket = io('http://localhost:3005/');
 
 class MapSelect {
-  constructor() {
-    this.name = 'Map Draft';
+  constructor(variant) {
+    this.name = `Map Draft - ${variant}`;
     this.tileClasses = 'blue-pick blue-ban red-pick red-ban';
     this.pool = [];
   }
@@ -134,9 +134,9 @@ class MapSelect {
   }
 }
 
-$(document).ready(() => {
+function initMapSelect(variant) {
   // just kinda runs on page load huh
-  const mapSelect = new MapSelect();
+  const mapSelect = new MapSelect(variant);
 
   socket.on('requestID', () => { 
     socket.emit('reportID', mapSelect.ID());
@@ -150,4 +150,4 @@ $(document).ready(() => {
   });
 
   socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'map-select.css'); });
-});
+}

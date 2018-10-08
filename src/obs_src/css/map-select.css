@@ -15,6 +15,10 @@ body {
   background-repeat: no-repeat;
 }
 
+body#map-tiles-only {
+  background-image: none;
+}
+
 #map-select-title {
   position: absolute;
   text-align: center;
@@ -124,6 +128,13 @@ body {
   top: 5vh;
   align-content: center;
   justify-content: center;
+}
+
+#map-tiles-only .map-grid-container {
+  width: 100vmin;
+  height: 100vmin;
+  left: 0;
+  top: 0;
 }
 
 .map-grid-item {

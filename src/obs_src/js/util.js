@@ -1,3 +1,6 @@
+// manual override
+let themeLocked = false;
+
 function setCSSImage(elem, url) {
   let path = url.replace(/\\/g, '/');
 
@@ -12,6 +15,11 @@ function setCSSImage(elem, url) {
 
 // injects a css file right into the dom
 function changeTheme(themeDir, target) {
+  if (themeLocked === true) {
+    console.log('No change. Theme is Locked.');
+    return;
+  }
+
   console.log(`Theme Change: ${themeDir}`);
 
   // default reset
