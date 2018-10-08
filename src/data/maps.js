@@ -1,19 +1,35 @@
 const Maps = {
-  TowersOfDoom: {
-    name: 'Towers of Doom',
-    classname: 'doom',
+  AlteracPass: {
+    name: 'Alterac Pass',
+    classname: 'alterac',
   },
   BattlefieldOfEternity: {
     name: 'Battlefield of Eternity',
     classname: 'boe',
   },
+  BlackheartsBay: {
+    name: 'Blackheart\'s Bay',
+    classname: 'blackheart',
+  },
+  BraxisHoldout: {
+    name: 'Braxis Holdout',
+    classname: 'braxis',
+  },
+  CursedHollow: {
+    name: 'Cursed Hollow',
+    classname: 'cursed',
+  },
   DragonShire: {
     name: 'Dragon Shire',
     classname: 'dragon',
   },
-  BlackheartsBay: {
-    name: 'Blackheart\'s Bay',
-    classname: 'blackheart',
+  GardenOfTerror: {
+    name: 'Garden of Terror',
+    classname: 'garden',
+  },
+  HanamuraTemple: {
+    name: 'Hanamura Temple',
+    classname: 'hanamura',
   },
   HauntedMines: {
     name: 'Haunted Mines',
@@ -23,41 +39,25 @@ const Maps = {
     name: 'Infernal Shrines',
     classname: 'shrines',
   },
-  GardenOfTerror: {
-    name: 'Garden of Terror',
-    classname: 'garden',
+  SkyTemple: {
+    name: 'Sky Temple',
+    classname: 'sky',
   },
   TombOfTheSpiderQueen: {
     name: 'Tomb of the Spider Queen',
     classname: 'tomb',
   },
-  WarheadJunction: {
-    name: 'Warhead Junction',
-    classname: 'warhead',
-  },
-  CursedHollow: {
-    name: 'Cursed Hollow',
-    classname: 'cursed',
+  TowersOfDoom: {
+    name: 'Towers of Doom',
+    classname: 'doom',
   },
   VolskayaFoundry: {
     name: 'Volskaya Foundry',
     classname: 'volskaya',
   },
-  SkyTemple: {
-    name: 'Sky Temple',
-    classname: 'sky',
-  },
-  BraxisHoldout: {
-    name: 'Braxis Holdout',
-    classname: 'braxis',
-  },
-  HanamuraTemple: {
-    name: 'Hanamura Temple',
-    classname: 'hanamura',
-  },
-  AlteracPass: {
-    name: 'Alterac Pass',
-    classname: 'alterac',
+  WarheadJunction: {
+    name: 'Warhead Junction',
+    classname: 'warhead',
   },
 };
 
@@ -75,6 +75,10 @@ const MapPools = {
       'TowersOfDoom',
       'VolskayaFoundry',
     ],
+  },
+  All: {
+    name: 'All Maps',
+    maps: Object.keys(Maps)
   },
 };
 

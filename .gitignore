@@ -3,3 +3,4 @@ out
 yarn-error.log
 test-data/*
 src/obs_src/themes/*
+team_logos/*
