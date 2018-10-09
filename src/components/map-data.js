@@ -11,6 +11,8 @@ function initWithState(appState) {
       appState.displayGameData.call(appState, parseInt(value));
     },
   });
+
+  $('#match-data-clear').click(() => appState.resetMatchData());
 }
 
 function populateMapDropdowns() {

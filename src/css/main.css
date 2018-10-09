@@ -8,3 +8,7 @@
   overflow-y: auto;
   height: calc(100vh - 57px);
 }
+
+#match-data-clear {
+  float: right;
+}

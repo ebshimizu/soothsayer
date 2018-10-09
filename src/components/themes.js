@@ -11,7 +11,7 @@ function initThemes() {
 
 function initWithState(state) {
   $('#set-theme').click(() => state.broadcastThemeChange());
-  $('#theme-menu').dropdown('set exactly', appState.theme.name);
+  $('#theme-menu').dropdown('set exactly', state.theme.name);
 }
 
 function scanThemes() {

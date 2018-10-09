@@ -146,6 +146,14 @@ class State {
     this.displayTeamData();
   }
 
+  swapTeamData() {
+    const tmpRed = Object.assign({}, this.redTeam);
+    this.redTeam = Object.assign(this.redTeam, this.blueTeam);
+    this.blueTeam = tmpRed;
+
+    this.displayTeamData();
+  }
+
   updateMatchData() {
     // map pool
     this.match.mapPool = $('#map-pool').dropdown('get value').split(',');

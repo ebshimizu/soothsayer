@@ -19,6 +19,11 @@
       <a class="item" data-tab="status">Status</a>
     </div>
     <div class="ui bottom attached tab segment" data-tab="team" id="team-data">
+      <div class="ui segment">
+        <h2 class="ui dividing header">Team Controls</h2>
+        <div class="ui button" id="team-data-swap">Swap Teams</div>
+        <div class="ui right floated red button" id="team-data-clear">Clear Data</div>
+      </div>
       <div class="ui two column grid">
         <div class="ui column">
           <h2 class="ui blue dividing header">Blue Team</h2>
@@ -74,7 +79,10 @@
     </div>
     <div class="ui bottom attached tab segment" data-tab="map" id="map-data">
       <div class="ui segment">
-        <h2 class="ui dividing header">Match Setup</h2>
+        <h2 class="ui dividing header">
+          Match Setup
+          <div class="ui tiny red button" id="match-data-clear">Clear Data</div>
+        </h2>
         <form class="ui form">
           <div class="fields">
             <div class="two wide field">
@@ -220,6 +228,7 @@
           Questions, comments, feature requests,
           help with themeing questions, etc. should all be directed to the Project Page on there.
         </p>
+        <div class="ui fluid button dev-tools-button">Click This In Case Of Error (Dev Tools)</div>
       </div>
       <div class="ui segment">
         <h2 class="ui dividing header">Active Overlays</h2>

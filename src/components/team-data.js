@@ -8,6 +8,11 @@ function initTeamData() {
   $('#team-data .find-logo .clear-field.button').click(clearField);
 }
 
+function initWithState(state) {
+  $('#team-data-swap').click(() => state.swapTeamData());
+  $('#team-data-clear').click(() => state.resetTeamData());
+}
+
 // this context: clicked element
 function findTeamLogo() {
   let input = $(this).parent().siblings('input');
@@ -36,4 +41,5 @@ function clearField() {
   $(this).parent().siblings('input').val('');
 }
 
-exports.TeamData = initTeamData;
+exports.Init = initTeamData;
+exports.InitWithState = initWithState;
