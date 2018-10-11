@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const themeWriter = require('./theme-writer');
 
 let loadedThemes = {};
 
@@ -12,6 +13,11 @@ function initThemes() {
 function initWithState(state) {
   $('#set-theme').click(() => state.broadcastThemeChange());
   $('#theme-menu').dropdown('set exactly', state.theme.name);
+  $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
+}
+
+function writeStaticThemes(obsDir) {
+  themeWriter.createStaticThemes(loadedThemes, obsDir);
 }
 
 function scanThemes() {
