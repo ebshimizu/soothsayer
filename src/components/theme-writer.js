@@ -19,22 +19,23 @@ function createThemeFile(target, themeDir, obsDir) {
     // read file
     let page = fs.readFileSync(path.join(obsDir, target)).toString();
 
-    // find the relevant css file.
-    let pageJQ = $('<html>').html(page);
-    let cssFile = $(page).filter('link[rel="stylesheet"]').attr('href');
+    // regex replacements
+    let cssRx = /href="(css\/[\w-]+\.css)"/;
+    let cssFile = page.match(cssRx)[1];
 
     // check if file exists
     if (fs.existsSync(path.join(obsDir, 'themes', themeDir, cssFile))) {
       // modify tag and insert proper var
-      pageJQ.find('link[rel="stylesheet"]').attr('href', `themes/${themeDir}/${cssFile}`);
+      let newCSSTag = page.match(/(<link.+ \/>)/)[1];
+      newCSSTag = newCSSTag.replace(cssRx, `href="themes/${themeDir}/${cssFile}"`);
       
       // create the flag
-      let script = $('<script>').attr('text', 'text/javascript').text('themeLocked = true;');
-      pageJQ.find('head').append(script);
+      let script = '<script text="text/javascript">themeLocked = true</script>';
+      page = page.replace('</head>', `\t${newCSSTag}\n\t\t${script}\n\t</head>`);
 
       let out = path.join(obsDir, `${themeDir}-${target}`)
       console.log(`Writing file ${out}`);
-      fs.writeFileSync(out, pageJQ.html(), { flags: 'w+' });
+      fs.writeFileSync(out, page, { flags: 'w+' });
     }
   }
   catch (err) {
