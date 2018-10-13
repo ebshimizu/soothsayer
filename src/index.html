@@ -120,7 +120,48 @@
             </p>
           </div>
         </div>
-        <!-- Same as data source, hide or show various controls for each source -->
+        <form class="ui form">
+          <div class="field">
+            <label>Active Data Source</label>
+            <div class="ui fluid selection dropdown" id="data-source-menu">
+              <i class="dropdown icon"></i>
+              <div class="default text">No Data Source</div>
+              <div class="menu">
+                <div class="item" data-value="0">No Data Source</div>
+                <div class="item" data-value="sots">Stats of the Storm</div>
+              </div>
+            </div>
+          </div>
+          <div class="data-source-options" data-source="sots">
+            <div class="fields">
+              <div class="seven wide disabled field">
+                <label>Database Location</label>
+                <input type="text" name="sots-db-location" id="sots-db-location">
+              </div>
+              <div class="three wide field">
+                <label>Set Database Location</label>
+                <div class="ui fluid labeled icon button" id="sots-db-find">
+                  <i class="open folder icon"></i>
+                  Set Database
+                </div>
+              </div>
+              <div class="three wide field">
+                <label>Load Data</label>
+                <div class="ui fluid green button" id="sots-db-load">Load Data</div>
+              </div>
+              <div class="three wide field">
+                <label>Collection</label>
+                <div class="ui fluid selection dropdown" id="sots-db-collection">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">All Matches</div>
+                  <div class="menu">
+                    <!-- populated after DB load -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="team" id="team-data">

@@ -5,15 +5,24 @@ const { State } = require('./components/state');
 const TeamData = require('./components/team-data');
 const MapData = require('./components/map-data');
 const Themes = require('./components/themes');
+const DataSource = require('./components/data-source');
+const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 
 const socketApp = require('express')();
 const http = require('http').Server(socketApp);
 const io = require('socket.io')(http);
 const appVersion = require('electron').remote.app.getVersion();
+const path = require('path');
 const { shell, remote } = require('electron');
 
 // global for debug
 let appState;
+
+// hey so we're gonna stick heroes talents in the global window state because reasons
+window.heroesTalents = new HeroesTalents(
+  path.join(__dirname, '/stats-of-the-storm/assets/heroes-talents'),
+  path.join(__dirname, '/stats-of-the-storm/assets/data')
+);
 
 $(document).ready(() => {
   $('.app-version').text(appVersion);
@@ -27,12 +36,14 @@ $(document).ready(() => {
   TeamData.Init();
   MapData.Init();
   Themes.Init();
+  DataSource.Init();
 
   appState = new State(io);
 
   TeamData.InitWithState(appState);
   MapData.InitWithState(appState);
   Themes.InitWithState(appState);
+  DataSource.InitWithState(appState);
 
   http.listen(3005, function () {
     console.log('listening on *:3005');

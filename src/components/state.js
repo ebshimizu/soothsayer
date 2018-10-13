@@ -1,7 +1,9 @@
 // the application state. Should send events to all sockets on change.
+// this object also kinda manages relations between the sockets and other elements.
 const settings = require('electron-settings');
 const fs = require('fs-extra');
 const path = require('path');
+const DataSource = require('./data-source');
 
 class State {
   constructor() {
@@ -24,6 +26,7 @@ class State {
     this.match = settings.get('match');
     this.theme = settings.get('theme');
     this.casters = settings.get('casters');
+    this.dataSource = settings.get('dataSource');
 
     if (!this.blueTeam) {
       this.blueTeam = { };
@@ -41,10 +44,14 @@ class State {
     if (!this.casters) {
       this.casters = {};
     }
+    if (!this.dataSource) {
+      this.dataSource = {};
+    }
 
     this.displayTeamData();
     this.displayMatchData();
     this.displayCasterData();
+    this.displayDataSource();
     $('#set-theme').dropdown('set value', this.theme.name);
   }
 
@@ -67,6 +74,7 @@ class State {
     this.updateTeamData();
     this.updateMatchData();
     this.updateCasterData();
+    this.updateDataSource();
 
     this.broadcastStateChange();
     this.save();
@@ -117,6 +125,7 @@ class State {
     settings.set('match', this.match);
     settings.set('theme', this.theme);
     settings.set('casters', this.casters);
+    settings.set('dataSource', this.dataSource);
   }
 
   updateTeamData() {
@@ -236,6 +245,22 @@ class State {
     $('#caster-1-social').val(this.casters.one ? this.casters.one.social : '');
     $('#caster-2-name').val(this.casters.two ? this.casters.two.name : '');
     $('#caster-2-social').val(this.casters.two ? this.casters.two.social : '');
+  }
+
+  setDataSource(src) {
+    this.dataSource.active = src;
+    this.updateDataSource();
+    this.save();
+  }
+
+  updateDataSource() {
+    this.dataSource.sotsDBLoc = $('#sots-db-location').val();
+    this.dataSource.sotsDBCollection = $('#sots-db-collection').dropdown('get value');
+  }
+
+  displayDataSource() {
+    $('#sots-db-location').val(this.dataSource.sotsDBLoc);
+    $('#sots-db-collection').dropdown('set exactly', this.dataSource.sotsDBCollection);
   }
 }
 
