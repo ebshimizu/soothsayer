@@ -89,6 +89,7 @@ class State {
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team.txt'), this.redTeam.name, { flag: 'w+' });
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team_score.txt'), this.blueTeam.score, { flag: 'w+' });
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team_score.txt'), this.redTeam.score, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'tournament_name.txt'), this.tournament, { flag: 'w+' });
 
       if (this.casters.one) {
         fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_one_name.txt'), this.casters.one.name, { flag: 'w+' });
@@ -238,6 +239,7 @@ class State {
     this.casters = {};
     this.casters.one = { name: $('#caster-1-name').val(), social: $('#caster-1-social').val() };
     this.casters.two = { name: $('#caster-2-name').val(), social: $('#caster-2-social').val() };
+    this.casters.tournament = $('#tournament-name').val();
   }
 
   displayCasterData() {
@@ -245,6 +247,7 @@ class State {
     $('#caster-1-social').val(this.casters.one ? this.casters.one.social : '');
     $('#caster-2-name').val(this.casters.two ? this.casters.two.name : '');
     $('#caster-2-social').val(this.casters.two ? this.casters.two.social : '');
+    $('#tournament-name').val(this.casters.tournament);
   }
 
   setDataSource(src) {
