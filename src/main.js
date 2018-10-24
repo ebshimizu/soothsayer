@@ -6,6 +6,7 @@ const TeamData = require('./components/team-data');
 const MapData = require('./components/map-data');
 const Themes = require('./components/themes');
 const DataSource = require('./components/data-source');
+const LowerThird = require('./components/stat-lower-third');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 
 const socketApp = require('express')();
@@ -37,13 +38,18 @@ $(document).ready(() => {
   MapData.Init();
   Themes.Init();
   DataSource.Init();
+  LowerThird.Init();
 
   appState = new State(io);
+  appState.onLowerThirdConnect = LowerThird.onLowerThirdConnect;
+  appState.onLowerThirdDisconnect = LowerThird.onLowerThirdDisconnect;
 
   TeamData.InitWithState(appState);
   MapData.InitWithState(appState);
   Themes.InitWithState(appState);
   DataSource.InitWithState(appState);
+  LowerThird.InitWithState(appState);
+  LowerThird.setDataSource(DataSource);
 
   http.listen(3005, function () {
     console.log('listening on *:3005');

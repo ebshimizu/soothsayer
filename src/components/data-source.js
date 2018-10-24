@@ -41,8 +41,24 @@ function changeDataSource(val) {
   appState.setDataSource(activeSource);
 }
 
+// gets data in the format required by the lower thirds
+// options defined in stat-lower-third's LT dropdown var. (yeahhhhhhh i know not optimal)
+function getLTData(dataConfig, callback) {
+  if (dataConfig.type === 'HGC-hero-draft') {
+    heroDraft(dataConfig.hero, callback);
+  }
+  else if (dataConfig.type === 'player-hero') {
+    playerStatsForHero(dataConfig.hero, dataConfig.player, callback);
+  }
+  else {
+    callback({ error: `Failed to load data for config ${dataConfig.type}` });
+  }
+}
+
 // All draft data, no player/team stats
 // all of these require callbacks, as most APIs are expected to be asnyc
+// returned object must have the following fields:
+// - pick, pickPct, ban, banPct, win, winPct, K, D, A, TD, KDA
 function heroDraft(hero, callback) {
   DataSources[activeSource].heroDraft(hero, callback);
 }
@@ -53,8 +69,8 @@ function heroDraftWithTeam(hero, team) {
 }
 
 // all player stats for a specific hero
-function playerStatsForHero(player, hero) {
-
+function playerStatsForHero(player, hero, callback) {
+  callback();
 }
 
 // all player stats
@@ -65,3 +81,4 @@ function playerStats(player) {
 exports.Init = init;
 exports.InitWithState = initWithState;
 exports.heroDraft = heroDraft;
+exports.getLTData = getLTData;

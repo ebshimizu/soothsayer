@@ -2,6 +2,7 @@ const SotsDB = require('../../stats-of-the-storm/js/database');
 const { dialog } = require('electron').remote;
 const fs = require('fs-extra');
 const summarizeMatchData = require('../../stats-of-the-storm/js/database/summarize-match-data');
+const summarizeHeroData = require('../../stats-of-the-storm/js/database/summarize-hero-data');
 
 let activeDB;
 
@@ -117,8 +118,33 @@ function init() {
 
 function heroDraft(hero, cb) {
   activeDB.getMatches({}, function(err, docs) {
-    let draftData = summarizeMatchData(docs, window.heroesTalents);
-    cb(draftData.data[hero]);
+    activeDB.getHeroData({ hero }, function(err, heroDocs) {
+      const draftData = summarizeMatchData(docs, window.heroesTalents);
+      const heroStats = summarizeHeroData(heroDocs);
+
+      // check that data exists 
+      const draft = draftData.data[hero];
+      const numbers = heroStats.averages[hero];
+
+      if (!draft || !numbers) {
+        cb({ error: `No Hero Data Available for ${hero}` });
+        return;
+      }
+
+      cb({
+        pick: draft.games,
+        pickPct: draft.games / draftData.data.totalMatches,
+        ban: draft.bans.total,
+        banPct: draft.bans.total / draftData.data.totalMatches,
+        win: draft.wins,
+        winPct: draft.wins / draft.games,
+        K: numbers.SoloKill,
+        TD: numbers.Takedowns,
+        A: numbers.Assists,
+        D: numbers.Deaths,
+        KDA: heroStats.heroes[hero].stats.totalKDA,
+      });
+    });
   });
 }
 

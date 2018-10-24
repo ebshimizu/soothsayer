@@ -60,14 +60,36 @@ class State {
   // and that's about it for now.
   registerOverlay(socket, overlayData) {
     this.overlays[socket.id] = overlayData;
+    this.overlays[socket.id].socket = socket;
+
     $('#overlay-table').append(`<tr socket-id="${socket.id}"><td>${overlayData.name}</td><td>${socket.id}</td></tr>`);
+
+    // lower thirds have an additional callback. this should error if the function is not set.
+    if (overlayData.name === 'Lower Third') {
+      this.onLowerThirdConnect(socket);
+    }
+
     console.log(`Registered '${overlayData.name}' from ${socket.id}.`);
   }
 
   unregisterOverlay(socketID) {
     console.log(`Socket ${socketID} disconnected. Deleted overlay ${this.overlays[socketID].name}.`);
     $(`#overlay-table tr[socket-id="${socketID}"]`).remove();
+
+    if (this.overlays[socketID].name === 'Lower Third') {
+      this.onLowerThirdDisconnect(socketID);
+    }
+
     delete this.overlays[socketID];
+  }
+
+  sendTo(socketID, event, data) {
+    if (socketID in this.overlays) {
+      this.overlays[socketID].socket.emit(event, data);
+    }
+    else {
+      console.log(`Error: socket ${socketID} is not connected. Did not send.`);
+    }
   }
 
   updateAndBroadcast() {
@@ -80,8 +102,18 @@ class State {
     this.save();
   }
 
+  broadcastSubset() {
+    return {
+      blueTeam: this.blueTeam,
+      redTeam: this.redTeam,
+      match: this.match,
+      rootOBS: this.rootOBS,
+      theme: this.theme,
+    };
+  }
+
   broadcastStateChange() {
-    io.sockets.emit('update', this);
+    io.sockets.emit('update', this.broadcastSubset());
 
     // snapshot some stuff to disk
     try {
@@ -285,7 +317,7 @@ function constructState(io) {
     });
 
     socket.on('requestState', () => {
-      socket.emit('update', state);
+      socket.emit('update', state.broadcastSubset());
     });
 
     socket.on('requestMapPool', () => {
