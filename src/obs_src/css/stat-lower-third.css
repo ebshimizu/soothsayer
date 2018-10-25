@@ -1,3 +1,9 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #lt-static-bg {
   background-color: #1c1c1c;
   height: 200px;

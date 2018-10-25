@@ -51,7 +51,7 @@ class StatLowerThird {
     if (this.stagedData) {
       // this will be variable soon
       const self = this;
-      this.mode = 'fade';
+      this.mode = this.stagedData.animMode ? this.stagedData.animMode : 'fade';
       this.duration = this.stagedData.duration;
 
       // first transition out visible, on complete, render the new stuff.
