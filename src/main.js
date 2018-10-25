@@ -7,6 +7,7 @@ const MapData = require('./components/map-data');
 const Themes = require('./components/themes');
 const DataSource = require('./components/data-source');
 const LowerThird = require('./components/stat-lower-third');
+const Util = require('./components/util');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 
 const socketApp = require('express')();

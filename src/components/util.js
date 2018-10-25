@@ -1,4 +1,5 @@
 // couple common util functions
+const fs = require('fs-extra');
 
 // need to give a heroes talents instance
 // returns markup for a hero selection dropdown. does not bind anything, markup only
@@ -26,4 +27,21 @@ function heroMenu(ht, classname) {
   `;
 }
 
+// this is a command line accessible function that dumps out css for all current heroes
+// it is expected that this is a dev only tool but i mean hey you can use it too if you want.
+function heroImgCSSGen(ht, outFile) {
+  let out = '';
+
+  for (let h of ht.allHeroNames) {
+    out += `
+      .${ht._heroes[h].attributeId} {
+        background-image: url('../../stats-of-the-storm/assets/heroes-talents/images/heroes/${ht.heroIcon(h)}');
+      }
+    `;
+  }
+
+  fs.writeFileSync(outFile, out, { flags: 'w+' });
+}
+
 exports.heroMenu = heroMenu;
+exports.heroImgCSSGen = heroImgCSSGen;

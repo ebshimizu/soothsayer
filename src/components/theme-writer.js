@@ -26,7 +26,8 @@ function createThemeFile(target, themeDir, obsDir) {
     // check if file exists
     if (fs.existsSync(path.join(obsDir, 'themes', themeDir, cssFile))) {
       // modify tag and insert proper var
-      let newCSSTag = page.match(/(<link.+ \/>)/)[1];
+      let cssTags = page.match(/(<link.+ \/>)/g);
+      let newCSSTag = cssTags[cssTags.length - 1];
       newCSSTag = newCSSTag.replace(cssRx, `href="themes/${themeDir}/${cssFile}"`);
       
       // create the flag

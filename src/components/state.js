@@ -109,6 +109,7 @@ class State {
       match: this.match,
       rootOBS: this.rootOBS,
       theme: this.theme,
+      casters: this.casters,
     };
   }
 

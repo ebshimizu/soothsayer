@@ -50,6 +50,8 @@ function loadLT(socketID) {
     player: elem.find('.lt-player-name').val(),
   };
 
+  loadData.heroClassname = heroesTalents._heroes[loadData.hero].attributeId;
+
   // callback required
   dataSource.getLTData(loadData, function(data) {
     if (data.error) {
@@ -69,11 +71,11 @@ function loadLT(socketID) {
 }
 
 function runLT(socketID) {
-
+  appState.sendTo(socketID, 'run', null);
 }
 
 function endLT(socketID) {
-
+  appState.sendTo(socketID, 'end', null);
 }
 
 // builds the lower third ui and adds proper handlers

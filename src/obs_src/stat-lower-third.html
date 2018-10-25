@@ -7,9 +7,38 @@
     <script src="http://localhost:3005/socket.io/socket.io.js"></script>
     <script src="js/util.js"></script>
     <script src="js/stat-lower-third.js"></script>
+    <script src="../semantic/dist/components/transition.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../semantic/dist/components/transition.min.css" />
+    <link rel="stylesheet" type="text/css" href="./css/heroes.css" />
     <link rel="stylesheet" type="text/css" href="css/stat-lower-third.css" />
   </head>
   <body>
-
+    <!-- static elements -->
+    <div id="lt-static-bg"></div>
+    <!-- optional static themed elements -->
+    <div id="logo1"></div>
+    <div id="logo2"></div>
+    <div id="logo3"></div>
+    <!-- Dynamic elements -->
+    <div class="tournament-name-flex"><div class="tournament-name" id="tournament-name"></div></div>
+    <!-- Lower Third Configs -->
+    <div class="lt-elem transition hidden" id="HGC-hero-draft">
+      <div class="pick-rate container">
+        <div class="pick-rate label">Pick Rate</div>
+        <div class="pick-rate stat"></div>
+      </div>
+      <div class="win-rate container">
+        <div class="win-rate label">Win Rate</div>
+        <div class="win-rate stat"></div>
+      </div>
+      <div class="kda container">
+        <div class="kda label">Avg. KDA</div>
+        <div class="kda stat"></div>
+        <div class="kda-sep stat"></div>
+        <div class="tdd-sep stat"></div>
+      </div>
+      <div class="hero-portrait"></div>
+      <div class="hero-name"></div>
+    </div>
   </body>
 </html>

@@ -1,0 +1,111 @@
+#lt-static-bg {
+  background-color: #1c1c1c;
+  height: 200px;
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: 0
+}
+
+.hero-portrait {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.tournament-name-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 12.4vw;
+  height: 200px;
+  bottom: 0vh;
+}
+
+.tournament-name {
+  text-align: center;
+  font-family: 'Lucida Grande', sans-serif;
+  color: #FFF;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-family: 'Lucida Grande', sans-serif;
+}
+
+.container .label {
+  position: absolute;
+  top: 10%;
+  font-size: 24pt;
+  color: white;
+}
+
+.container .stat {
+  text-align: center;
+  font-size: 36pt;
+  color: white;
+}
+
+.lt-elem {
+  position: absolute;
+}
+
+#HGC-hero-draft {
+  background-color: rgb(0, 40, 170);
+  right: 0;
+  bottom: 0;
+  height: 200px;
+  width: 1200px;
+  position: absolute;
+}
+
+#HGC-hero-draft .pick-rate.container {
+  height: 100%;
+  left: 25%;
+  text-align: center;
+  width: 25%;
+}
+
+#HGC-hero-draft .win-rate.container {
+  height: 100%;
+  left: 50%;
+  text-align: center;
+  width: 25%;
+}
+
+#HGC-hero-draft .kda.container {
+  height: 100%;
+  left: 75%;
+  text-align: center;
+  width: 25%;
+}
+
+#HGC-hero-draft .kda-sep.stat,
+#HGC-hero-draft .tdd-sep.stat {
+  display: none;
+}
+
+#HGC-hero-draft .hero-portrait {
+  left: 0;
+  top: 0;
+  background-color: black;
+  position: absolute;
+  width: 25%;
+  height: 80%;
+}
+
+#HGC-hero-draft .hero-name {
+  position: absolute;
+  width: 25%;
+  height: 20%;
+  left: 0;
+  bottom: 0;
+  font-family: 'Lucida Grande', sans-serif;
+  text-align: center;
+  font-size: 18pt;
+  color: white;
+}
