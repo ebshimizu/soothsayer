@@ -3,6 +3,11 @@
 A tool for generating OBS overlays for casting Heroes of the Storm.
 Inspired by the [StarCraft Casting Tool](https://github.com/teampheenix/StarCraft-Casting-Tool)
 
+Like the project? There's a tip jar over at Ko-Fi:
+
+[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/E1E2KHZ3)
+
+
 ## Usage
 
 Currently in development. There is no dist for the project yet.
@@ -10,7 +15,7 @@ Currently in development. There is no dist for the project yet.
 ### Available Overlays
 
 Overlays should be added to OBS as a Browser Source using the Local File option
-and no custom CSS. Use the reccomended resolutions as the browser source size.
+and no custom CSS. Use the recommended resolutions as the browser source size.
 If no resolution is listed, use any size that satisfies the given aspect ratio.
 They are found in `src/obs_src`. All of the files in the root
 of this directory should be treated as the demo files. You'll likely want to either
@@ -34,12 +39,22 @@ like the `file:///` protocol so the tool uses relative paths that only resolve i
 * `map-select.html`
   * Map selection, bans, and results summary screen
   * Required Resolution: 1929 x 1080
+* `map-select-tiles.html`
+  * The tiles from `map-select.html` by themselves
+  * Required Resolution: none
+* `map-select-list.html`
+  * The map pick list from `map-select.html` by itself.
+  * Required Resolution: none
 * `caster-single-frame.html`
   * Caster frame (for webcams). Default file is not recommended for use, as it is partially styled
   * Required Resolution: 1920 x 1080
 * `caster-single-side-facts.html`
   * No Default Style
   * Intended use: caster frame with sidebox for facts/text
+  * Required Resolution: 1920 x 1080
+* `stat-lower-third.html`
+  * Base style is for demo only; you'll want to theme it for actual use.
+  * Displays stats in a lower third. Must have a connected Stat Source to use.
   * Required Resolution: 1920 x 1080
 
 ## Theming
@@ -95,6 +110,3 @@ yarn start
 If you don't want to use yarn, npm should work just fine.
 New overlays should be placed in `src/obs_src`. See the existing overlays for examples.
 Semantic-ui and jQuery are available in both the controller and the overlays.
-
-### Roadmap
-* Investigate integration with other hots apps (specifically stats of the storm)
