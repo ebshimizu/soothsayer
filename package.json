@@ -55,7 +55,7 @@
         "linvodb3": "^3.25.1",
         "medea": "^1.0.3",
         "medeadown": "^1.1.9",
-        "semantic-ui": "^2.4.0",
+        "semantic-ui": "^2.4.2",
         "socket.io": "^2.1.1"
     },
     "devDependencies": {
