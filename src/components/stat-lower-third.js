@@ -25,6 +25,7 @@ const LTAnimDropdown = `
       <div class="item" data-value="fade left">Fade Left</div>
       <div class="item" data-value="horizontal flip">H. Flip</div>
       <div class="item" data-value="slide up">Slide Up</div>
+      <div class="item" data-value="fly up">Fly Up</div>
     </div>
   </div>
 `
@@ -110,7 +111,7 @@ function endLT(socketID) {
 // builds the lower third ui and adds proper handlers
 function constructLTUI(socket) {
   let elem = `
-    <div class="lower-third-controls" socket-id="${socket.id}">
+    <div class="ui basic segment lower-third-controls" socket-id="${socket.id}">
       <div class="ui attached message">
         <div class="header">Lower Third Controls</div>
         <p>
@@ -150,13 +151,21 @@ function constructLTUI(socket) {
           </div>
         </div>
         <div class="fields">
-          <div class="eight wide field">
+          <div class="six wide field">
             <label>Hero</label>
             ${heroMenu(heroesTalents, 'lt-hero-menu')}
           </div>
-          <div class="eight wide field">
+          <div class="four wide field">
             <label>Player (BTag optional)</label>
             <input type="text" name="lt-player-name" class="lt-player-name">
+          </div>
+          <div class="four wide field">
+            <label>Wildcard Stat</label>
+
+          </div>
+          <div class="two wide field">
+            <label>Stat Mode</label>
+            
           </div>
         </div>
       </form>
@@ -171,6 +180,7 @@ function constructLTUI(socket) {
   e.find('.lt-hero-menu').dropdown();
   e.find('.lt-mode').dropdown();
   e.find('.lt-anim').dropdown();
+  e.find('.lt-anim').dropdown('set exactly', 'fade');
 
   e.find('.lt-load').click(() => loadLT(socket.id));
   e.find('.lt-loadrun').click(() => loadAndRunLT(socket.id));

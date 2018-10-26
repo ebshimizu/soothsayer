@@ -48,7 +48,7 @@ function getLTData(dataConfig, callback) {
     heroDraft(dataConfig.hero, callback);
   }
   else if (dataConfig.type === 'player-hero') {
-    playerStatsForHero(dataConfig.hero, dataConfig.player, callback);
+    playerStatsForHero(dataConfig.player, dataConfig.hero, callback);
   }
   else {
     callback({ error: `Failed to load data for config ${dataConfig.type}` });
@@ -58,7 +58,7 @@ function getLTData(dataConfig, callback) {
 // All draft data, no player/team stats
 // all of these require callbacks, as most APIs are expected to be asnyc
 // returned object must have the following fields:
-// - pick, pickPct, ban, banPct, win, winPct, K, D, A, TD, KDA
+// - pick, pickPct, ban, banPct, win, winPct, K, D, A, TD, KDA, wildcard, wildcardName
 function heroDraft(hero, callback) {
   DataSources[activeSource].heroDraft(hero, callback);
 }
@@ -69,8 +69,11 @@ function heroDraftWithTeam(hero, team) {
 }
 
 // all player stats for a specific hero
+// Player is a battletag (maybe)
+// required fields:
+// - games, win, winPct, K, D, A, TD, KDA, timeDeadPct, KillParticipation, ToonHandle, BTag
 function playerStatsForHero(player, hero, callback) {
-  callback();
+  DataSources[activeSource].playerStatsForHero(player, hero, callback);
 }
 
 // all player stats

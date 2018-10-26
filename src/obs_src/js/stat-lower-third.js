@@ -29,9 +29,12 @@ class StatLowerThird {
     if (this.stagedData.data) {
       $('.pick-rate.stat').text(this.renderPct(this.stagedData.data.pickPct));
       $('.win-rate.stat').text(this.renderPct(this.stagedData.data.winPct));
-      $('.kda.stat').text(this.stagedData.data.KDA.toFixed(1));
-      $('.kda-sep.stat').text(`${this.stagedData.data.K.toFixed(1)}/${this.stagedData.data.D.toFixed(1)}/${this.stagedData.data.A.toFixed(1)}`);
-      $('.tdd-sep.stat').text(`${this.stagedData.data.TD.toFixed(1)}/${this.stagedData.data.D.toFixed(1)}/${this.stagedData.data.A.toFixed(1)}`)
+      $('.kda.stat').text(this.renderFixed(this.stagedData.data.KDA, 1));
+      $('.kda-sep.stat').text(`${this.renderFixed(this.stagedData.data.K, 1)}/${this.renderFixed(this.stagedData.data.D, 1)}/${this.renderFixed(this.stagedData.data.A, 1)}`);
+      $('.tdd-sep.stat').text(`${this.renderFixed(this.stagedData.data.TD, 1)}/${this.renderFixed(this.stagedData.data.D, 1)}/${this.renderFixed(this.stagedData.data.A, 1)}`);
+      $('.kp.stat').text(this.renderPct(this.stagedData.KillParticipation));
+      $('.uptime.stat').text(this.renderPct(1 - this.stagedData.data.timeDeadPct));
+      $('.player-name').text(this.stagedData.player);
 
       $('.hero-portrait').removeClass().addClass('hero-portrait');
       $('.hero-portrait').addClass(this.stagedData.heroClassname);
@@ -44,7 +47,21 @@ class StatLowerThird {
   }
 
   renderPct(val) {
-    return `${(val * 100).toFixed(1)}%`;
+    if (val) {
+      return `${(val * 100).toFixed(1)}%`;
+    }
+    else {
+      return '';
+    }
+  }
+
+  renderFixed(val, fix) {
+    if (val) {
+      return val.toFixed(fix);
+    }
+    else {
+      return '';
+    }
   }
 
   run() {

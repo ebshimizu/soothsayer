@@ -148,7 +148,64 @@ function heroDraft(hero, cb) {
   });
 }
 
+function playerStatsForHero(player, hero, callback) {
+  // determine player
+  const query = { };
+
+  if (player.indexOf('#') >= 0) {
+    query.name = player.substr(0, player.indexOf('#'));
+    query.tag = parseInt(player.substr(player.indexOf('#') + 1));
+  }
+  else {
+    query.name = player;
+  }
+
+  activeDB.getPlayers(query, function(err, players) {
+    if (err) {
+      callback({ error: err });
+      return;
+    }
+
+    if (players.length === 0) {
+      callback({ error: `No player named ${player} found` });
+      return;
+    }
+
+    // ok well we're just gonna take the first player sooo hope there's no duplicates
+    activeDB.getHeroDataForPlayerWithFilter(players[0]._id, { hero }, function(err, docs) {
+      if (err) {
+        callback({ error: err });
+        return;
+      }
+
+      if (docs.length === 0) {
+        callback({ error: `No data available for player ${player} on hero ${hero}` });
+        return;
+      }
+
+      const heroStats = summarizeHeroData(docs);
+      const stats = heroStats.averages[hero];
+
+      callback({
+        games: heroStats.games,
+        win: heroStats.wins,
+        winPct: heroStats.wins / heroStats.games,
+        K: stats.SoloKill,
+        TD: stats.Takedowns,
+        A: stats.Assists,
+        D: stats.Deaths,
+        KDA: heroStats.heroes[hero].stats.totalKDA,
+        timeDeadPct: stats.timeDeadPct,
+        KillParticipation: stats.KillParticipation,
+        ToonHandle: players[0]._id,
+        BTag: `${players[0].name}#${players[0].tag}`,
+      });
+    });
+  });
+}
+
 exports.init = init;
 exports.activate = activate;
 exports.deactivate = deactivate;
 exports.heroDraft = heroDraft;
+exports.playerStatsForHero = playerStatsForHero;
