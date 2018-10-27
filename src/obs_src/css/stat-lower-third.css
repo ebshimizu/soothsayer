@@ -74,25 +74,35 @@ body {
 #HGC-hero-draft .pick-rate.container,
 #player-hero .win-rate.container {
   height: 100%;
-  left: 25%;
+  left: 20%;
   text-align: center;
-  width: 25%;
+  width: 20%;
 }
 
 #HGC-hero-draft .win-rate.container,
 #player-hero .kda.container {
   height: 100%;
-  left: 50%;
+  left: 40%;
   text-align: center;
-  width: 25%;
+  width: 20%;
 }
 
 #HGC-hero-draft .kda.container,
-#player-hero .kp.container {
+#player-hero .kp.container
+{
   height: 100%;
-  left: 75%;
+  left: 60%;
   text-align: center;
-  width: 25%;
+  width: 20%;
+}
+
+#HGC-hero-draft .wildcard.container,
+#player-hero .wildcard.container
+{
+  height: 100%;
+  left: 80%;
+  text-align: center;
+  width: 20%;
 }
 
 #HGC-hero-draft .kda-sep.stat,
@@ -110,14 +120,14 @@ body {
   top: 0;
   background-color: black;
   position: absolute;
-  width: 25%;
+  width: 20%;
   height: 80%;
 }
 
 #HGC-hero-draft .hero-name,
 #player-hero .player-name {
   position: absolute;
-  width: 25%;
+  width: 20%;
   height: 20%;
   left: 0;
   bottom: 0;

@@ -1,5 +1,13 @@
 // couple common util functions
 const fs = require('fs-extra');
+const statList = require('../stats-of-the-storm/js/game-data/detail-stat-list');
+const mapStatList = require('../stats-of-the-storm/js/game-data/map-stats');
+const StatNames = require('../stats-of-the-storm/js/game-data/detail-stat-string');
+
+let allStats = statList;
+for (const map in mapStatList) {
+  allStats = allStats.concat(mapStatList[map]);
+}
 
 // need to give a heroes talents instance
 // returns markup for a hero selection dropdown. does not bind anything, markup only
@@ -27,6 +35,24 @@ function heroMenu(ht, classname) {
   `;
 }
 
+function statMenu(classname) {
+  let opts = ''
+
+  for (const stat of allStats) {
+    opts += `<div class="item" data-value="${stat}">${StatNames[stat]}</div>`
+  }
+
+  return `
+    <div class="ui fluid search selection dropdown ${classname}">
+      <i class="dropdown icon"></i>
+      <div class="default text">Select Stat</div>
+      <div class="menu">
+        ${opts}
+      </div>
+    </div>
+  `;
+}
+
 // this is a command line accessible function that dumps out css for all current heroes
 // it is expected that this is a dev only tool but i mean hey you can use it too if you want.
 function heroImgCSSGen(ht, outFile) {
@@ -45,3 +71,4 @@ function heroImgCSSGen(ht, outFile) {
 
 exports.heroMenu = heroMenu;
 exports.heroImgCSSGen = heroImgCSSGen;
+exports.statMenu = statMenu;

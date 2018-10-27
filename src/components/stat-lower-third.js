@@ -1,4 +1,4 @@
-const { heroMenu } = require('./util');
+const { heroMenu, statMenu } = require('./util');
 
 let appState;
 let dataSource;
@@ -65,6 +65,10 @@ function loadLT(socketID, callback) {
     hero: elem.find('.lt-hero-menu').dropdown('get value'),
     player: elem.find('.lt-player-name').val(),
     animMode: elem.find('.lt-anim').dropdown('get value'),
+    wildcard: {
+      name: elem.find('.lt-wildcard-stat').dropdown('get value'),
+      type: elem.find('.lt-wildcard-type').dropdown('get value'),
+    },
   };
 
   if (loadData.hero in heroesTalents._heroes) {
@@ -161,11 +165,20 @@ function constructLTUI(socket) {
           </div>
           <div class="four wide field">
             <label>Wildcard Stat</label>
-
+            ${statMenu('lt-wildcard-stat')}
           </div>
           <div class="two wide field">
             <label>Stat Mode</label>
-            
+            <div class="ui fluid selection dropdown lt-wildcard-type">
+              <i class="dropdown icon"></i>
+              <div class="default text"></div>
+              <div class="menu">
+                <div class="item" data-value="averages">Avg.</div>
+                <div class="item" data-value="min">Min</div>
+                <div class="item" data-value="max">Max</div>
+                <div class="item" data-value="median">Median</div>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -181,6 +194,10 @@ function constructLTUI(socket) {
   e.find('.lt-mode').dropdown();
   e.find('.lt-anim').dropdown();
   e.find('.lt-anim').dropdown('set exactly', 'fade');
+  e.find('.lt-wildcard-stat').dropdown({ fullTextSearch: true });
+  e.find('.lt-wildcard-stat').dropdown('set exactly', 'timeDeadPct');
+  e.find('.lt-wildcard-type').dropdown();
+  e.find('.lt-wildcard-type').dropdown('set exactly', 'averages');
 
   e.find('.lt-load').click(() => loadLT(socket.id));
   e.find('.lt-loadrun').click(() => loadAndRunLT(socket.id));

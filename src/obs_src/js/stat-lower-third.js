@@ -35,6 +35,8 @@ class StatLowerThird {
       $('.kp.stat').text(this.renderPct(this.stagedData.data.KillParticipation));
       $('.uptime.stat').text(this.renderPct(1 - this.stagedData.data.timeDeadPct));
       $('.player-name').text(this.stagedData.player);
+      $('.wildcard.label').text(this.stagedData.data.wildcardName);
+      $('.wildcard.stat').text(this.stagedData.data.wildcardData);
 
       $('.hero-portrait').removeClass().addClass('hero-portrait');
       $('.hero-portrait').addClass(this.stagedData.heroClassname);

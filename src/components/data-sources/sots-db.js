@@ -3,6 +3,8 @@ const { dialog } = require('electron').remote;
 const fs = require('fs-extra');
 const summarizeMatchData = require('../../stats-of-the-storm/js/database/summarize-match-data');
 const summarizeHeroData = require('../../stats-of-the-storm/js/database/summarize-hero-data');
+const StatData = require('../../stats-of-the-storm/js/game-data/detail-stat-string');
+const { formatStat } = require('../../stats-of-the-storm/js/util/formatters');
 
 let activeDB;
 
@@ -116,9 +118,9 @@ function init() {
   $('#sots-db-load').click(tryLoadDB);
 }
 
-function heroDraft(hero, cb) {
-  activeDB.getMatches({}, function(err, docs) {
-    activeDB.getHeroData({ hero }, function(err, heroDocs) {
+function heroDraft(hero, cb, wildcard) {
+  activeDB.getMatches({}, function (err, docs) {
+    activeDB.getHeroData({ hero }, function (err, heroDocs) {
       const draftData = summarizeMatchData(docs, window.heroesTalents);
       const heroStats = summarizeHeroData(heroDocs);
 
@@ -131,7 +133,7 @@ function heroDraft(hero, cb) {
         return;
       }
 
-      cb({
+      const ret = {
         pick: draft.games,
         pickPct: draft.games / draftData.data.totalMatches,
         ban: draft.bans.total,
@@ -143,12 +145,28 @@ function heroDraft(hero, cb) {
         A: numbers.Assists,
         D: numbers.Deaths,
         KDA: heroStats.heroes[hero].stats.totalKDA,
-      });
+      };
+
+      if (wildcard && wildcard.name in numbers) {
+        ret.wildcardName = StatData[wildcard.name];
+
+        // append stat variation to name
+        if (wildcard.type === 'averages') {
+          ret.wildcardName = `Avg. ${ret.wildcardName}`;
+        }
+        else {
+          ret.wildcardName = `${wildcard.type[0].toUpperCase()}${wildcard.type.substr(1)} ${ret.wildcardName}`;  
+        }
+
+        ret.wildcardData = formatStat(wildcard.name, heroStats[wildcard.type][hero][wildcard.name], true);
+      }
+
+      cb(ret);
     });
   });
 }
 
-function playerStatsForHero(player, hero, callback) {
+function playerStatsForHero(player, hero, callback, wildcard) {
   // determine player
   const query = { };
 
@@ -186,7 +204,7 @@ function playerStatsForHero(player, hero, callback) {
       const heroStats = summarizeHeroData(docs);
       const stats = heroStats.averages[hero];
 
-      callback({
+      const ret = {
         games: heroStats.games,
         win: heroStats.wins,
         winPct: heroStats.wins / heroStats.games,
@@ -199,7 +217,24 @@ function playerStatsForHero(player, hero, callback) {
         KillParticipation: stats.KillParticipation,
         ToonHandle: players[0]._id,
         BTag: `${players[0].name}#${players[0].tag}`,
-      });
+        name: players[0].name,
+      };
+
+      if (wildcard && wildcard.name in stats) {
+        ret.wildcardName = StatData[wildcard.name];
+
+        // append stat variation to name
+        if (wildcard.type === 'averages') {
+          ret.wildcardName = `Avg. ${ret.wildcardName}`;
+        }
+        else {
+          ret.wildcardName = `${wildcard.type[0].toUpperCase()}${wildcard.type.substr(1)} ${ret.wildcardName}`;  
+        }
+
+        ret.wildcardData = formatStat(wildcard.name, heroStats[wildcard.type][hero][wildcard.name], true);
+      }
+
+      callback(ret);
     });
   });
 }
