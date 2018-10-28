@@ -9,6 +9,7 @@ const coreThemeFiles = [
   'map-select',
   'red-team-logo',
   'stat-lower-third',
+  'player-popups',
 ];
 
 exports.coreThemeFiles = coreThemeFiles;

@@ -20,6 +20,7 @@ function initTeamData() {
 function initWithState(state) {
   $('#team-data-swap').click(() => state.swapTeamData());
   $('#team-data-clear').click(() => state.resetTeamData());
+  $('#player-popup-show').click(() => state.sendAll('runPopups', {}));
 }
 
 // this context: clicked element

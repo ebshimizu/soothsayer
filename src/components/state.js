@@ -96,6 +96,10 @@ class State {
     }
   }
 
+  sendAll(event, data) {
+    io.sockets.emit(event, data);
+  }
+
   updateAndBroadcast() {
     this.updateTeamData();
     this.updateMatchData();
