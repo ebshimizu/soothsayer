@@ -23,6 +23,7 @@ class State {
     // teams
     this.blueTeam = settings.get('blueTeam');
     this.redTeam = settings.get('redTeam');
+    this.miscData = settings.get('miscData');
     this.match = settings.get('match');
     this.theme = settings.get('theme');
     this.casters = settings.get('casters');
@@ -46,6 +47,9 @@ class State {
     }
     if (!this.dataSource) {
       this.dataSource = {};
+    }
+    if (!this.miscData) {
+      this.miscData = {};
     }
 
     this.displayTeamData();
@@ -110,6 +114,7 @@ class State {
       rootOBS: this.rootOBS,
       theme: this.theme,
       casters: this.casters,
+      misc: this.miscData,
     };
   }
 
@@ -160,16 +165,46 @@ class State {
     settings.set('theme', this.theme);
     settings.set('casters', this.casters);
     settings.set('dataSource', this.dataSource);
+    settings.set('miscData', this.miscData);
   }
 
   updateTeamData() {
     this.blueTeam.name = $('#team-blue-name').val();
     this.blueTeam.score = $('#team-blue-score').val();
     this.blueTeam.logo = $('#team-blue-logo input').val();
+    this.blueTeam.players = [];
 
     this.redTeam.name = $('#team-red-name').val();
     this.redTeam.score = $('#team-red-score').val();
     this.redTeam.logo = $('#team-red-logo input').val();
+    this.redTeam.players = [];
+
+    for (const i of [1, 2, 3, 4, 5]) {
+      const bluep = {
+        name: $(`#blue-p${i}-name`).val(),
+        hero: $(`#blue-p${i}-hero .player-hero-menu`).dropdown('get value'),
+        classname: '',
+      };
+
+      if (bluep.hero in heroesTalents._heroes) {
+        bluep.classname = heroesTalents._heroes[bluep.hero].attributeId;
+      }
+      this.blueTeam.players.push(bluep);
+
+      const redp = {
+        name: $(`#red-p${i}-name`).val(),
+        hero: $(`#red-p${i}-hero .player-hero-menu`).dropdown('get value'),
+        classname: '',
+      };
+
+      if (redp.hero in heroesTalents._heroes) {
+        redp.classname = heroesTalents._heroes[redp.hero].attributeId;
+      }
+      this.redTeam.players.push(redp);
+    }
+
+    this.miscData.popupDisplayMode = $('#popup-display-mode').dropdown('get value');
+    this.miscData.popupAnimLength = $('#popup-anim-time').val();
   }
 
   displayTeamData() {
@@ -180,6 +215,29 @@ class State {
     $('#team-red-name').val(this.redTeam.name);
     $('#team-red-score').val(this.redTeam.score);
     $('#team-red-logo input').val(this.redTeam.logo);
+
+    for (const i of [1, 2, 3, 4, 5]) {
+      if (this.blueTeam.players) {
+        $(`#blue-p${i}-name`).val(this.blueTeam.players[i - 1].name);
+        $(`#blue-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.blueTeam.players[i - 1].hero);
+      }
+      else {
+        $(`#blue-p${i}-name`).val('');
+        $(`#blue-p${i}-hero .player-hero-menu`).dropdown('clear');
+      }
+
+      if (this.blueTeam.players) {
+        $(`#red-p${i}-name`).val(this.redTeam.players[i - 1].name);
+        $(`#red-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.redTeam.players[i - 1].hero);
+      }
+      else {
+        $(`#red-p${i}-name`).val('');
+        $(`#red-p${i}-hero .player-hero-menu`).dropdown('clear');
+      }
+    }
+    
+    $('#popup-display-mode').dropdown('set exactly', this.miscData.popupDisplayMode);
+    $('#popup-anim-time').val(this.miscData.popupAnimLength);
   }
 
   resetTeamData() {
@@ -189,9 +247,26 @@ class State {
     this.displayTeamData();
   }
 
+  resetTeamPlayers() {
+    this.blueTeam.players = [];
+    this.redTeam.players = [];
+
+    this.displayTeamData();
+  }
+
   swapTeamData() {
     const tmpRed = Object.assign({}, this.redTeam);
+    
+    // deep copy player data
+    if (this.redTeam.players) {
+      for (let i = 0; i < this.redTeam.players.length; i++) {
+        tmpRed.players[i] = Object.assign({}, this.redTeam.players[i]);
+      }
+    }
+
     this.redTeam = Object.assign(this.redTeam, this.blueTeam);
+
+    // since we already did a deep copy of the arrays, this should be ok
     this.blueTeam = tmpRed;
 
     this.displayTeamData();

@@ -37,6 +37,7 @@ function populateMapDropdown(elem, useNone) {
   // init the dropdown as well, none of these require callbacks since it's all snapshot on Update
   $(elem).dropdown({
     fullTextSearch: true,
+    useLabels: false,
   });
 }
 

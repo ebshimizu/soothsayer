@@ -171,60 +171,202 @@
     <div class="ui bottom attached tab segment" data-tab="team" id="team-data">
       <div class="ui segment">
         <h2 class="ui dividing header">Team Controls</h2>
-        <div class="ui button" id="team-data-swap">Swap Teams</div>
-        <div class="ui right floated red button" id="team-data-clear">Clear Data</div>
+        <form class="ui form">
+          <div class="fields">
+            <div class="two wide field">
+              <label>Swap Teams</label>
+              <div class="ui fluid button" id="team-data-swap">Swap</div>
+            </div>
+            <div class="three wide field">
+              <label>Display Popups</label>
+              <div class="ui fluid green button" id="player-popup-show">Display Popups</div>
+            </div>
+            <div class="six wide field">
+              <label>Popup Display Mode</label>
+              <div class="ui fluid selection dropdown" id="popup-display-mode">
+                <i class="dropdown icon"></i>
+                <div class="default text">Default: All</div>
+                <div class="menu">
+                  <div class="item" data-value="all">All</div>
+                  <div class="item" data-value="blue-then-red">All: Blue then Red</div>
+                  <div class="item" data-value="blue-only">Blue Only</div>
+                  <div class="item" data-value="red-only">Red Only</div>
+                  <div class="item" data-value="one-a-time-both">One At A Time: All</div>
+                  <div class="item" data-value="one-a-time-blue">One At A Time: Blue</div>
+                  <div class="item" data-value="one-a-time-red">One At A Time: Red</div>
+                </div>
+              </div>
+            </div>
+            <div class="three wide field">
+              <label>Clear Players</label>
+              <div class="ui fluid red button" id="team-names-clear">Clear Players</div>
+            </div>
+            <div class="three wide field">
+              <label>Clear All</label>
+              <div class="ui fluid red button" id="team-data-clear">Clear All</div>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="three wide field">
+              <label>Popup Total Time (s)</label>
+              <input type="text" id="popup-anim-time">
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="ui two column grid">
-        <div class="ui column">
-          <h2 class="ui blue dividing header">Blue Team</h2>
-          <form class="ui form">
-            <div class="fields">
-              <div class="twelve wide field">
-                <label>Name</label>
-                <input type="text" name="blue-name" id="team-blue-name">
-              </div>
-              <div class="four wide field">
-                <label>Score</label>
-                <input type="text" name="blue-score" id="team-blue-score">
-              </div>
-            </div>
-            <div class="field">
-              <label>Team Logo</label>
-              <div class="ui action input find-logo" id="team-blue-logo">
-                <input type="text" placeholder="Team Logo">
-                <div class="ui buttons">
-                  <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
-                  <div class="ui left attached button browse">Browse</div>
+      <div class="ui segment">
+        <div class="ui two column grid">
+          <div class="ui column">
+            <h2 class="ui blue dividing header">Blue Team</h2>
+            <form class="ui form">
+              <div class="fields">
+                <div class="twelve wide field">
+                  <label>Name</label>
+                  <input type="text" name="blue-name" id="team-blue-name">
+                </div>
+                <div class="four wide field">
+                  <label>Score</label>
+                  <input type="text" name="blue-score" id="team-blue-score">
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
-        <div class="ui column">
-          <h2 class="ui red dividing header">Red Team</h2>
-          <form class="ui form">
-            <div class="fields">
-              <div class="four wide field">
-                <label>Score</label>
-                <input type="text" name="red-score" id="team-red-score">
-              </div>
-              <div class="twelve wide field">
-                <label>Name</label>
-                <input type="text" name="red-name" id="team-red-name">
-              </div>
-            </div>
-            <div class="field">
-              <label>Team Logo</label>
-              <div class="ui action input find-logo" id="team-red-logo">
-                <input type="text" placeholder="Team Logo">
-                <div class="ui buttons">
-                  <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
-                  <div class="ui left attached button browse">Browse</div>
+              <div class="field">
+                <label>Team Logo</label>
+                <div class="ui action input find-logo" id="team-blue-logo">
+                  <input type="text" placeholder="Team Logo">
+                  <div class="ui buttons">
+                    <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                    <div class="ui left attached button browse">Browse</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 1</label>
+                  <input type="text" id="blue-p1-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 1 Hero</label>
+                  <div id="blue-p1-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 2</label>
+                  <input type="text" id="blue-p2-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 2 Hero</label>
+                  <div id="blue-p2-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 3</label>
+                  <input type="text" id="blue-p3-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 3 Hero</label>
+                  <div id="blue-p3-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 4</label>
+                  <input type="text" id="blue-p4-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 4 Hero</label>
+                  <div id="blue-p4-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 5</label>
+                  <input type="text" id="blue-p5-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 5 Hero</label>
+                  <div id="blue-p5-hero"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="ui column">
+            <h2 class="ui red dividing header">Red Team</h2>
+            <form class="ui form">
+              <div class="fields">
+                <div class="four wide field">
+                  <label>Score</label>
+                  <input type="text" name="red-score" id="team-red-score">
+                </div>
+                <div class="twelve wide field">
+                  <label>Name</label>
+                  <input type="text" name="red-name" id="team-red-name">
+                </div>
+              </div>
+              <div class="field">
+                <label>Team Logo</label>
+                <div class="ui action input find-logo" id="team-red-logo">
+                  <input type="text" placeholder="Team Logo">
+                  <div class="ui buttons">
+                    <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                    <div class="ui left attached button browse">Browse</div>
+                  </div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 1</label>
+                  <input type="text" id="red-p1-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 1 Hero</label>
+                  <div id="red-p1-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 2</label>
+                  <input type="text" id="red-p2-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 2 Hero</label>
+                  <div id="red-p2-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 3</label>
+                  <input type="text" id="red-p3-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 3 Hero</label>
+                  <div id="red-p3-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 4</label>
+                  <input type="text" id="red-p4-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 4 Hero</label>
+                  <div id="red-p4-hero"></div>
+                </div>
+              </div>
+              <div class="fields">
+                <div class="ten wide field">
+                  <label>Player 5</label>
+                  <input type="text" id="red-p5-name">
+                </div>
+                <div class="six wide field">
+                  <label>Player 5 Hero</label>
+                  <div id="red-p5-hero"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
       </div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="map" id="map-data">
