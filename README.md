@@ -53,9 +53,13 @@ like the `file:///` protocol so the tool uses relative paths that only resolve i
   * Intended use: caster frame with sidebox for facts/text
   * Required Resolution: 1920 x 1080
 * `stat-lower-third.html`
-  * Base style is for demo only; you'll want to theme it for actual use.
+  * Base style is for demo only; you'll want to theme this for actual use.
   * Displays stats in a lower third. Must have a connected Stat Source to use.
   * Required Resolution: 1920 x 1080
+* `player-popups.html`
+  * Base style is for demo only; you'll want to theme this for actual use.
+  * Displays a popup containing player name, hero, and hero portrait.
+  * Display mode controlled by options in-app
 
 ## Theming
 
