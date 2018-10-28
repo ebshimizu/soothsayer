@@ -179,10 +179,11 @@ class PlayerPopups {
   }
 }
 
+var popups;
 
 $(document).ready(() => {
   // just kinda runs on page load huh
-  const popups = new PlayerPopups();
+  popups = new PlayerPopups();
 
   socket.on('requestID', () => { 
     socket.emit('reportID', popups.ID());
