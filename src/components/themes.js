@@ -24,9 +24,9 @@ function writeStaticThemes(obsDir) {
 function scanThemes() {
   // list things in themes dir. Looking for a 'themes.json' and will check to see if it works.
   // annoyingly configs are different for package and dev
-  let themeFolder = path.join(__dirname, 'obs_src/themes');
+  let themeFolder = path.join(__dirname, '../obs_src/themes');
 
-  if (!fs.existsSync('src/obs_src/themes')) {
+  if (!fs.existsSync(themeFolder)) {
     themeFolder = `${process.resourcesPath}/app/${themeFolder}`;
   }
 
