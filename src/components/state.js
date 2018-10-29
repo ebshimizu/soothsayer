@@ -4,9 +4,11 @@ const settings = require('electron-settings');
 const fs = require('fs-extra');
 const path = require('path');
 const DataSource = require('./data-source');
+const Keybinds = require('./keybinds');
 
 class State {
   constructor() {
+    Keybinds.createKeybindInputs();
     this.loadState();
 
     // always clear overlays
@@ -17,6 +19,8 @@ class State {
     if (!fs.existsSync(this.rootOBS)) {
       this.rootOBS = path.join(process.resourcesPath, 'app', 'src', 'obs_src');
     }
+
+    Keybinds.setKeybinds(this);
   }
 
   loadState() {
@@ -28,6 +32,7 @@ class State {
     this.theme = settings.get('theme');
     this.casters = settings.get('casters');
     this.dataSource = settings.get('dataSource');
+    this.keybinds = settings.get('keybinds');
 
     if (!this.blueTeam) {
       this.blueTeam = { };
@@ -51,11 +56,15 @@ class State {
     if (!this.miscData) {
       this.miscData = {};
     }
+    if (!this.keybinds) {
+      this.keybinds = Keybinds.default();
+    }
 
     this.displayTeamData();
     this.displayMatchData();
     this.displayCasterData();
     this.displayDataSource();
+    Keybinds.displayKeybinds(this);
     $('#set-theme').dropdown('set value', this.theme.name);
   }
 
@@ -170,6 +179,21 @@ class State {
     settings.set('casters', this.casters);
     settings.set('dataSource', this.dataSource);
     settings.set('miscData', this.miscData);
+  }
+
+  updateKeybinds() {
+    Keybinds.updateKeybinds(this);
+    this.saveKeybinds();
+  }
+
+  restoreDefaultKeybinds() {
+    this.keybinds = Keybinds.default();
+    Keybinds.displayKeybinds(this);
+    this.saveKeybinds();
+  }
+
+  saveKeybinds() {
+    settings.set('keybinds', this.keybinds);
   }
 
   updateTeamData() {

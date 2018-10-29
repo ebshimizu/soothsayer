@@ -58,6 +58,15 @@ $(document).ready(() => {
 
   // couple global ui handles
   $('#section-menu .item').tab();
-  $('#update-button').click(() => appState.updateAndBroadcast.call(appState));
+  $('#update-button').click(() => {
+    $('#update-button').transition('pulse');
+    appState.updateAndBroadcast.call(appState)
+  });
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
+  $('#update-keybinds-button').click(() => {
+    appState.updateKeybinds.call(appState);
+  });
+  $('#restore-default-keybinds-button').click(() => {
+    appState.restoreDefaultKeybinds.call(appState);
+  });
 });

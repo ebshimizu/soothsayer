@@ -12,3 +12,7 @@
 #match-data-clear {
   float: right;
 }
+
+#keybind-inputs p {
+  text-align: right;
+}
