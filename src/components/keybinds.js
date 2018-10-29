@@ -42,7 +42,7 @@ const KeybindInfo = {
 function defaultKeybinds() {
   const ret = {};
   for (let k in KeybindInfo) {
-    ret[k] = KeybindInfo[k].default
+    ret[k] = KeybindInfo[k].default;
   }
 
   return ret;
@@ -54,7 +54,7 @@ function createKeybindInputs() {
   let elem = '';
   for (let k in KeybindInfo) {
     elem += `
-      <div class="eight wide column">
+      <div class="seven wide column">
         <p>${KeybindInfo[k].name}</p>
       </div>
       <div class="eight wide column">
@@ -62,10 +62,19 @@ function createKeybindInputs() {
           <input type="text" id="${KeybindInfo[k].id}">
         </div>
       </div>
+      <div class="one wide column">
+        <div class="ui icon button" key-id="${k}">
+          <i class="undo icon"></i>
+        </div>
+      </div>
     `
   };
 
   $('#keybind-inputs').append(elem);
+  $('#keybind-inputs .icon.button').click(function () {
+    let k = $(this).attr('key-id');
+    $(`#${KeybindInfo[k].id}`).val(KeybindInfo[k].default);
+  });
 }
 
 function displayKeybinds(state) {
@@ -86,26 +95,37 @@ function updateKeybinds(state) {
   setKeybinds(state);
 }
 
+function tryBind(accel, id, func) {
+  try {
+    globalShortcut.register(accel, func);
+  }
+  catch (err) {
+    console.log(err);
+    $(`#${id}`).parent('.input').addClass('error');
+  }
+}
+
 // iterate through everything and update the keybinds
 function setKeybinds(state) {
   globalShortcut.unregisterAll();
+  $('#keybind-inputs .input').removeClass('error');
 
-  globalShortcut.register(state.keybinds.update, () => {
+  tryBind(state.keybinds.update, KeybindInfo.update.id, () => {
     $('#update-button').click();
   });
-  globalShortcut.register(state.keybinds.displayPopup, () => {
+  tryBind(state.keybinds.displayPopup, KeybindInfo.displayPopup.id, () => {
     $('#player-popup-show').click();
   });
-  globalShortcut.register(state.keybinds.incBlueScore, () => {
+  tryBind(state.keybinds.incBlueScore, KeybindInfo.incBlueScore.id, () => {
     $('#team-blue-score').val(parseInt($('#team-blue-score').val()) + 1);
   });
-  globalShortcut.register(state.keybinds.decBlueScore, () => {
+  tryBind(state.keybinds.decBlueScore, KeybindInfo.decBlueScore.id, () => {
     $('#team-blue-score').val(parseInt($('#team-blue-score').val()) - 1);
   });
-  globalShortcut.register(state.keybinds.incRedScore, () => {
+  tryBind(state.keybinds.incRedScore, KeybindInfo.incRedScore.id, () => {
     $('#team-red-score').val(parseInt($('#team-red-score').val()) + 1);
   });
-  globalShortcut.register(state.keybinds.decRedScore, () => {
+  tryBind(state.keybinds.decRedScore, KeybindInfo.decRedScore, () => {
     $('#team-red-score').val(parseInt($('#team-red-score').val()) - 1);
   });
 
