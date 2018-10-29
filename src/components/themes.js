@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const themeWriter = require('./theme-writer');
+const path = require('path');
 
 let loadedThemes = {};
 
@@ -23,7 +24,7 @@ function writeStaticThemes(obsDir) {
 function scanThemes() {
   // list things in themes dir. Looking for a 'themes.json' and will check to see if it works.
   // annoyingly configs are different for package and dev
-  let themeFolder = 'src/obs_src/themes';
+  let themeFolder = path.join(__dirname, 'obs_src/themes');
 
   if (!fs.existsSync('src/obs_src/themes')) {
     themeFolder = `${process.resourcesPath}/app/${themeFolder}`;
