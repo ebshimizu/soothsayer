@@ -100,6 +100,7 @@ function loadLT(socketID, callback) {
 
 function runLT(socketID) {
   appState.sendTo(socketID, 'run', null);
+  showMessage(`Lower Third: Running ${socketID}`);
 }
 
 function loadAndRunLT(socketID) {

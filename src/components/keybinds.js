@@ -100,7 +100,7 @@ function tryBind(accel, id, func) {
     globalShortcut.register(accel, func);
   }
   catch (err) {
-    console.log(err);
+    showMessage(`Error setting keybind ${accel} for ID ${id}`, 'error');
     $(`#${id}`).parent('.input').addClass('error');
   }
 }
@@ -129,8 +129,8 @@ function setKeybinds(state) {
     $('#team-red-score').val(parseInt($('#team-red-score').val()) - 1);
   });
 
-  console.log('Keybinds updated');
-  console.log(state.keybinds);
+  showMessage('Keybinds saved', 'positive');
+  //console.log(state.keybinds);
 }
 
 exports.displayKeybinds = displayKeybinds;

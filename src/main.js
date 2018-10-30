@@ -26,6 +26,21 @@ window.heroesTalents = new HeroesTalents(
   path.join(__dirname, '/stats-of-the-storm/assets/data')
 );
 
+// shows and logs a transient message
+function showMessage(msg, classname) {
+  let elem = $(`<div class="ui transitinon hidden message ${classname}"><div class="content">${msg}</div></div>`);
+  console.log(msg);
+  $('#message-container').append(elem);
+  elem.transition('fade left in');
+  setTimeout(() => {
+    elem.transition('fade left out', 500, function() {
+      elem.remove();
+    });
+  }, 5000);
+}
+
+window.showMessage = showMessage;
+
 $(document).ready(() => {
   $('.app-version').text(appVersion);
 
@@ -60,7 +75,8 @@ $(document).ready(() => {
   $('#section-menu .item').tab();
   $('#update-button').click(() => {
     $('#update-button').transition('pulse');
-    appState.updateAndBroadcast.call(appState)
+    appState.updateAndBroadcast.call(appState);
+    showMessage('Update Performed', 'positive');
   });
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
   $('#update-keybinds-button').click(() => {

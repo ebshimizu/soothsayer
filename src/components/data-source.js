@@ -30,7 +30,7 @@ function initWithState(state) {
 }
 
 function changeDataSource(val) {
-  console.log(`Changing data source to ${val}`);
+  console.log(`Changing data source to ${val}`, 'info');
   $('.data-source-options').hide();
   $(`.data-source-options[data-source="${val}"]`).show();
 

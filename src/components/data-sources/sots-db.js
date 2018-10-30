@@ -22,7 +22,7 @@ function tryLoadDB() {
   let path = $('#sots-db-location').val();
 
   if (!fs.existsSync(path)) {
-    console.log(`${path} does not exist, skipping load`);
+    showMessage(`Stats of the Storm Data Source: ${path} does not exist, skipping load.`, 'warning');
     return;
   }
 
@@ -46,7 +46,7 @@ function tryLoadDB() {
     getCollections();
   }
   catch (err) {
-    console.log(err);
+    showMessage(`Stats of the Storm Data Source: ${err}`, 'error');
     $('#sots-db-load').removeClass('green loading disabled').text('Load Failed');
   }
 }
@@ -85,8 +85,8 @@ function getCollections() {
   });
 }
 
-function setCollection(val) {
-  console.log(`set collection to ${val}`);
+function setCollection(val, text) {
+  showMessage(`Stats of the Storm Data Source: set collection to ${text}`, 'positive');
 
   if (activeDB) {
     if (val === "null") {
