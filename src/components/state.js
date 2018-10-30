@@ -140,7 +140,7 @@ class State {
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team.txt'), this.redTeam.name, { flag: 'w+' });
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team_score.txt'), this.blueTeam.score, { flag: 'w+' });
       fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team_score.txt'), this.redTeam.score, { flag: 'w+' });
-      fs.writeFileSync(path.join(this.rootOBS, 'text', 'tournament_name.txt'), this.tournament, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'tournament_name.txt'), this.casters.tournament, { flag: 'w+' });
 
       if (this.casters.one) {
         fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_one_name.txt'), this.casters.one.name, { flag: 'w+' });

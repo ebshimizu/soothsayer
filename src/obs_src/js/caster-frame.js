@@ -23,6 +23,10 @@ class CasterFrame {
       $('#caster-2-name').text(state.casters.two.name);
       $('#caster-2-social').text(state.casters.two.social);
     }
+
+    if (state.casters.tournament) {
+      $('#tournament-name').text(state.casters.tournament);
+    }
   }
 }
 
