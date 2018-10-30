@@ -12,9 +12,91 @@ function initThemes() {
 }
 
 function initWithState(state) {
-  $('#set-theme').click(() => state.broadcastThemeChange());
+  $('#set-theme').click(() => {
+    state.broadcastThemeChange();
+    renderThemeCredits(state.theme);
+    showMessage('Theme Changed', 'positive');
+  });
   $('#theme-menu').dropdown('set exactly', state.theme.name);
   $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
+}
+
+function getTheme(id) {
+  return loadedThemes[id];
+}
+
+function renderThemeCredits(themeInfo) {
+  const ti = $('#theme-info');
+  ti.html('');
+
+  if (!themeInfo.name) {
+    return;
+  }
+
+  ti.append(`
+    <div class="ui message">
+      <div class="header">
+        ${themeInfo.name} by ${themeInfo.author}
+      </div>
+      <h3 class="ui sub header">v${themeInfo.version}</h3>
+      <div class="content">
+        <p>${themeInfo.description ? themeInfo.description : 'No Description Provided'}</p>
+        <div class="ui labels">
+          <a class="ui hidden twitter blue label"><i class="twitter icon"></i><span class="name"></span></a>
+          <a class="ui hidden twitch violet label"><i class="twitch icon"></i><span class="name"></span></a>
+          <div class="ui hidden discord purple label"><i class="discord icon"></i><span class="name"></span></div>
+          <a class="ui hidden telegram blue label"><i class="telegram icon"></i><span class="name"></span></a>
+          <a class="ui hidden github basic violet label"><i class="github icon"></i><span class="name"></span></a>
+          <a class="ui hidden kofi label"><span class="name"></span><div class="detail">Ko-Fi</div></a>
+        </div>
+      </div>
+    </div>
+  `);
+
+  // if the following fields are present
+  if (themeInfo.links) {
+    for (let link in themeInfo.links) {
+      showSocialLink(ti, link, themeInfo.links[link]);
+    }
+  }
+}
+
+function formatName(classname, text) {
+  if (classname === 'twitter' || classname === 'telegram') {
+    return `@${text}`;
+  }
+
+  return text;
+}
+
+function socialLink(classname, text) {
+  if (classname === 'twitter') {
+    return `http://twitter.com/${text}`;
+  }
+  if (classname === 'kofi') {
+    return `http://ko-fi.com/${text}`;
+  }
+  if (classname === 'twitch') {
+    return `http://twitch.tv/${text}`;
+  }
+  if (classname === 'github') {
+    return `http://github.com/${text}`;
+  }
+  if (classname === 'telegram') {
+    return `http://t.me/${text}`;
+  }
+
+  return null;
+}
+
+function showSocialLink(elem, classname, text) {
+  $(elem).find(`.${classname} .name`).text(formatName(classname, text));
+  $(elem).find(`.${classname}`).removeClass('hidden');
+
+  let href = socialLink(classname, text);
+  if (href) {
+    $(elem).find(`.${classname}`).attr('href', href);
+  }
 }
 
 function writeStaticThemes(obsDir) {
@@ -58,10 +140,7 @@ function scanThemes() {
     $('#theme-menu').dropdown('set exactly', appState.theme.name);
 }
 
-function getTheme(id) {
-  return loadedThemes[id];
-}
-
 exports.Init = initThemes;
 exports.InitWithState = initWithState;
 exports.getTheme = getTheme;
+exports.renderThemeCredits = renderThemeCredits;

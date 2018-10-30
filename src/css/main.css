@@ -27,3 +27,7 @@
   overflow-x: hidden;
   padding: 10px;
 }
+
+.is-hidden {
+  display: none;
+}

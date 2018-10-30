@@ -75,7 +75,17 @@ following fields:
   "name": [string],
   "version": [string],
   "author": [string],
-  "folderName" : [string]
+  "folderName" : [string],
+  "description" : [string],
+  "links" : {
+    // object with optional fields, none are urls
+    "twitter" : [string, handle without @],
+    "twitch" : [string, username],
+    "discord" : [string],
+    "telegram" : [string, handle without @],
+    "github" : [string, username],
+    "kofi" : [string, username]
+  }
 }
 ```
 

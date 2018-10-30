@@ -66,6 +66,7 @@ class State {
     this.displayDataSource();
     Keybinds.displayKeybinds(this);
     $('#set-theme').dropdown('set value', this.theme.name);
+    Themes.renderThemeCredits(this.theme);
   }
 
   // expected format:
