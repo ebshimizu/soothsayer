@@ -17,11 +17,15 @@ class CasterFrame {
     if (state.casters.one) {
       $('#caster-1-name').text(state.casters.one.name);
       $('#caster-1-social').text(state.casters.one.social);
+      $('#caster-1-name').removeClass().addClass(state.casters.one.size);
+      $('#caster-1-social').removeClass().addClass(state.casters.one.size);
     }
 
     if (state.casters.two) {
       $('#caster-2-name').text(state.casters.two.name);
       $('#caster-2-social').text(state.casters.two.social);
+      $('#caster-2-name').removeClass().addClass(state.casters.two.size);
+      $('#caster-2-social').removeClass().addClass(state.casters.two.size);
     }
 
     if (state.casters.tournament) {

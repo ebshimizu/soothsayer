@@ -374,16 +374,26 @@ class State {
 
   updateCasterData() {
     this.casters = {};
-    this.casters.one = { name: $('#caster-1-name').val(), social: $('#caster-1-social').val() };
-    this.casters.two = { name: $('#caster-2-name').val(), social: $('#caster-2-social').val() };
+    this.casters.one = {
+      name: $('#caster-1-name').val(),
+      social: $('#caster-1-social').val(),
+      size: $('#caster-1-size').dropdown('get value'),
+    };
+    this.casters.two = {
+      name: $('#caster-2-name').val(),
+      social: $('#caster-2-social').val(),
+      size: $('#caster-2-size').dropdown('get value'),
+    };
     this.casters.tournament = $('#tournament-name').val();
   }
 
   displayCasterData() {
     $('#caster-1-name').val(this.casters.one ? this.casters.one.name : '');
     $('#caster-1-social').val(this.casters.one ? this.casters.one.social : '');
+    $('#caster-1-size').dropdown('set exactly', this.casters.one ? this.casters.one.size : '');
     $('#caster-2-name').val(this.casters.two ? this.casters.two.name : '');
     $('#caster-2-social').val(this.casters.two ? this.casters.two.social : '');
+    $('#caster-2-size').dropdown('set exactly', this.casters.two ? this.casters.two.size : '');
     $('#tournament-name').val(this.casters.tournament);
   }
 

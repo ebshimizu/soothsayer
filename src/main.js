@@ -50,6 +50,10 @@ $(document).ready(() => {
       shell.openExternal(this.href);
   });
 
+  // couple caster-specific things (didn't need their own file yet)
+  $('#caster-1-size').dropdown();
+  $('#caster-2-size').dropdown();
+
   TeamData.Init();
   MapData.Init();
   Themes.Init();
