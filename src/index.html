@@ -24,9 +24,22 @@
       <div class="ui segment">
         <h2 class="ui dividing header">General Data</h2>
         <form class="ui form">
-          <div class="field">
-            <label>Tournament Label</label>
-            <input type="text" name="tournament-name" id="tournament-name">
+          <div class="fields">
+            <div class="two wide field">
+              <label># Casters</label>
+              <div class="ui fluid selection dropdown" id="caster-count">
+                <i class="dropdown icon"></i>
+                <div class="text">2</div>
+                <div class="menu">
+                  <div class="item" data-value="1">1</div>
+                  <div class="item" data-value="2">2</div>
+                </div>
+              </div>
+            </div>
+            <div class="fourteen wide field">
+              <label>Tournament Label</label>
+              <input type="text" name="tournament-name" id="tournament-name">
+            </div>
           </div>
           <div class="fields caster-1">
             <div class="ten wide field">

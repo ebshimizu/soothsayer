@@ -7,6 +7,7 @@ const MapData = require('./components/map-data');
 const Themes = require('./components/themes');
 const DataSource = require('./components/data-source');
 const LowerThird = require('./components/stat-lower-third');
+const Casters = require('./components/caster-data');
 const Util = require('./components/util');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 
@@ -50,10 +51,7 @@ $(document).ready(() => {
       shell.openExternal(this.href);
   });
 
-  // couple caster-specific things (didn't need their own file yet)
-  $('#caster-1-size').dropdown();
-  $('#caster-2-size').dropdown();
-
+  Casters.Init();
   TeamData.Init();
   MapData.Init();
   Themes.Init();

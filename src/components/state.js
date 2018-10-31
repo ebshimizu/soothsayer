@@ -385,6 +385,7 @@ class State {
       size: $('#caster-2-size').dropdown('get value'),
     };
     this.casters.tournament = $('#tournament-name').val();
+    this.casters.count = $('#caster-count').dropdown('get value');
   }
 
   displayCasterData() {
@@ -394,6 +395,7 @@ class State {
     $('#caster-2-name').val(this.casters.two ? this.casters.two.name : '');
     $('#caster-2-social').val(this.casters.two ? this.casters.two.social : '');
     $('#caster-2-size').dropdown('set exactly', this.casters.two ? this.casters.two.size : '');
+    $('#caster-count').dropdown('set exactly', this.casters.count ? this.casters.count : 2);
     $('#tournament-name').val(this.casters.tournament);
   }
 
