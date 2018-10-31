@@ -141,16 +141,44 @@
         </div>
       </div>
       <div class="ui segment">
-        <h2 class="ui dividing header">Data Source</h2>
-        <div class="ui info message">
+        <h2 class="ui dividing header">Data Grabber</h2>
+        <div class="ui info message" id="data-grabber-info">
           <div class="content">
             <p>
-              Data Sources will help automatically populate some of your team and match data from
-              the given data source. You may need to configure your data source once selected.
+              Data Grabbers will help automatically populate some of your team and match data from
+              the given source. You may need to configure your source once selected.
             </p>
           </div>
         </div>
-        <!-- basically depending on the selected data source, the below sections will get updated -->
+        <form class="ui form">
+          <div class="field">
+            <div class="ui fluid selection dropdown" id="data-grabber-menu">
+              <i class="dropdown icon"></i>
+              <div class="default text">None</div>
+              <div class="menu">
+                <div class="item" data-value="none">None</div>
+                <div class="item" data-value="heroes-lounge">Heroes Lounge</div>
+              </div>
+            </div>
+          </div>
+          <!-- basically depending on the selected data source, the below sections will get updated -->
+          <div class="data-grab-option" data-source="heroes-lounge">
+            <div class="fields">
+              <div class="ui four wide field">
+                <label>Match ID</label>
+                <input type="text" id="heroes-lounge-id">
+              </div>
+              <div class="two wide field">
+                <label>Get Data (Names)</label>
+                <div class="ui fluid green button" id="heroes-lounge-get">Names</div>
+              </div>
+              <div class="two wide field">
+                <label>Get Data (Slugs)</label>
+                <div class="ui fluid green button" id="heroes-lounge-get-slug">Slugs</div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="ui segment">
         <h2 class="ui dividing header">Stats Source</h2>

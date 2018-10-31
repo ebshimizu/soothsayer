@@ -408,11 +408,13 @@ class State {
   updateDataSource() {
     this.dataSource.sotsDBLoc = $('#sots-db-location').val();
     this.dataSource.sotsDBCollection = $('#sots-db-collection').dropdown('get value');
+    this.dataSource.dataGrabber = $('#data-grabber-menu').dropdown('get value');
   }
 
   displayDataSource() {
     $('#sots-db-location').val(this.dataSource.sotsDBLoc);
     $('#sots-db-collection').dropdown('set exactly', this.dataSource.sotsDBCollection);
+    $('#data-grabber-menu').dropdown('set exactly', this.dataSource.dataGrabber);
   }
 }
 

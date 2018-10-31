@@ -6,6 +6,7 @@ const TeamData = require('./components/team-data');
 const MapData = require('./components/map-data');
 const Themes = require('./components/themes');
 const DataSource = require('./components/data-source');
+const DataGrabber = require('./components/data-fetch');
 const LowerThird = require('./components/stat-lower-third');
 const Casters = require('./components/caster-data');
 const Util = require('./components/util');
@@ -44,6 +45,9 @@ window.showMessage = showMessage;
 
 $(document).ready(() => {
   $('.app-version').text(appVersion);
+  $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+    showMessage(`Error: ${thrownError}`);
+  });
 
   // auto open external links
   $(document).on('click', 'a[href^="http"]', function(event) {
@@ -68,6 +72,7 @@ $(document).ready(() => {
   DataSource.InitWithState(appState);
   LowerThird.InitWithState(appState);
   LowerThird.setDataSource(DataSource);
+  DataGrabber.InitWithState(appState);
 
   http.listen(3005, function () {
     console.log('listening on *:3005');
