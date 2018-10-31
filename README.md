@@ -45,6 +45,9 @@ like the `file:///` protocol so the tool uses relative paths that only resolve i
 * `map-select-list.html`
   * The map pick list from `map-select.html` by itself.
   * Required Resolution: none
+* `caster-frame.html`
+  * Caster frame. Changes layout based on number of casters set in the app.
+  * Required Resolution: 1920 x 1080
 * `caster-single-frame.html`
   * Caster frame (for webcams). Default file is not recommended for use, as it is partially styled
   * Required Resolution: 1920 x 1080
@@ -55,6 +58,9 @@ like the `file:///` protocol so the tool uses relative paths that only resolve i
 * `caster-duo-frame.html`
   * No Default Style
   * Intended use: two casters
+  * Required Resolution: 1920 x 1080
+* `post-game.html`
+  * No Default Style
   * Required Resolution: 1920 x 1080
 * `stat-lower-third.html`
   * Base style is for demo only; you'll want to theme this for actual use.
