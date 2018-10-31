@@ -385,7 +385,7 @@ class State {
       size: $('#caster-2-size').dropdown('get value'),
     };
     this.casters.tournament = $('#tournament-name').val();
-    this.casters.count = $('#caster-count').dropdown('get value');
+    this.casters.count = parseInt($('#caster-count').dropdown('get value'));
   }
 
   displayCasterData() {

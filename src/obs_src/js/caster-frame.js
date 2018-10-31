@@ -31,6 +31,12 @@ class CasterFrame {
     if (state.casters.tournament) {
       $('#tournament-name').text(state.casters.tournament);
     }
+
+    // dynamic frame
+    if ($('body.dynamic').length > 0) {
+      const id = state.casters.count === 1 ? 'single-caster-frame' : 'duo-caster-frame';
+      $('body.dynamic').attr('id', id);
+    }
   }
 }
 
