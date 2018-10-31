@@ -122,6 +122,9 @@ class MapSelect {
     if (game.pick === 'red' || game.pick === 'blue') {
       setCSSImage(elem.find('.picked-by .banner-team-logo'), game.pick === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
     }
+    else {
+      elem.find('.picked-by').hide();
+    }
 
     if (game.win === 'red' || game.win === 'blue') {
       elem.find('.winner').show();
