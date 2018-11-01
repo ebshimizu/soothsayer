@@ -50,6 +50,41 @@ function onLowerThirdDisconnect(socketID) {
   $(`.lower-third-controls[socket-id="${socketID}"]`).remove();
 }
 
+function reloadPlayerLTMenu() {
+  populatePlayerLTMenu($('.lower-third-controls .lt-player-name'));
+}
+
+function populatePlayerLTMenu(elem) {
+  // get players from state
+  const values = [];
+
+  if (appState.blueTeam.players) {
+    for (const p of appState.blueTeam.players) {
+      if (p.name && p.name !== '') {
+        values.push({
+          value: p.name,
+          text: p.name,
+          name: p.name,
+        });
+      }
+    }
+  }
+
+  if (appState.redTeam.players) {
+    for (const p of appState.redTeam.players) {
+      if (p.name && p.name !== '') {
+        values.push({
+          value: p.name,
+          text: p.name,
+          name: p.name,
+        });
+      }
+    }
+  }
+
+  elem.dropdown('change values', values);
+}
+
 // this function stages all the changes that will happen once run is clicked.
 // basically it's set up so that you first stage changes, then hit a button to display
 // this lets you transition between lower thirds (but crossfade is not an option)
@@ -63,7 +98,7 @@ function loadLT(socketID, callback) {
     type: elem.find('.lt-mode').dropdown('get value'),
     duration: elem.find('.lt-dur').val(),
     hero: elem.find('.lt-hero-menu').dropdown('get value'),
-    player: elem.find('.lt-player-name').val(),
+    player: elem.find('.lt-player-name').dropdown('get value'),
     animMode: elem.find('.lt-anim').dropdown('get value'),
     wildcard: {
       name: elem.find('.lt-wildcard-stat').dropdown('get value'),
@@ -162,7 +197,13 @@ function constructLTUI(socket) {
           </div>
           <div class="four wide field">
             <label>Player (BTag optional)</label>
-            <input type="text" name="lt-player-name" class="lt-player-name">
+            <div class="ui fluid search selection dropdown lt-player-name">
+              <input type="hidden" name="lt-player-name">
+              <i class="dropdown icon"></i>
+              <div class="default text">Player Name</div>
+              <div class="menu">
+              </div>
+            </div>
           </div>
           <div class="four wide field">
             <label>Wildcard Stat</label>
@@ -199,6 +240,10 @@ function constructLTUI(socket) {
   e.find('.lt-wildcard-stat').dropdown('set exactly', 'timeDeadPct');
   e.find('.lt-wildcard-type').dropdown();
   e.find('.lt-wildcard-type').dropdown('set exactly', 'averages');
+  e.find('.lt-player-name').dropdown({
+    allowAdditions: true,
+  });
+  populatePlayerLTMenu(e.find('.lt-player-name'));
 
   e.find('.lt-load').click(() => loadLT(socket.id));
   e.find('.lt-loadrun').click(() => loadAndRunLT(socket.id));
@@ -211,3 +256,4 @@ exports.InitWithState = initWithState;
 exports.onLowerThirdConnect = onLowerThirdConnect;
 exports.onLowerThirdDisconnect = onLowerThirdDisconnect;
 exports.setDataSource = setDataSource;
+exports.reloadPlayerLTMenu = reloadPlayerLTMenu;

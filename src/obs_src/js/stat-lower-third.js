@@ -49,7 +49,7 @@ class StatLowerThird {
   }
 
   renderPct(val) {
-    if (val) {
+    if (val !== null) {
       return `${(val * 100).toFixed(1)}%`;
     }
     else {
@@ -58,7 +58,7 @@ class StatLowerThird {
   }
 
   renderFixed(val, fix) {
-    if (val) {
+    if (val !== null) {
       return val.toFixed(fix);
     }
     else {

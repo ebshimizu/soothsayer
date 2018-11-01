@@ -83,6 +83,7 @@ $(document).ready(() => {
   $('#update-button').click(() => {
     $('#update-button').transition('pulse');
     appState.updateAndBroadcast.call(appState);
+    LowerThird.reloadPlayerLTMenu();
     showMessage('Update Performed', 'positive');
   });
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
