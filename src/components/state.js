@@ -326,7 +326,7 @@ class State {
     return {
       map: elem.find('.map-menu').dropdown('get value'),
       pick: elem.find('.team-pick-menu').dropdown('get value'),
-      win: elem.find('.team-winner-menu').dropdown('get value')
+      win: elem.find('.team-winner-menu').dropdown('get value'),
     };
   }
 
@@ -345,10 +345,10 @@ class State {
     this.displayGameData(this.match.bestOf);
 
     if (this.match.syncd === true) {
-      $('#match-score-data-sync').checkbox('set checked');
+      $('#match-score-data-sync').checkbox('check');
     }
     else {
-      $('#match-score-data-sync').checkbox('set unchecked');
+      $('#match-score-data-sync').checkbox('uncheck');
     }
   }
 

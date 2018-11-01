@@ -144,7 +144,6 @@ function initWithState(appState) {
       appState.displayGameData.call(appState, parseInt(value));
     },
   });
-  syncMatchScore = appState.match.syncd === true;
 
   $('#match-data-clear').click(() => appState.resetMatchData());
 }
