@@ -386,6 +386,10 @@ class State {
     };
     this.casters.tournament = $('#tournament-name').val();
     this.casters.count = parseInt($('#caster-count').dropdown('get value'));
+    this.casters.sidebar = {
+      title: $('#sidebar-title').val(),
+      text: $('#sidebar-text').val(),
+    };
   }
 
   displayCasterData() {
@@ -397,6 +401,8 @@ class State {
     $('#caster-2-size').dropdown('set exactly', this.casters.two ? this.casters.two.size : '');
     $('#caster-count').dropdown('set exactly', this.casters.count ? this.casters.count : 2);
     $('#tournament-name').val(this.casters.tournament);
+    $('#sidebar-title').val(this.casters.sidebar ? this.casters.sidebar.title : '');
+    $('#sidebar-text').val(this.casters.sidebar ? this.casters.sidebar.text : '');
   }
 
   setDataSource(src) {

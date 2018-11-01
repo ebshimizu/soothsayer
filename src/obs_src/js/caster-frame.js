@@ -37,6 +37,19 @@ class CasterFrame {
       const id = state.casters.count === 1 ? 'single-caster-frame' : 'duo-caster-frame';
       $('body.dynamic').attr('id', id);
     }
+
+    // sidebar elems (not present in all, so pretty low overhead)
+    // create elems
+    $('#sidebar-title').text(state.casters.sidebar.title);
+    $('.sidebar-list').html('');
+    const lines = state.casters.sidebar.text.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      $('.sidebar-list').append(`
+        <div class="list-item">
+          <div class="list-text">${lines[i]}</div>
+        </div>
+      `);
+    }
   }
 }
 
