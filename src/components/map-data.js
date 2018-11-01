@@ -1,23 +1,32 @@
 const Maps = require('../data/maps');
 
-function initMapData() {
-  populateMapDropdowns();
-  populateMapPoolPresetDropdown('#map-pool-presets');
+let syncMatchScore = false;
+
+
+// looks at the current visible match elements and computes a score
+function syncScoreFromMatchData() {
+  const elems = $('.game-data');
+  let blueScore = 0;
+  let redScore = 0;
+
+  for (let i = 0; i < elems.length; i++) {
+    const win = $(elems[i]).find('.team-winner-menu').dropdown('get value');  
+    if (win === 'red') {
+      redScore += 1;
+    }
+    else if (win === 'blue') {
+      blueScore += 1;
+    }
+  }
+
+  $('#team-blue-score').val(blueScore);
+  $('#team-red-score').val(redScore);
 }
 
-function initWithState(appState) {
-  $('#best-of').dropdown({
-    onChange: (value) => {
-      appState.displayGameData.call(appState, parseInt(value));
-    },
-  });
-
-  $('#match-data-clear').click(() => appState.resetMatchData());
-}
-
-function populateMapDropdowns() {
-  populateMapDropdown('.map-menu', true);
-  populateMapDropdown('.multi-map-menu', false);
+function trySyncMatchScore() {
+  if (syncMatchScore === true) {
+    syncScoreFromMatchData();
+  }
 }
 
 function populateMapDropdown(elem, useNone) {
@@ -116,7 +125,38 @@ function addGameData(gameNumber) {
   populateMapDropdown(`.game-data[game-number="${gameNumber}"] .map-menu`, true);
 }
 
+function initMapData() {
+  populateMapDropdowns();
+  populateMapPoolPresetDropdown('#map-pool-presets');
+
+  $('#match-score-data-sync').checkbox({
+    onChecked: () => {
+      syncMatchScore = true;
+      trySyncMatchScore();
+    },
+    onUnchecked: () => { syncMatchScore = false; },
+  });
+}
+
+function initWithState(appState) {
+  $('#best-of').dropdown({
+    onChange: (value) => {
+      appState.displayGameData.call(appState, parseInt(value));
+    },
+  });
+  syncMatchScore = appState.match.syncd === true;
+
+  $('#match-data-clear').click(() => appState.resetMatchData());
+}
+
+function populateMapDropdowns() {
+  populateMapDropdown('.map-menu', true);
+  populateMapDropdown('.multi-map-menu', false);
+}
+
+
 exports.Init = initMapData;
 exports.InitWithState = initWithState;
 exports.addGameData = addGameData;
 exports.deleteGameData = deleteGameData;
+exports.trySyncMatchScore = trySyncMatchScore;

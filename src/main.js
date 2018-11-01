@@ -84,6 +84,7 @@ $(document).ready(() => {
     $('#update-button').transition('pulse');
     appState.updateAndBroadcast.call(appState);
     LowerThird.reloadPlayerLTMenu();
+    MapData.trySyncMatchScore();
     showMessage('Update Performed', 'positive');
   });
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());

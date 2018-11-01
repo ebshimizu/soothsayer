@@ -311,6 +311,7 @@ class State {
     // bans
     this.match.blueMapBan = $('#blue-map-ban').dropdown('get value');
     this.match.redMapBan = $('#red-map-ban').dropdown('get value');
+    this.match.syncd = $('#match-score-data-sync').checkbox('is checked');
 
     // games, this'll be fun
     this.match.games = [];
@@ -342,6 +343,13 @@ class State {
 
     // individual match data
     this.displayGameData(this.match.bestOf);
+
+    if (this.match.syncd === true) {
+      $('#match-score-data-sync').checkbox('set checked');
+    }
+    else {
+      $('#match-score-data-sync').checkbox('set unchecked');
+    }
   }
 
   displayGameData(numGames) {
