@@ -1,6 +1,6 @@
 body#single-caster-frame {
-  width: 100vmin;
-  height: 100vmin;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   background-size: contain;

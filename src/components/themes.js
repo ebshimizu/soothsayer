@@ -38,7 +38,7 @@ function renderThemeCredits(themeInfo) {
       <div class="header">
         ${themeInfo.name} by ${themeInfo.author}
       </div>
-      <h3 class="ui sub header">v${themeInfo.version}</h3>
+      <h3 class="ui sub header">${themeInfo.version}</h3>
       <div class="content">
         <p>${themeInfo.description ? themeInfo.description : 'No Description Provided'}</p>
         <div class="ui labels">
