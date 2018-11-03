@@ -19,6 +19,7 @@ function initWithState(state) {
   });
   $('#theme-menu').dropdown('set exactly', state.theme.name);
   $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
+  $('#set-theme').click();
 }
 
 function getTheme(id) {
