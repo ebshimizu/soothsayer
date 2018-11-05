@@ -50,6 +50,9 @@ class CasterFrame {
         </div>
       `);
     }
+
+    // variant options
+    $('body').attr('frame-variant', state.casters.frame);
   }
 }
 

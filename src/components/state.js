@@ -398,6 +398,7 @@ class State {
       title: $('#sidebar-title').val(),
       text: $('#sidebar-text').val(),
     };
+    this.casters.frame = parseInt($('#frame-variant').dropdown('get value'));
   }
 
   displayCasterData() {
@@ -411,6 +412,7 @@ class State {
     $('#tournament-name').val(this.casters.tournament);
     $('#sidebar-title').val(this.casters.sidebar ? this.casters.sidebar.title : '');
     $('#sidebar-text').val(this.casters.sidebar ? this.casters.sidebar.text : '');
+    $('#frame-variant').dropdown('set exactly', this.casters.frame ? this.casters.frame : '');
   }
 
   setDataSource(src) {
