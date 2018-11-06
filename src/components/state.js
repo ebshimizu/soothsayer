@@ -306,7 +306,7 @@ class State {
     this.match.mapPool = $('#map-pool').dropdown('get value').split(',');
 
     // series
-    this.match.bestOf = parseInt($('#best-of').dropdown('get value'));
+    this.match.bestOf = $('#best-of').dropdown('get value');
 
     // bans
     this.match.blueMapBan = $('#blue-map-ban').dropdown('get value');
@@ -353,9 +353,15 @@ class State {
   }
 
   displayGameData(numGames) {
+    let count = numGames;
+
+    if (isNaN(numGames)) {
+      count = 0;
+    }
+
     if (this.match.games) {
       MapData.deleteGameData();
-      for (let i = 0; i < numGames; i++) {
+      for (let i = 0; i < count; i++) {
         this.createGameData(i + 1, this.match.games[i]);
       }
     }

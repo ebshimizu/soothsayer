@@ -18,7 +18,13 @@ class InGameHUD {
     $('#red-team-name').text(state.redTeam.name);
     $('#blue-team-score').text(state.blueTeam.score);
     $('#red-team-score').text(state.redTeam.score);
-    $('#best-of').text(`Bo${state.match.bestOf}`);
+
+    if (state.match.bestOf !== 'none') {
+      $('#best-of').text(`Bo${state.match.bestOf}`);
+    }
+    else {
+      $('#best-of').text('');
+    }
 
     $('.match-tile').removeClass(mapClassList);
 
