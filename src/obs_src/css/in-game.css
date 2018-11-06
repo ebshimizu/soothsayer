@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Brandon Grotesque Medium";
+  src: url('../fonts/BrandonGrotesque-Medium.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   width: 100vw;
