@@ -19,14 +19,26 @@ class InGameHUD {
     $('#blue-team-score').text(state.blueTeam.score);
     $('#red-team-score').text(state.redTeam.score);
 
-    if (state.match.bestOf !== 'none') {
-      $('#best-of').text(`Bo${state.match.bestOf}`);
+    if (state.match.textOverride && state.match.textOverride !== '') {
+      $('#best-of').hide();
+      $('.match-tile').hide();
+      $('#best-of-override').text(state.match.textOverride);
+      $('.best-of-text').show();
     }
     else {
-      $('#best-of').text('');
+      $('#best-of').show();
+      $('.match-tile').show();
+      $('.best-of-text').hide();
+
+      if (state.match.bestOf !== 'none') {
+        $('#best-of').text(`Bo${state.match.bestOf}`);
+      }
+      else {
+        $('#best-of').text('');
+      }
     }
 
-    $('.match-tile').removeClass(mapClassList);
+    $('.match-tile').removeClass().addClass('match-tile');
 
     for (let i = 0; i < state.match.games.length; i++) {
       if (state.match.games[i].map in Maps) {

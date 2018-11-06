@@ -307,6 +307,7 @@ class State {
 
     // series
     this.match.bestOf = $('#best-of').dropdown('get value');
+    this.match.textOverride = $('#best-of-override').val();
 
     // bans
     this.match.blueMapBan = $('#blue-map-ban').dropdown('get value');
@@ -336,6 +337,7 @@ class State {
 
     // series
     $('#best-of').dropdown('set exactly', this.match.bestOf);
+    $('#best-of-override').val(this.match.textOverride);
 
     // bans
     $('#blue-map-ban').dropdown('set exactly', this.match.blueMapBan);

@@ -75,6 +75,22 @@ body {
   right: 54.1vw;
 }
 
+.best-of-text.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 41.1vw;
+  top: 6.8vh;
+  width: 17.3vw;
+  height: 3.9vh;
+}
+
+#best-of-override {
+  font-size: 3.2vmin;
+  font-family: "Brandon Grotesque Medium", sans-serif;
+}
+
 .match-tile {
   position: absolute;
   background-color: rgba(0, 0, 0, 0);
