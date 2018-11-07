@@ -105,6 +105,7 @@ function loadLT(socketID, callback) {
       name: elem.find('.lt-wildcard-stat').dropdown('get value'),
       type: elem.find('.lt-wildcard-type').dropdown('get value'),
     },
+    useColon: appState.theme.ltUseColon === true,
   };
 
   if (loadData.hero in heroesTalents._heroes) {
