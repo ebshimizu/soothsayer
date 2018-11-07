@@ -5,6 +5,7 @@ class StatLowerThird {
   constructor() {
     this.name = 'Lower Third';
     this.visibleElem = '';
+    this.hideLt();
   }
 
   ID() {
@@ -45,8 +46,16 @@ class StatLowerThird {
     }
   }
 
+  showLt() {
+    $('.lt-wrapper').transition('fade up in');
+  }
+
+  hideLt() {
+    $('.lt-wrapper').transition('fade up out');
+  }
+
   hideAll() {
-    $('.lt-elem').transition('fade out');
+    $('.lt-elem').not('.hidden').transition('fade out');
   }
 
   renderPct(val) {
@@ -124,4 +133,6 @@ $(document).ready(() => {
   socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'stat-lower-third.css'); });
   socket.on('run', () => { lt.run.call(lt); });
   socket.on('end', () => { lt.hide.call(lt); });
+  socket.on('show', () => { lt.showLt.call(lt); });
+  socket.on('hide', () => { lt.hideLt.call(lt); });
 });

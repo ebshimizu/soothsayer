@@ -150,6 +150,21 @@ function endLT(socketID) {
   appState.sendTo(socketID, 'end', null);
 }
 
+function toggleVis(socketID, elem) {
+  if (elem.hasClass('green')) {
+    // turn off
+    appState.sendTo(socketID, 'hide', null);
+    elem.removeClass('green');
+    elem.find('.icon').addClass('slash');
+  }
+  else {
+    // turn on
+    appState.sendTo(socketID, 'show', null);
+    elem.addClass('green');
+    elem.find('.icon').removeClass('slash');
+  }
+}
+
 // builds the lower third ui and adds proper handlers
 function constructLTUI(socket) {
   let elem = `
@@ -163,7 +178,7 @@ function constructLTUI(socket) {
       </div>
       <form class="ui form attached fluid segment">
         <div class="fields">
-          <div class="eight wide field">
+          <div class="seven wide field">
             <label>Data Display Mode</label>
             ${LTDropdown}
           </div>
@@ -190,6 +205,10 @@ function constructLTUI(socket) {
           <div class="one wide field">
             <label>End</label>
             <div class="ui fluid red icon button lt-end"><i class="stop icon"></i></div>
+          </div>
+          <div class="one wide field">
+            <label>Vis</label>
+            <div class="ui fluid icon button lt-vis"><i class="eye icon"></i></div>
           </div>
         </div>
         <div class="fields">
@@ -251,6 +270,7 @@ function constructLTUI(socket) {
   e.find('.lt-loadrun').click(() => loadAndRunLT(socket.id));
   e.find('.lt-run').click(() => runLT(socket.id));
   e.find('.lt-end').click(() => endLT(socket.id));
+  e.find('.lt-vis').click(function () { toggleVis(socket.id, $(this)); });
 }
 
 exports.Init = init;

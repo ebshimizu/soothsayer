@@ -4,6 +4,16 @@ body {
   overflow: hidden;
 }
 
+.lt-wrapper {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 #lt-static-bg {
   background-color: #1c1c1c;
   height: 200px;
