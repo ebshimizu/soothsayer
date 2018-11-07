@@ -138,6 +138,8 @@ function heroDraft(hero, cb, wildcard) {
         pickPct: draft.games / draftData.data.totalMatches,
         ban: draft.bans.total,
         banPct: draft.bans.total / draftData.data.totalMatches,
+        part: (draft.games + draft.bans.total),
+        partPct: (draft.games + draft.bans.total) / draftData.data.totalMatches,
         win: draft.wins,
         winPct: draft.wins / draft.games,
         K: numbers.SoloKill,

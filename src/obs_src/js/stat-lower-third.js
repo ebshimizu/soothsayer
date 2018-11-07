@@ -30,6 +30,8 @@ class StatLowerThird {
     if (this.stagedData.data) {
       $('.pick-rate.stat').text(this.renderPct(this.stagedData.data.pickPct));
       $('.win-rate.stat').text(this.renderPct(this.stagedData.data.winPct));
+      $('.ban-rate.stat').text(this.renderPct(this.stagedData.data.banPct));
+      $('.part-rate.stat').text(this.renderPct(this.stagedData.data.partPct));
       $('.kda.stat').text(this.renderFixed(this.stagedData.data.KDA, 1));
       $('.kda-sep.stat').text(`${this.renderFixed(this.stagedData.data.K, 1)}/${this.renderFixed(this.stagedData.data.D, 1)}/${this.renderFixed(this.stagedData.data.A, 1)}`);
       $('.tdd-sep.stat').text(`${this.renderFixed(this.stagedData.data.TD, 1)}/${this.renderFixed(this.stagedData.data.D, 1)}/${this.renderFixed(this.stagedData.data.A, 1)}`);

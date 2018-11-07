@@ -9,7 +9,8 @@ const LTDropdown = `
     <i class="dropdown icon"></i>
     <div class="default text">Select Display Mode</div>
     <div class="menu">
-      <div class="item" data-value="HGC-hero-draft">HGC Hero Draft Stats</div>
+      <div class="item" data-value="hero-pbw">Overall Hero: Pick/Ban/Win</div>
+      <div class="item" data-value="hero-pwk">Overall Hero: Participation/Win/KDA</div>
       <div class="item" data-value="player-hero">Player Hero Stats</div>
     </div>
   </div>
@@ -18,15 +19,13 @@ const LTDropdown = `
 const LTAnimDropdown = `
   <div class="ui fluid selection dropdown lt-anim">
     <i class="dropdown icon"></i>
-    <div class="default text">Fade</div>
+    <div class="default text">Fade R</div>
     <div class="menu">
+      <div class="item" data-value="fade right">Fade R</div>
       <div class="item" data-value="fade">Fade</div>
       <div class="item" data-value="fade up">Fade Up</div>
-      <div class="item" data-value="fade right">Fade Right</div>
-      <div class="item" data-value="fade left">Fade Left</div>
-      <div class="item" data-value="horizontal flip">H. Flip</div>
-      <div class="item" data-value="slide up">Slide Up</div>
-      <div class="item" data-value="fly up">Fly Up</div>
+      <div class="item" data-value="fade left">Fade L</div>
+      <div class="item" data-value="slide right">Slide R</div>
     </div>
   </div>
 `
@@ -180,7 +179,7 @@ function constructLTUI(socket) {
       <form class="ui form attached fluid segment">
         <div class="fields">
           <div class="seven wide field">
-            <label>Data Display Mode</label>
+            <label>Stat Set</label>
             ${LTDropdown}
           </div>
           <div class="two wide field">
@@ -257,7 +256,7 @@ function constructLTUI(socket) {
   e.find('.lt-hero-menu').dropdown();
   e.find('.lt-mode').dropdown();
   e.find('.lt-anim').dropdown();
-  e.find('.lt-anim').dropdown('set exactly', 'fade');
+  e.find('.lt-anim').dropdown('set exactly', 'fade right');
   e.find('.lt-wildcard-stat').dropdown({ fullTextSearch: true });
   e.find('.lt-wildcard-stat').dropdown('set exactly', 'timeDeadPct');
   e.find('.lt-wildcard-type').dropdown();

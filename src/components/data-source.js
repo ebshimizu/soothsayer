@@ -44,7 +44,8 @@ function changeDataSource(val) {
 // gets data in the format required by the lower thirds
 // options defined in stat-lower-third's LT dropdown var. (yeahhhhhhh i know not optimal)
 function getLTData(dataConfig, callback) {
-  if (dataConfig.type === 'HGC-hero-draft') {
+  if (dataConfig.type === 'hero-pbw' ||
+      dataConfig.type === 'hero-pwk') {
     heroDraft(dataConfig.hero, callback, dataConfig.wildcard);
   }
   else if (dataConfig.type === 'player-hero') {
@@ -58,7 +59,7 @@ function getLTData(dataConfig, callback) {
 // All draft data, no player/team stats
 // all of these require callbacks, as most APIs are expected to be asnyc
 // returned object must have the following fields:
-// - pick, pickPct, ban, banPct, win, winPct, K, D, A, TD, KDA, wildcard, wildcardName
+// - pick, pickPct, ban, banPct, win, winPct, K, D, A, TD, KDA, wildcard, wildcardName, part, partPct
 function heroDraft(hero, callback, wildcard) {
   DataSources[activeSource].heroDraft(hero, callback, wildcard);
 }
