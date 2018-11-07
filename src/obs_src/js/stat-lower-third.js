@@ -37,6 +37,7 @@ class StatLowerThird {
       $('.player-name').text(this.stagedData.player);
       $('.wildcard.label').text(this.stagedData.data.wildcardName);
       $('.wildcard.stat').text(this.stagedData.data.wildcardData);
+      $('.hero-role').text(this.stagedData.heroRole);
 
       $('.hero-portrait').removeClass().addClass('hero-portrait');
       $('.hero-portrait').addClass(this.stagedData.heroClassname);

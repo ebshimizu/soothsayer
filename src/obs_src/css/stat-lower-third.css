@@ -71,24 +71,24 @@ body {
   position: absolute;
 }
 
-#HGC-hero-draft .pick-rate.container,
-#player-hero .win-rate.container {
+.pick-rate.container,
+.win-rate.container {
   height: 100%;
   left: 20%;
   text-align: center;
   width: 20%;
 }
 
-#HGC-hero-draft .win-rate.container,
-#player-hero .kda.container {
+.win-rate.container,
+.kda.container {
   height: 100%;
   left: 40%;
   text-align: center;
   width: 20%;
 }
 
-#HGC-hero-draft .kda.container,
-#player-hero .kp.container
+.kda.container,
+.kp.container
 {
   height: 100%;
   left: 60%;
@@ -96,8 +96,8 @@ body {
   width: 20%;
 }
 
-#HGC-hero-draft .wildcard.container,
-#player-hero .wildcard.container
+.wildcard.container,
+.wildcard.container
 {
   height: 100%;
   left: 80%;
@@ -105,17 +105,16 @@ body {
   width: 20%;
 }
 
-#HGC-hero-draft .kda-sep.stat,
-#HGC-hero-draft .tdd-sep.stat,
-#player-hero .kda-sep.stat,
-#player-hero .tdd-sep.stat,
-#player-hero .hero-name,
-#player-hero .uptime.container {
+.kda-sep.stat,
+.tdd-sep.stat,
+.kda-sep.stat,
+.tdd-sep.stat,
+.hero-name,
+.uptime.container {
   display: none;
 }
 
-#HGC-hero-draft .hero-portrait,
-#player-hero .hero-portrait {
+.hero-portrait {
   left: 0;
   top: 0;
   background-color: black;
@@ -124,8 +123,8 @@ body {
   height: 80%;
 }
 
-#HGC-hero-draft .hero-name,
-#player-hero .player-name {
+.hero-name,
+.player-name {
   position: absolute;
   width: 20%;
   height: 20%;

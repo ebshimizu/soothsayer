@@ -22,6 +22,7 @@ const LTAnimDropdown = `
     <div class="menu">
       <div class="item" data-value="fade">Fade</div>
       <div class="item" data-value="fade up">Fade Up</div>
+      <div class="item" data-value="fade right">Fade Right</div>
       <div class="item" data-value="fade left">Fade Left</div>
       <div class="item" data-value="horizontal flip">H. Flip</div>
       <div class="item" data-value="slide up">Slide Up</div>
@@ -108,6 +109,7 @@ function loadLT(socketID, callback) {
 
   if (loadData.hero in heroesTalents._heroes) {
     loadData.heroClassname = heroesTalents._heroes[loadData.hero].attributeId;
+    loadData.heroRole = heroesTalents.role(loadData.hero);
   }
 
   // callback required
