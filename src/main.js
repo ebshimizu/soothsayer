@@ -80,6 +80,7 @@ $(document).ready(() => {
 
   // couple global ui handles
   $('#section-menu .item').tab();
+  $('#status-tab-menu .item').tab();
   $('#update-button').click(() => {
     $('#update-button').transition('pulse');
     appState.updateAndBroadcast.call(appState);
