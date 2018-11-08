@@ -10,8 +10,10 @@ const LTDropdown = `
     <div class="default text">Select Display Mode</div>
     <div class="menu">
       <div class="item" data-value="hero-pbw">Overall Hero: Pick/Ban/Win</div>
-      <div class="item" data-value="hero-pwk">Overall Hero: Participation/Win/KDA</div>
-      <div class="item" data-value="player-hero">Player Hero Stats</div>
+      <div class="item" data-value="hero-pwk">Overall Hero: Popularity/Win/KDA</div>
+      <div class="item" data-value="player-kwk">Player: KDA/Win/KP</div>
+      <div class="item" data-value="player-kww">Player: KDA/Win/Wildcard</div>
+      <div class="item" data-value="player-hero">Player Hero: Record/KDA/Wildcard</div>
     </div>
   </div>
 `;
@@ -104,7 +106,8 @@ function loadLT(socketID, callback) {
       name: elem.find('.lt-wildcard-stat').dropdown('get value'),
       type: elem.find('.lt-wildcard-type').dropdown('get value'),
     },
-    useColon: appState.theme.ltUseColon === true,
+    playerRole: elem.find('.lt-player-role').dropdown('get text'),
+    teamLogo: elem.find('.lt-player-team').dropdown('get value') === 'blue' ? appState.blueTeam.logo : appState.redTeam.logo,
   };
 
   if (loadData.hero in heroesTalents._heroes) {
@@ -212,11 +215,11 @@ function constructLTUI(socket) {
           </div>
         </div>
         <div class="fields">
-          <div class="six wide field">
+          <div class="three wide field">
             <label>Hero</label>
             ${heroMenu(heroesTalents, 'lt-hero-menu')}
           </div>
-          <div class="four wide field">
+          <div class="three wide field">
             <label>Player (BTag optional)</label>
             <div class="ui fluid search selection dropdown lt-player-name">
               <input type="hidden" name="lt-player-name">
@@ -226,7 +229,7 @@ function constructLTUI(socket) {
               </div>
             </div>
           </div>
-          <div class="four wide field">
+          <div class="three wide field">
             <label>Wildcard Stat</label>
             ${statMenu('lt-wildcard-stat')}
           </div>
@@ -240,6 +243,31 @@ function constructLTUI(socket) {
                 <div class="item" data-value="min">Min</div>
                 <div class="item" data-value="max">Max</div>
                 <div class="item" data-value="median">Median</div>
+              </div>
+            </div>
+          </div>
+          <div class="three wide field">
+            <label>Player Role</label>
+            <div class="ui fluid selection dropdown lt-player-role">
+              <i class="dropdown icon"></i>
+              <div class="default text"></div>
+              <div class="menu">
+                <div class="item">Assassin</div>
+                <div class="item">Bruiser</div>
+                <div class="item">Flex</div>
+                <div class="item">Support</div>
+                <div class="item">Tank</div>
+              </div>
+            </div>
+          </div>
+          <div class="two wide field">
+            <label>Player Team</label>
+            <div class="ui fluid selection dropdown lt-player-team">
+              <i class="dropdown icon"></i>
+              <div class="default text"></div>
+              <div class="menu">
+                <div class="item" data-value="blue">Blue</div>
+                <div class="item" data-value="red">Red</div>
               </div>
             </div>
           </div>
@@ -257,6 +285,10 @@ function constructLTUI(socket) {
   e.find('.lt-mode').dropdown();
   e.find('.lt-anim').dropdown();
   e.find('.lt-anim').dropdown('set exactly', 'fade right');
+  e.find('.lt-player-team').dropdown();
+  e.find('.lt-player-team').dropdown('set exactly', 'blue');
+  e.find('.lt-player-role').dropdown();
+  e.find('.lt-player-role').dropdown('set exactly', 'Assassin');
   e.find('.lt-wildcard-stat').dropdown({ fullTextSearch: true });
   e.find('.lt-wildcard-stat').dropdown('set exactly', 'timeDeadPct');
   e.find('.lt-wildcard-type').dropdown();

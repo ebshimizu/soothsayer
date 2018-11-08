@@ -3,10 +3,29 @@ const { dialog } = require('electron').remote;
 const fs = require('fs-extra');
 const summarizeMatchData = require('../../stats-of-the-storm/js/database/summarize-match-data');
 const summarizeHeroData = require('../../stats-of-the-storm/js/database/summarize-hero-data');
+const summarizePlayerData = require('../../stats-of-the-storm/js/database/summarize-player-data');
 const StatData = require('../../stats-of-the-storm/js/game-data/detail-stat-string');
-const { formatStat } = require('../../stats-of-the-storm/js/util/formatters');
+const { formatSeconds } = require('../../stats-of-the-storm/js/util/formatters');
 
 let activeDB;
+
+function formatStat(field, val) {
+  if (Number.isNaN(val))
+    return "N/A";
+
+  if (val === undefined)
+    return 0;
+
+  if (field === 'KillParticipation' || field === 'timeDeadPct' || field === 'mercUptimePercent' || field === 'pct')
+    return `${Math.round(val * 100)}%`;
+  else if (field === 'KDA')
+    return Math.round(val);
+  else if (field.startsWith('Time') || field === 'OnFireTimeOnFire' || field === 'timeTo10' ||
+    field === 'timeTo20' || field === 'mercUptime' || field === 'avgTimeSpentDead')
+    return formatSeconds(val);
+
+  return Math.round(val);
+}
 
 function activate() {
   // immediately attempt a load (could have saved database)
@@ -151,16 +170,7 @@ function heroDraft(hero, cb, wildcard) {
 
       if (wildcard && wildcard.name in numbers) {
         ret.wildcardName = StatData[wildcard.name];
-
-        // append stat variation to name
-        if (wildcard.type === 'averages') {
-          ret.wildcardName = `Avg. ${ret.wildcardName}`;
-        }
-        else {
-          ret.wildcardName = `${wildcard.type[0].toUpperCase()}${wildcard.type.substr(1)} ${ret.wildcardName}`;  
-        }
-
-        ret.wildcardData = formatStat(wildcard.name, heroStats[wildcard.type][hero][wildcard.name], true);
+        ret.wildcardData = formatStat(wildcard.name, heroStats[wildcard.type][hero][wildcard.name]);
       }
 
       cb(ret);
@@ -224,16 +234,72 @@ function playerStatsForHero(player, hero, callback, wildcard) {
 
       if (wildcard && wildcard.name in stats) {
         ret.wildcardName = StatData[wildcard.name];
+        ret.wildcardData = formatStat(wildcard.name, heroStats[wildcard.type][hero][wildcard.name]);
+      }
 
-        // append stat variation to name
-        if (wildcard.type === 'averages') {
-          ret.wildcardName = `Avg. ${ret.wildcardName}`;
-        }
-        else {
-          ret.wildcardName = `${wildcard.type[0].toUpperCase()}${wildcard.type.substr(1)} ${ret.wildcardName}`;  
-        }
+      callback(ret);
+    });
+  });
+}
 
-        ret.wildcardData = formatStat(wildcard.name, heroStats[wildcard.type][hero][wildcard.name], true);
+
+function playerStats(player, callback, wildcard) {
+  // determine player
+  const query = { };
+
+  if (player.indexOf('#') >= 0) {
+    query.name = player.substr(0, player.indexOf('#'));
+    query.tag = parseInt(player.substr(player.indexOf('#') + 1), 10);
+  }
+  else {
+    query.name = player;
+  }
+
+  activeDB.getPlayers(query, function(err, players) {
+    if (err) {
+      callback({ error: err });
+      return;
+    }
+
+    if (players.length === 0) {
+      callback({ error: `No player named ${player} found` });
+      return;
+    }
+
+    // ok well we're just gonna take the first player sooo hope there's no duplicates
+    activeDB.getHeroDataForPlayerWithFilter(players[0]._id, { }, function(err, docs) {
+      if (err) {
+        callback({ error: err });
+        return;
+      }
+
+      if (docs.length === 0) {
+        callback({ error: `No data available for player ${player} on hero ${hero}` });
+        return;
+      }
+
+      const playerStats = summarizePlayerData(docs)[players[0]._id];
+      const stats = playerStats.averages;
+
+      const ret = {
+        games: playerStats.games,
+        win: playerStats.wins,
+        winPct: playerStats.wins / playerStats.games,
+        K: stats.SoloKill,
+        TD: stats.Takedowns,
+        A: stats.Assists,
+        D: stats.Deaths,
+        KDA: playerStats.totalKDA,
+        timeDeadPct: stats.timeDeadPct,
+        KillParticipation: stats.KillParticipation,
+        ToonHandle: players[0]._id,
+        BTag: `${players[0].name}#${players[0].tag}`,
+        name: players[0].name,
+      };
+
+      if (wildcard && wildcard.name in stats) {
+        ret.wildcardName = StatData[wildcard.name];
+        ret.wildcardData = formatStat(wildcard.name, playerStats[wildcard.type][wildcard.name]);
       }
 
       callback(ret);
@@ -246,3 +312,4 @@ exports.activate = activate;
 exports.deactivate = deactivate;
 exports.heroDraft = heroDraft;
 exports.playerStatsForHero = playerStatsForHero;
+exports.playerStats = playerStats;

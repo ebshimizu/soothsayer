@@ -35,12 +35,16 @@ class StatLowerThird {
       $('.kda.stat').text(this.renderFixed(this.stagedData.data.KDA, 1));
       $('.kda-sep.stat').text(`${this.renderFixed(this.stagedData.data.K, 1)}/${this.renderFixed(this.stagedData.data.D, 1)}/${this.renderFixed(this.stagedData.data.A, 1)}`);
       $('.tdd-sep.stat').text(`${this.renderFixed(this.stagedData.data.TD, 1)}/${this.renderFixed(this.stagedData.data.D, 1)}/${this.renderFixed(this.stagedData.data.A, 1)}`);
+      $('.record.stat').text(`${this.stagedData.data.win} - ${this.stagedData.data.games - this.stagedData.data.win}`);
       $('.kp.stat').text(this.renderPct(this.stagedData.data.KillParticipation));
       $('.uptime.stat').text(this.renderPct(1 - this.stagedData.data.timeDeadPct));
       $('.player-name').text(this.stagedData.player);
-      $('.wildcard.label').text(this.stagedData.data.wildcardName);
+      $('.player-role').text(this.stagedData.playerRole);
+      $('.player-on-hero').text(`on ${this.stagedData.hero}`)
+      $('.wildcard.label').html(`${this.stagedData.data.wildcardName}<span class="col">:</span>`);
       $('.wildcard.stat').text(this.stagedData.data.wildcardData);
       $('.hero-role').text(this.stagedData.heroRole);
+      setCSSImage('.team-portrait', this.stagedData.teamLogo);
 
       $('.hero-portrait').removeClass().addClass('hero-portrait');
       $('.hero-portrait').addClass(this.stagedData.heroClassname);
@@ -62,7 +66,7 @@ class StatLowerThird {
 
   renderPct(val) {
     if (val !== null) {
-      return `${(val * 100).toFixed(1)}%`;
+      return `${Math.round(val * 100)}%`;
     }
     else {
       return '';
@@ -71,7 +75,7 @@ class StatLowerThird {
 
   renderFixed(val, fix) {
     if (val !== null) {
-      return val.toFixed(fix);
+      return Math.round(val);
     }
     else {
       return '';

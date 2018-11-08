@@ -51,6 +51,10 @@ function getLTData(dataConfig, callback) {
   else if (dataConfig.type === 'player-hero') {
     playerStatsForHero(dataConfig.player, dataConfig.hero, callback, dataConfig.wildcard);
   }
+  else if (dataConfig.type === 'player-kwk' ||
+    dataConfig.type === 'player-kww') {
+    playerStats(dataConfig.player, callback, dataConfig.wildcard);
+  }
   else {
     callback({ error: `Failed to load data for config ${dataConfig.type}` });
   }
@@ -78,8 +82,11 @@ function playerStatsForHero(player, hero, callback, wildcard) {
 }
 
 // all player stats
-function playerStats(player) {
-
+// Player is a battletag (maybe)
+// required fields (basically the same as playerStatsForHero)
+// - games, win, winPct, K, D, A, TD, KDA, timeDeadPct, KillParticipation, ToonHandle, BTag
+function playerStats(player, callback, wildcard) {
+  DataSources[activeSource].playerStats(player, callback, wildcard);
 }
 
 exports.Init = init;
