@@ -38,13 +38,14 @@ function showMessage(msg, classname) {
     elem.transition('fade left out', 500, function() {
       elem.remove();
     });
-  }, 5000);
+  }, 4000);
 }
 
 window.showMessage = showMessage;
 
 $(document).ready(() => {
   $('.app-version').text(appVersion);
+  $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
   $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
     showMessage(`Error: ${thrownError}`);
   });
@@ -88,11 +89,13 @@ $(document).ready(() => {
     MapData.trySyncMatchScore();
     showMessage('Update Performed', 'positive');
   });
-  $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
   $('#update-keybinds-button').click(() => {
     appState.updateKeybinds.call(appState);
   });
   $('#restore-default-keybinds-button').click(() => {
     appState.restoreDefaultKeybinds.call(appState);
+  });
+  $('input.has-popup').popup({
+    on: 'focus',
   });
 });
