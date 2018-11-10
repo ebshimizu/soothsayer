@@ -84,9 +84,9 @@ $(document).ready(() => {
   $('#status-tab-menu .item').tab();
   $('#update-button').click(() => {
     $('#update-button').transition('pulse');
-    appState.updateAndBroadcast.call(appState);
     LowerThird.reloadPlayerLTMenu();
     MapData.trySyncMatchScore();
+    appState.updateAndBroadcast.call(appState);
     showMessage('Update Performed', 'positive');
   });
   $('#update-keybinds-button').click(() => {
