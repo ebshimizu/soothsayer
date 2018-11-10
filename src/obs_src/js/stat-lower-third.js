@@ -83,6 +83,11 @@ class StatLowerThird {
   }
 
   run() {
+    if (this.runningEzMode === true) {
+      console.log('Already running in ez mode, please wait before running again');
+      return;
+    }
+
     if (this.stagedData) {
       // this will be variable soon
       const self = this;
@@ -103,6 +108,11 @@ class StatLowerThird {
   }
 
   show() {
+    if (this.runningEzMode === true) {
+      console.log('Already running in ez mode, please wait before running again');
+      return;
+    }
+
     const self = this;
 
     this.renderStagedStats();
@@ -118,9 +128,47 @@ class StatLowerThird {
   }
 
   hide() {
+    if (this.runningEzMode === true) {
+      console.log('Already running in ez mode, please wait before running again');
+      return;
+    }
+
     $(this.visibleElem).transition(`${this.mode} out`);
 
     this.visibleElem = '';
+  }
+
+  ezMode() {
+    const self = this;
+    if (this.runningEzMode === true) {
+      console.log('Already running in ez mode, please wait before running again');
+      return;
+    }
+
+    this.runningEzMode = true;
+    this.duration = this.stagedData.duration;
+
+    if (isNaN(this.duration) || this.duration < 2) {
+      // default is 5
+      this.duration = 5;
+    }
+
+    this.renderStagedStats();
+    this.mode = this.stagedData.animMode ? this.stagedData.animMode : 'fade';
+    this.visibleElem = `#${this.stagedData.type}`;
+    $('.lt-wrapper').transition('fade up in', 500, function () {
+      $(self.visibleElem).transition(`${self.mode} in`, 500, () => {
+        setTimeout(function() {
+          $(self.visibleElem).transition(`${self.mode} out`, 500);
+        }, (self.duration - 1.5) * 1000);
+        setTimeout(function() {
+          $('.lt-wrapper').transition('fade up out', 500, () => {
+            self.runningEzMode = false;
+            self.visibleElem = '';
+          })
+        }, (self.duration - 0.95) * 1000);
+      });
+    });
   }
   
 }
@@ -141,4 +189,5 @@ $(document).ready(() => {
   socket.on('end', () => { lt.hide.call(lt); });
   socket.on('show', () => { lt.showLt.call(lt); });
   socket.on('hide', () => { lt.hideLt.call(lt); });
+  socket.on('ezMode', () => { lt.ezMode.call(lt); });
 });

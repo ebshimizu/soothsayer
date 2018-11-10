@@ -94,6 +94,7 @@ function loadLT(socketID, callback) {
   let elem = $(`.lower-third-controls[socket-id="${socketID}"]`);
   elem.find('.lt-load').addClass('disabled loading').text('Loading...');
   elem.find('.lt-loadrun').addClass('disabled loading').text('Loading...');
+  elem.find('.lt-ez').addClass('disabled loading');
   elem.find('.lt-load-status').text('Loading Data...');
 
   let loadData = {
@@ -119,6 +120,7 @@ function loadLT(socketID, callback) {
   dataSource.getLTData(loadData, function(data) {
     elem.find('.lt-load').removeClass('disabled loading').html('<i class="sync icon"></i>');
     elem.find('.lt-loadrun').removeClass('disabled loading').html('<i class="fast forward icon"></i>');
+    elem.find('.lt-ez').removeClass('disabled loading');
 
     if (data.error) {
       elem.find('.attached.message').addClass('error');
@@ -129,7 +131,7 @@ function loadLT(socketID, callback) {
 
       appState.sendTo(socketID, 'statLoad', loadData);
       elem.find('.attached.message').removeClass('error');
-      elem.find('.lt-load-status').text(`Ready: ${elem.find('.lt-mode').dropdown('get text')}, Hero: ${loadData.hero}`);
+      elem.find('.lt-load-status').text(`Ready. ${elem.find('.lt-mode').dropdown('get text')}, Hero: ${loadData.hero}`);
 
       if (callback) {
         callback();
@@ -146,6 +148,13 @@ function runLT(socketID) {
 function loadAndRunLT(socketID) {
   loadLT(socketID, function() {
     runLT(socketID);
+  });
+}
+
+function loadAndRunLTEz(socketID) {
+  loadLT(socketID, function() {
+    appState.sendTo(socketID, 'ezMode', null);
+    showMessage(`Lower Third: Running ${socketID}`);
   });
 }
 
@@ -181,7 +190,7 @@ function constructLTUI(socket) {
       </div>
       <form class="ui form attached fluid segment">
         <div class="fields">
-          <div class="seven wide field">
+          <div class="six wide field">
             <label>Stat Set</label>
             ${LTDropdown}
           </div>
@@ -191,7 +200,7 @@ function constructLTUI(socket) {
           </div>
           <div class="two wide field">
             <label>Duration (s)</label>
-            <input type="text" name="lt-dur" class="lt-dur">
+            <input type="number" min="0" max="10000" name="lt-dur" class="lt-dur">
           </div>
           <div class="one wide field">
             <label>Load</label>
@@ -199,7 +208,7 @@ function constructLTUI(socket) {
           </div>
           <div class="one wide field">
             <label>Load-R</label>
-            <div class="ui fluid blue icon button lt-loadrun"><i class="fast forward icon"></i></div>
+            <div class="ui fluid green icon button lt-loadrun"><i class="fast forward icon"></i></div>
           </div>
           <div class="one wide field">
             <label>Run</label>
@@ -212,6 +221,10 @@ function constructLTUI(socket) {
           <div class="one wide field">
             <label>Vis</label>
             <div class="ui fluid icon button lt-vis"><i class="eye icon"></i></div>
+          </div>
+          <div class="one wide field">
+            <label>Ez</label>
+            <div class="ui fluid icon green button lt-ez"><i class="magic icon"></i></div>
           </div>
         </div>
         <div class="fields">
@@ -300,6 +313,7 @@ function constructLTUI(socket) {
 
   e.find('.lt-load').click(() => loadLT(socket.id));
   e.find('.lt-loadrun').click(() => loadAndRunLT(socket.id));
+  e.find('.lt-ez').click(() => loadAndRunLTEz(socket.id));
   e.find('.lt-run').click(() => runLT(socket.id));
   e.find('.lt-end').click(() => endLT(socket.id));
   e.find('.lt-vis').click(function () { toggleVis(socket.id, $(this)); });

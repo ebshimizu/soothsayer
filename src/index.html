@@ -163,7 +163,7 @@
           <div class="fields">
             <div class="three wide field">
               <label>Popup Total Time (s)</label>
-              <input type="text" id="popup-anim-time">
+              <input type="number" min="1" max="10000" id="popup-anim-time">
             </div>
             <div class="five wide field">
               <label>Sync Score</label>
@@ -187,7 +187,7 @@
                 </div>
                 <div class="four wide field">
                   <label>Score</label>
-                  <input type="text" name="blue-score" id="team-blue-score">
+                  <input type="number" min="0" max="100" name="blue-score" id="team-blue-score">
                 </div>
               </div>
               <div class="field">
@@ -258,7 +258,7 @@
               <div class="fields">
                 <div class="four wide field">
                   <label>Score</label>
-                  <input type="text" name="red-score" id="team-red-score">
+                  <input type="number" min="0" max="100" name="red-score" id="team-red-score">
                 </div>
                 <div class="twelve wide field">
                   <label>Name</label>
