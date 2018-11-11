@@ -105,10 +105,10 @@ function getCollections() {
 }
 
 function setCollection(val, text) {
-  showMessage(`Stats of the Storm Data Source: set collection to ${text}`, 'positive');
+  showMessage(`Stats of the Storm Data Source: set collection to ${text === undefined ? 'All Matches' : text}`, 'positive');
 
   if (activeDB) {
-    if (val === "null") {
+    if (val === 'null') {
       activeDB.setCollection(null);
     }
     else {

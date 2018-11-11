@@ -36,8 +36,44 @@ const KeybindInfo = {
     id: 'keybind-dec-red',
     key: 'decRedScore',
     default: 'Shift+Alt+Down',
-  }
-}
+  },
+  firstLtEz: {
+    name: 'First Lower Third: Run Ez Mode',
+    id: 'first-lt-ez',
+    key: 'firstLtEz',
+    default: 'CommandOrControl+K',
+  },
+  firstLtViz: {
+    name: 'First Lower Third: Toggle Visibility',
+    id: 'first-lt-viz',
+    key: 'firstLtViz',
+    default: 'CommandOrControl+Alt+Up',
+  },
+  firstLtLoad: {
+    name: 'First Lower Third: Load',
+    id: 'first-lt-load',
+    key: 'firstLtLoad',
+    default: 'CommandOrControl+M',
+  },
+  firstLtLoadGo: {
+    name: 'First Lower Third: Load and Run',
+    id: 'first-lt-loadR',
+    key: 'firstLtLoadR',
+    default: 'CommandOrControl+Shift+M',
+  },
+  firstLtGo: {
+    name: 'First Lower Third: Run',
+    id: 'first-ltl-run',
+    key: 'firstLtRun',
+    default: 'CommandOrControl+Alt+Right',
+  },
+  firstLtStop: {
+    name: 'First Lower Third: Stop',
+    id: 'first-lt-stop',
+    key: 'firstLtStop',
+    default: 'CommandOrControl+Alt+Left',
+  },
+};
 
 function defaultKeybinds() {
   const ret = {};
@@ -82,7 +118,22 @@ function displayKeybinds(state) {
     if (k in state.keybinds) {
       $(`#${KeybindInfo[k].id}`).val(state.keybinds[k]);
     }
+    else {
+      $(`#${KeybindInfo[k].id}`).val(KeybindInfo[k].default);
+    }
   }
+}
+
+function runLTKey(index, buttonClass, actionName) {
+  const lts = $('.lower-third-controls');
+  if (lts.length === 0) {
+    showMessage(`No Lower Thirds Connected. Hotkey action ${actionName} did not run`, 'warning');
+    return;
+  }
+
+  const lt = $(lts[index]);
+  lt.find(`.${buttonClass}`).click();
+  showMessage(`Lower Third: ${actionName} triggered. Id: ${lt.attr('socket-id')}`, 'positive');
 }
 
 // gets the new keybinds from the interface, updtes state,
@@ -125,8 +176,26 @@ function setKeybinds(state) {
   tryBind(state.keybinds.incRedScore, KeybindInfo.incRedScore.id, () => {
     $('#team-red-score').val(parseInt($('#team-red-score').val()) + 1);
   });
-  tryBind(state.keybinds.decRedScore, KeybindInfo.decRedScore, () => {
+  tryBind(state.keybinds.decRedScore, KeybindInfo.decRedScore.id, () => {
     $('#team-red-score').val(parseInt($('#team-red-score').val()) - 1);
+  });
+  tryBind(state.keybinds.firstLtEz, KeybindInfo.firstLtEz.id, () => {
+    runLTKey(0, 'lt-ez', 'Easy Mode');
+  });
+  tryBind(state.keybinds.firstLtGo, KeybindInfo.firstLtGo.id, () => {
+    runLTKey(0, 'lt-run', 'Run');
+  });
+  tryBind(state.keybinds.firstLtLoad, KeybindInfo.firstLtLoad.id, () => {
+    runLTKey(0, 'lt-load', 'Load Data');
+  });
+  tryBind(state.keybinds.firstLtLoadGo, KeybindInfo.firstLtLoadGo.id, () => {
+    runLTKey(0, 'lt-loadrun', 'Load and Run');
+  });
+  tryBind(state.keybinds.firstLtStop, KeybindInfo.firstLtStop.id, () => {
+    runLTKey(0, 'lt-end', 'Stop');
+  });
+  tryBind(state.keybinds.firstLtViz, KeybindInfo.firstLtViz.id, () => {
+    runLTKey(0, 'lt-vis', 'Toggle Visibility');
   });
 
   showMessage('Keybinds saved', 'positive');
