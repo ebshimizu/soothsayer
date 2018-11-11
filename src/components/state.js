@@ -458,13 +458,11 @@ class State {
   setWatchLocation() {
     this.dataSource.replayFolder = $('#set-replay-folder').val();
 
-    if (this.dataSource.replayFolder !== '') {
-      bgWindow.webContents.send('startWatcher', this.dataSource.replayFolder);
+    bgWindow.webContents.send('startWatcher', this.dataSource.replayFolder);
 
-      // save data source settings
-      settings.set('dataSource', this.dataSource);
-      console.log(`started watching ${this.dataSource.replayFolder}`);
-    }
+    // save data source settings
+    settings.set('dataSource', this.dataSource);
+    console.log(`started watching ${this.dataSource.replayFolder}`);
   }
 }
 
