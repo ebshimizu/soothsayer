@@ -40,8 +40,8 @@ class MapSelect {
     // logos and results
     $('.blue.team-name').text(state.blueTeam.name);
     $('.red.team-name').text(state.redTeam.name);
-    $('.score.blue').text(state.blueTeam.score);
-    $('.score.red').text(state.redTeam.score);
+    $('.score.blue').text(isNaN(state.blueTeam.score) ? 0 : state.blueTeam.score);
+    $('.score.red').text(isNaN(state.redTeam.score) ? 0 : state.redTeam.score);
     setCSSImage('.blue.team-logo', state.blueTeam.logo);
     setCSSImage('.red.team-logo', state.redTeam.logo);
 
