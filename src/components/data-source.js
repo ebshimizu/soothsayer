@@ -2,6 +2,7 @@
 // this file just coordinates selection and usage of the various connectors.
 // most of the data wrangling will actually happen in the data source specific file.
 
+const { dialog } = require('electron').remote;
 const SotsSource = require('./data-sources/sots-db');
 let appState;
 
@@ -11,6 +12,18 @@ const DataSources = {
 };
 
 let activeSource;
+
+function browseReplayFolder() {
+  dialog.showOpenDialog({
+    title: 'Set Replay Folder',
+    properties: ['openDirectory'],
+  }, function(files) {
+    if (files) {
+      $('#set-replay-folder').val(files[0]);
+      appState.setWatchLocation();
+    }
+  });
+}
 
 function init() {
   DataSources.sots.init();
@@ -27,6 +40,8 @@ function initWithState(state) {
   // assign active source, run an activation routine (auto happens on set)
   activeSource = appState.dataSource.active;
   $('#data-source-menu').dropdown('set exactly', activeSource);
+  $('#set-replay-folder-button').click(browseReplayFolder);
+  appState.setWatchLocation();
 }
 
 function changeDataSource(val) {

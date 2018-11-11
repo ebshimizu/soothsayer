@@ -45,6 +45,7 @@
         }
     },
     "dependencies": {
+        "chokidar": "^2.0.4",
         "electron-compile": "^6.4.3",
         "electron-settings": "^3.2.0",
         "express": "^4.16.3",

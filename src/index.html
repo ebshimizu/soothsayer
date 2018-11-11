@@ -419,8 +419,17 @@
             help with themeing questions, etc. should all be directed to the Project Page on there.
           </p>
           <p>Like the app? There's a tip jar over at Ko-Fi:</p>
-          <p><a href='https://ko-fi.com/E1E2KHZ3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
-          <div class="ui fluid button dev-tools-button">Click This In Case Of Error (Dev Tools)</div>
+          <div class="ui grid">
+            <div class="four wide column">
+              <a href='https://ko-fi.com/E1E2KHZ3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+            </div>
+            <div class="six wide column">
+              <div class="ui fluid button dev-tools-button">Click This If Error (Dev Tools)</div>
+            </div>
+            <div class="six wide column">
+              <div class="ui fluid button bg-dev-tools-button">Click This If Parser Error (BG Dev Tools)</div>
+            </div>
+          </div>
         </div>
         <div class="ui segment">
           <h2 class="ui dividing header">Theme</h2>
@@ -515,6 +524,15 @@
             </div>
           </div>
           <form class="ui form">
+            <div class="fields">
+              <div class="sixteen wide field">
+                <label>Replay Folder Location</label>
+                <div class="ui input">
+                  <input type="text" id="set-replay-folder" disabled>
+                  <div class="ui right attached button browse" id="set-replay-folder-button">Browse</div>
+                </div>
+              </div>
+            </div>
             <div class="field">
               <label>Active Stat Source</label>
               <div class="ui fluid selection dropdown" id="data-source-menu">

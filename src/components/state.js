@@ -439,6 +439,32 @@ class State {
     $('#sots-db-location').val(this.dataSource.sotsDBLoc);
     $('#sots-db-collection').dropdown('set exactly', this.dataSource.sotsDBCollection);
     $('#data-grabber-menu').dropdown('set exactly', this.dataSource.dataGrabber);
+    $('#set-replay-folder').val(this.dataSource.replayFolder);
+  }
+
+  setLastReplayData(data) {
+    this.lastReplayData = data;
+    
+    // other handlers after watcher reports
+    if (this.lastReplayData.status !== 1) {
+      showMessage(`Error parsing most recent replay file. Status code ${this.lastReplayData.status}`, 'error');
+    }
+    else {
+      showMessage(`Received Updated Match Data on ${this.lastReplayData.match.date} from ${this.lastReplayData.match.filename}`, 'info');
+    }
+    //console.log(this.lastReplayData);
+  }
+
+  setWatchLocation() {
+    this.dataSource.replayFolder = $('#set-replay-folder').val();
+
+    if (this.dataSource.replayFolder !== '') {
+      bgWindow.webContents.send('startWatcher', this.dataSource.replayFolder);
+
+      // save data source settings
+      settings.set('dataSource', this.dataSource);
+      console.log(`started watching ${this.dataSource.replayFolder}`);
+    }
   }
 }
 

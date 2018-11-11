@@ -18,9 +18,12 @@ const io = require('socket.io')(http);
 const appVersion = require('electron').remote.app.getVersion();
 const path = require('path');
 const { shell, remote } = require('electron');
+const BrowserWindow = require('electron').remote.BrowserWindow;
+const ipc = require('electron').ipcRenderer;
 
 // global for debug
 let appState;
+let bgWindow;
 
 // hey so we're gonna stick heroes talents in the global window state because reasons
 window.heroesTalents = new HeroesTalents(
@@ -43,6 +46,12 @@ function showMessage(msg, classname) {
 
 window.showMessage = showMessage;
 
+function createReplayWatcher() {
+  const bgPath = `file://${path.join(__dirname, './bg-replay-watcher.html')}`;
+  bgWindow = new BrowserWindow({width: 400, height: 400, show: false});
+  bgWindow.loadURL(bgPath);
+}
+
 $(document).ready(() => {
   $('.app-version').text(appVersion);
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
@@ -56,6 +65,9 @@ $(document).ready(() => {
       shell.openExternal(this.href);
   });
 
+  createReplayWatcher();
+  $('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
+
   Casters.Init();
   TeamData.Init();
   MapData.Init();
@@ -66,6 +78,10 @@ $(document).ready(() => {
   appState = new State(io);
   appState.onLowerThirdConnect = LowerThird.onLowerThirdConnect;
   appState.onLowerThirdDisconnect = LowerThird.onLowerThirdDisconnect;
+
+  ipc.on('replayParsed', function(event, data) {
+    appState.setLastReplayData(data);
+  });
 
   TeamData.InitWithState(appState);
   MapData.InitWithState(appState);

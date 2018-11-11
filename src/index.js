@@ -27,6 +27,12 @@ const createWindow = () => {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
+
+    // attempt to close all windows when main closes so the app quits
+    const allWindows = BrowserWindow.getAllWindows();
+    for (const w in allWindows) {
+      allWindows[w].close();
+    }
   });
 };
 
