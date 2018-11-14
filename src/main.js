@@ -65,8 +65,8 @@ $(document).ready(() => {
       shell.openExternal(this.href);
   });
 
-  createReplayWatcher();
-  $('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
+  //createReplayWatcher();
+  //$('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
 
   Casters.Init();
   TeamData.Init();

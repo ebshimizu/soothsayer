@@ -41,7 +41,7 @@ function initWithState(state) {
   activeSource = appState.dataSource.active;
   $('#data-source-menu').dropdown('set exactly', activeSource);
   $('#set-replay-folder-button').click(browseReplayFolder);
-  appState.setWatchLocation();
+  //appState.setWatchLocation();
 }
 
 function changeDataSource(val) {
