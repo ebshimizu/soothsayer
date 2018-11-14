@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Nexa Bold";
+  src: url('../fonts/nexa-bold.otf') format('opentype');
+}
+
 :root {
   --blue-border-color: #2185d0;
   --red-border-color: #db2828;
@@ -25,9 +30,8 @@ body#map-list-only
   position: absolute;
   text-align: center;
   width: 44vw;
-  font-family: 'Nexa', sans-serif;
+  font-family: 'Nexa Bold', sans-serif;
   font-size: 8vmin;
-  font-weight: bold;
   color: #FFF;
   right: 1.5vw;
   top: 8vh;

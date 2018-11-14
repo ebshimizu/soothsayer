@@ -7,3 +7,10 @@ body#single-caster-frame {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.team-logo,
+.team-name-flex,
+.team-score-flex
+{
+  display: none;
+}
