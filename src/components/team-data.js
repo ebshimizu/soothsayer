@@ -5,6 +5,34 @@ const fs = require('fs-extra');
 const { heroMenu } = require('./util');
 let appState;
 
+function registerDragHandle(elem, fileHandler) {
+  $(elem).on('dragenter', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+  $(elem).on('dragleave', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+  $(elem).on('drop', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    fileHandler(elem, event.originalEvent.dataTransfer.files);
+  });
+}
+
+// assumes this was called on an input element
+function dropTeamLogo(elem, files) {
+  let rootFolder = path.join(__dirname, '../obs_src');
+
+  if (!fs.existsSync(rootFolder)) {
+    rootFolder = path.join(process.resourcesPath, 'app', 'src', 'obs_src');
+  }
+
+  // needs relative path from the files. they're all here.
+  $(elem).val(path.relative(rootFolder, files[0].path));
+}
+
 function initTeamData() {
   $('#team-data .find-logo .browse.button').click(findTeamLogo);
   $('#team-data .find-logo .clear-field.button').click(clearField);
@@ -19,6 +47,8 @@ function initTeamData() {
   }
 
   $('#team-data .player-hero-menu').dropdown();
+  registerDragHandle('#team-red-logo input', dropTeamLogo);
+  registerDragHandle('#team-blue-logo input', dropTeamLogo);
 }
 
 function initWithState(state) {
