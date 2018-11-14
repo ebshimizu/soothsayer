@@ -1,6 +1,7 @@
 const coreThemeFiles = [
   'blue-team-logo',
   'caster-single-frame',
+  'caster-duo-frame',
   'caster-single-side-facts',
   'draft',
   'in-game',
