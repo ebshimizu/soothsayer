@@ -56,7 +56,8 @@ $(document).ready(() => {
   $('.app-version').text(appVersion);
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
   $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
-    showMessage(`Error: ${thrownError}`);
+    console.log(jqxhr);
+    showMessage(`Error: ${jqxhr.status}`, 'negative');
   });
 
   // auto open external links

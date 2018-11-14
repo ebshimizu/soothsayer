@@ -7,6 +7,7 @@ function heroesLoungeGetTeamFull(type) {
   $.get(`http://heroeslounge.gg/api/v1/matches/${matchId}/teams`, '', function(teams) {
     // ok now the other teams
     if (teams.length === 2) {
+      console.log(teams);
       $('#team-blue-name').val(teams[0][type]);
       $('#team-red-name').val(teams[1][type]);
       showMessage(`Heroes Lounge Grabber: Loaded ${matchId}. Blue: ${teams[0][type]}, Red: ${teams[1][type]}.`, 'positive');
@@ -29,6 +30,21 @@ function heroesLoungeGetTeamFull(type) {
           showMessage(`Heroes Lounge Grabber: Failed to load ${teams[1][type]}'s logo`, 'negative');
         }
       });
+      $.get(`http://heroeslounge.gg/api/v1/teams/${teams[0].id}/sloths`, '', function(p1) {
+        $.get(`http://heroeslounge.gg/api/v1/teams/${teams[1].id}/sloths`, '', function(p2) {
+          // stip tags, add to pool
+          const players = p1.concat(p2);
+          const names = [];
+          for (const player of players) {
+            names.push(player.battle_tag.substring(0, player.battle_tag.indexOf('#')));
+          }
+
+          $('#player-pool').val(names.join('\n'));
+          $('#player-pool').focusout();
+          showMessage(`Heroes Lounge Grabber: Player Pool Loaded. Count ${names.length}.`, 'positive');
+        });
+      });
+
     }
     else {
       showMessage(`Heroes Lounge Grabber: Failed to get data for ${matchId}.`, 'negative')

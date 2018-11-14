@@ -82,3 +82,4 @@ function updatePlayerPoolMenus() {
 
 exports.Init = initTeamData;
 exports.InitWithState = initWithState;
+exports.updatePlayerPoolMenus = updatePlayerPoolMenus;
