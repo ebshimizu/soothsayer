@@ -35,6 +35,10 @@ function dropTeamLogo(elem, files) {
 
 function initTeamData() {
   $('#team-data .find-logo .browse.button').click(findTeamLogo);
+
+  // this might want to move? it's technically not tema data but uses the same functions
+  $('#event-logo .browse.button').click(findTeamLogo);
+
   $('#team-data .find-logo .clear-field.button').click(clearField);
   $('#popup-display-mode').dropdown();
   $('.player-entry').dropdown({
@@ -49,6 +53,7 @@ function initTeamData() {
   $('#team-data .player-hero-menu').dropdown();
   registerDragHandle('#team-red-logo input', dropTeamLogo);
   registerDragHandle('#team-blue-logo input', dropTeamLogo);
+  registerDragHandle('#event-logo input', dropTeamLogo);
 }
 
 function initWithState(state) {
@@ -69,7 +74,7 @@ function findTeamLogo() {
   let input = $(this).parent().siblings('input');
 
   dialog.showOpenDialog({
-    title: 'Add Team Logo',
+    title: 'Locate Image',
     filters: [
       {name: 'Images', extensions: ['jpg', 'png', 'gif', 'jpeg' ]}
     ],

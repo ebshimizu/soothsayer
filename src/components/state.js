@@ -410,6 +410,7 @@ class State {
     };
     this.casters.frame = parseInt($('#frame-variant').dropdown('get value'));
     this.casters.playerPool = $('#player-pool').val();
+    this.casters.eventLogo = $('#event-logo input').val();
   }
 
   displayCasterData() {
@@ -425,6 +426,7 @@ class State {
     $('#sidebar-text').val(this.casters.sidebar ? this.casters.sidebar.text : '');
     $('#frame-variant').dropdown('set exactly', this.casters.frame ? this.casters.frame : '');
     $('#player-pool').val(this.casters.playerPool);
+    $('#event-logo input').val(this.casters.eventLogo);
   }
 
   setDataSource(src) {
