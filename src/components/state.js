@@ -210,7 +210,7 @@ class State {
 
     for (const i of [1, 2, 3, 4, 5]) {
       const bluep = {
-        name: $(`#blue-p${i}-name`).val(),
+        name: $(`#blue-p${i}-name`).dropdown('get text'),
         hero: $(`#blue-p${i}-hero .player-hero-menu`).dropdown('get value'),
         classname: '',
       };
@@ -221,7 +221,7 @@ class State {
       this.blueTeam.players.push(bluep);
 
       const redp = {
-        name: $(`#red-p${i}-name`).val(),
+        name: $(`#red-p${i}-name`).dropdown('get text'),
         hero: $(`#red-p${i}-hero .player-hero-menu`).dropdown('get value'),
         classname: '',
       };
@@ -247,20 +247,22 @@ class State {
 
     for (const i of [1, 2, 3, 4, 5]) {
       if (this.blueTeam.players) {
-        $(`#blue-p${i}-name`).val(this.blueTeam.players[i - 1].name);
+        $(`#blue-p${i}-name`).dropdown('set exactly', this.blueTeam.players[i - 1].name);
+        $(`#blue-p${i}-name`).dropdown('set text', this.blueTeam.players[i - 1].name);
         $(`#blue-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.blueTeam.players[i - 1].hero);
       }
       else {
-        $(`#blue-p${i}-name`).val('');
+        $(`#blue-p${i}-name`).dropdown('clear');
         $(`#blue-p${i}-hero .player-hero-menu`).dropdown('clear');
       }
 
       if (this.blueTeam.players) {
-        $(`#red-p${i}-name`).val(this.redTeam.players[i - 1].name);
+        $(`#red-p${i}-name`).dropdown('set exactly', this.redTeam.players[i - 1].name);
+        $(`#red-p${i}-name`).dropdown('set text', this.redTeam.players[i - 1].name);
         $(`#red-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.redTeam.players[i - 1].hero);
       }
       else {
-        $(`#red-p${i}-name`).val('');
+        $(`#red-p${i}-name`).dropdown('clear');
         $(`#red-p${i}-hero .player-hero-menu`).dropdown('clear');
       }
     }
@@ -407,6 +409,7 @@ class State {
       text: $('#sidebar-text').val(),
     };
     this.casters.frame = parseInt($('#frame-variant').dropdown('get value'));
+    this.casters.playerPool = $('#player-pool').val();
   }
 
   displayCasterData() {
@@ -421,6 +424,7 @@ class State {
     $('#sidebar-title').val(this.casters.sidebar ? this.casters.sidebar.title : '');
     $('#sidebar-text').val(this.casters.sidebar ? this.casters.sidebar.text : '');
     $('#frame-variant').dropdown('set exactly', this.casters.frame ? this.casters.frame : '');
+    $('#player-pool').val(this.casters.playerPool);
   }
 
   setDataSource(src) {

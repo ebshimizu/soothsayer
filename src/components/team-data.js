@@ -3,11 +3,15 @@ const { dialog } = require('electron').remote;
 const path = require('path');
 const fs = require('fs-extra');
 const { heroMenu } = require('./util');
+let appState;
 
 function initTeamData() {
   $('#team-data .find-logo .browse.button').click(findTeamLogo);
   $('#team-data .find-logo .clear-field.button').click(clearField);
   $('#popup-display-mode').dropdown();
+  $('.player-entry').dropdown({
+    allowAdditions: true,
+  });
 
   for (const i of [1, 2, 3, 4, 5]) {
     $(`#blue-p${i}-hero`).html(heroMenu(heroesTalents, 'player-hero-menu'));
@@ -18,12 +22,16 @@ function initTeamData() {
 }
 
 function initWithState(state) {
+  appState = state;
+
   $('#team-data-swap').click(() => state.swapTeamData());
   $('#team-data-clear').click(() => state.resetTeamData());
   $('#player-popup-show').click(() => {
     showMessage('Running Player Name Popups', 'positive');
     state.sendAll('runPopups', {})
   });
+  $('#player-pool').focusout(updatePlayerPoolMenus);
+  updatePlayerPoolMenus();
 }
 
 // this context: clicked element
@@ -52,6 +60,24 @@ function findTeamLogo() {
 
 function clearField() {
   $(this).parent().siblings('input').val('');
+}
+
+function updatePlayerPoolMenus() {
+  const pool = $('#player-pool').val();
+
+  if (pool) {
+    const values = [];
+    const names = pool.split('\n');
+    for (let n of names) {
+      values.push({
+        value: n,
+        text: n,
+        name: n,
+      });
+    }
+
+    $('.player-entry').dropdown('change values', values);
+  }
 }
 
 exports.Init = initTeamData;
