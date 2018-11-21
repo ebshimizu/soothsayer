@@ -13,6 +13,7 @@ const coreThemeFiles = [
   'post-game',
   'red-team-logo',
   'blue-team-logo',
+  'logo',
 ];
 
 exports.coreThemeFiles = coreThemeFiles;
