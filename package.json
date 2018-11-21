@@ -1,7 +1,7 @@
 {
     "name": "hots-caster-tool",
     "productName": "hots-caster-tool",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A tool for generating OBS overlays for casting Heroes of the Storm.",
     "main": "src/index.js",
     "scripts": {
