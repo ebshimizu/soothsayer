@@ -1,24 +1,99 @@
 const fs = require('fs-extra');
 const themeWriter = require('./theme-writer');
 const path = require('path');
+const data = require('../data/core-file-list');
 
 let loadedThemes = {};
 
+// this is just the creation, update is a different function
+function createOverrideControls() {
+  $('#theme-override-list').html('');
+
+  for (let file of data.coreThemeFiles) {
+    $('#theme-override-list').append(`
+      <div class="five wide column">
+        <div class="text-flex-container right">
+          <div class="text-flex">
+            ${file}.html
+          </div>
+        </div>
+      </div>
+      <div class="eleven wide column">
+        <div class="ui fluid selection dropdown theme-override" file-name="${file}.html">
+          <i class="dropdown icon"></i>
+          <div class="text"></div>
+          <div class="menu">
+
+          </div>
+        </div>
+      </div>
+    `);
+  }
+
+  $('.theme-override.dropdown').dropdown();
+}
+
+function updateOverrideMenus() {
+  // construct options list
+  const vals = [
+    { value: 'no-override', text: '[No Override]', name: '[No Override]' },
+    { value: 'default', text: 'Default Theme', name: 'Default Theme' },
+  ];
+
+  for (const theme in loadedThemes) {
+    const t = loadedThemes[theme];
+    vals.push({ value: t.folderName, text: `${t.name} v${t.version} by ${t.author}`, name: `${t.name} v${t.version} by ${t.author}` });
+  }
+
+  $('.theme-override.dropdown').dropdown('change values', vals);
+}
+
+function setOverrideMenus(theme) {
+  $('.theme-override.dropdown').dropdown('set exactly', 'no-override');
+
+  for (let page in theme.overrides) {
+    $(`.theme-override.dropdown[file-name="${page}"]`).dropdown('set exactly', theme.overrides[page]);
+  }
+}
+
+function getOverrides() {
+  const elems = $('.theme-override.dropdown');
+  const overrides = {};
+
+  for (let i = 0; i < elems.length; i++) {
+    const val = $(elems[i]).dropdown('get value');
+    const file = $(elems[i]).attr('file-name');
+    
+    if (val !== 'no-override') {
+      overrides[file] = val;
+    }
+  }
+
+  return overrides;
+}
+
+function resetOverrides() {
+  $('.theme-override.dropdown').dropdown('set exactly', 'no-override');
+}
+
 function initThemes() {
   $('#theme-menu').dropdown();
+  createOverrideControls();
   scanThemes();
 
   $('#rescan-themes').click(scanThemes);
 }
 
 function initWithState(state) {
-  $('#set-theme').click(() => {
+  $('.set-theme-button').click(() => {
     state.broadcastThemeChange();
     renderThemeCredits(state.theme);
     showMessage('Theme Changed', 'positive');
   });
   $('#theme-menu').dropdown('set exactly', state.theme.name);
   $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
+  $('#theme-override-default').click(resetOverrides);
+  setOverrideMenus(state.theme);
   $('#set-theme').click();
 }
 
@@ -139,9 +214,12 @@ function scanThemes() {
 
   if (appState)
     $('#theme-menu').dropdown('set exactly', appState.theme.name);
+
+  updateOverrideMenus();
 }
 
 exports.Init = initThemes;
 exports.InitWithState = initWithState;
 exports.getTheme = getTheme;
 exports.renderThemeCredits = renderThemeCredits;
+exports.getOverrides = getOverrides;

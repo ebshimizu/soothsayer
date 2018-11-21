@@ -1,5 +1,5 @@
 const coreThemeFiles = [
-  'blue-team-logo',
+  'caster-frame',
   'caster-single-frame',
   'caster-duo-frame',
   'caster-single-side-facts',
@@ -8,9 +8,11 @@ const coreThemeFiles = [
   'map-select-list',
   'map-select-tiles',
   'map-select',
-  'red-team-logo',
   'stat-lower-third',
   'player-popups',
+  'post-game',
+  'red-team-logo',
+  'blue-team-logo',
 ];
 
 exports.coreThemeFiles = coreThemeFiles;

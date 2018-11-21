@@ -31,3 +31,13 @@
 .is-hidden {
   display: none;
 }
+
+.text-flex-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.text-flex-container.right {
+  justify-content: flex-end;
+}

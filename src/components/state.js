@@ -160,7 +160,7 @@ class State {
 
   broadcastThemeChange() {
     this.updateTheme();
-    io.sockets.emit('changeTheme', this.theme.folderName);
+    io.sockets.emit('changeTheme', this.theme);
     this.save();
   }
 
@@ -168,8 +168,12 @@ class State {
     // get val from the dropdown, load the theme data
     this.theme = Themes.getTheme($('#theme-menu').dropdown('get value'));
 
-    if (!this.theme)
+    if (!this.theme) {
       this.theme = {};
+    }
+    else {
+      this.theme.overrides = Themes.getOverrides();      
+    }
   }
 
   save() {
@@ -477,7 +481,7 @@ function constructState(io) {
   io.on('connection', (socket) => {
     console.log(`New connection from ${socket.id}. Requesting id.`);
     socket.emit('requestID');
-    socket.emit('changeTheme', state.theme.folderName);
+    socket.emit('changeTheme', state.theme);
 
     socket.on('disconnect', function (reason) {
       state.unregisterOverlay(socket.id, reason);

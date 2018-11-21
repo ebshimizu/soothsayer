@@ -91,7 +91,9 @@ function createKeybindInputs() {
   for (let k in KeybindInfo) {
     elem += `
       <div class="seven wide column">
-        <p>${KeybindInfo[k].name}</p>
+        <div class="text-flex-container right">
+          <div class="text-flex">${KeybindInfo[k].name}</div>
+        </div>
       </div>
       <div class="eight wide column">
         <div class="ui fluid input">

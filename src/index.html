@@ -471,6 +471,7 @@
     <div class="ui bottom attached active tab segment" data-tab="status" id="status">
       <div class="ui secondary menu" id="status-tab-menu">
         <a class="active item" data-tab="status-config">Config</a>
+        <a class="item" data-tab="theme-override">Theme Overrides</a>
         <a class="item" data-tab="status-keybinds">Keybinds</a>
         <a class="item" data-tab="status-overlays">Active Overlays</a>
       </div>
@@ -529,7 +530,7 @@
               </div>
               <div class="three wide field">
                 <label>Set Theme</label>
-                <div class="ui fluid green button" id="set-theme">Set</div>
+                <div class="ui fluid green button set-theme-button" id="set-theme">Set</div>
               </div>
             </div>
           </form>
@@ -638,6 +639,29 @@
               </div>
             </div>
           </form>
+        </div>
+      </div>
+      <div class="ui tab" data-tab="theme-override">
+        <div class="ui segment">
+          <h2 class="ui dividing header">Theme Overrides</h2>
+          <div class="ui info message">
+            <div class="content">
+              <p>
+                This panel lets you assign a theme to an individual overlay source. These
+                settings will override the currently selected theme.
+              </p>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="eight wide column">
+              <div class="ui fluid blue button" id="theme-override-default">Restore Default</div>
+            </div>
+            <div class="eight wide column">
+              <div class="ui fluid green button set-theme-button" id="theme-override-set">Set Overrides</div>
+            </div>
+          </div>
+          <div class="ui grid" id="theme-override-list">
+          </div>
         </div>
       </div>
       <div class="ui tab" data-tab="status-overlays">

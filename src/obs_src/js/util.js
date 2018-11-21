@@ -14,16 +14,24 @@ function setCSSImage(elem, url) {
 }
 
 // injects a css file right into the dom
-function changeTheme(themeDir, target) {
+function changeTheme(theme, target) {
   if (themeLocked === true) {
     console.log('No change. Theme is Locked.');
     return;
   }
 
+  // check for overrides
+  let themeDir = theme.folderName;
+  const page = window.location.pathname.split('/').pop();
+
+  if (theme.overrides && (page in theme.overrides)) {
+    themeDir = theme.overrides[page];
+  }
+
   console.log(`Theme Change: ${themeDir}`);
 
   // default reset
-  if (!themeDir) {
+  if (!themeDir || themeDir === 'default') {
     $('link#theme-css').remove();
     return;
   }
