@@ -122,6 +122,13 @@ or open them up in Chrome/Firefox and use the web inspector to find the relevant
 If you attempt to load two themes with the same name, the system will basically randomly
 pick one to be active, so don't use duplicate names.
 
+### Where can I get themes?
+
+You might notice that the public build for the caster tool doesn't include any themes beyond the base
+examples (many of which are pretty rough). Currently, theme development has been supported by
+the [Casters for Hire Discord](https://discord.gg/H3DEyST). Hop on in there to get more info about
+the tool and currently available themes.
+
 ## Developing
 
 This should get you started:
