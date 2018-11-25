@@ -43,6 +43,12 @@ function initTeamData() {
   $('#popup-display-mode').dropdown();
   $('.player-entry').dropdown({
     allowAdditions: true,
+    onChange: function(value, text, $choice) {
+      if ($choice) {
+        const id = $choice.parents('.player-entry').attr('id');
+        $(`input[name="${id}"]`).val(value);
+      }
+    },
   });
 
   for (const i of [1, 2, 3, 4, 5]) {
@@ -50,7 +56,9 @@ function initTeamData() {
     $(`#red-p${i}-hero`).html(heroMenu(heroesTalents, 'player-hero-menu'));
   }
 
-  $('#team-data .player-hero-menu').dropdown();
+  $('#team-data .player-hero-menu').dropdown({
+    fullTextSearch: true,
+  });
   registerDragHandle('#team-red-logo input', dropTeamLogo);
   registerDragHandle('#team-blue-logo input', dropTeamLogo);
   registerDragHandle('#event-logo input', dropTeamLogo);
@@ -102,16 +110,21 @@ function updatePlayerPoolMenus() {
 
   if (pool) {
     const values = [];
-    const names = pool.split('\n');
+    const names = pool.split('\n').sort();
     for (let n of names) {
-      values.push({
-        value: n,
-        text: n,
-        name: n,
-      });
+      if (n !== '') {
+        values.push({
+          value: n,
+          text: n,
+          name: n,
+        });
+      }
     }
 
     $('.player-entry').dropdown('change values', values);
+  }
+  else {
+    $('.player-entry').dropdown('change values', []);
   }
 }
 

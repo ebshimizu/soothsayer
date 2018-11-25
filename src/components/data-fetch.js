@@ -68,6 +68,7 @@ function updateInfo(key) {
     <div class="header">Heroes Lounge</div
     <div class="content">
       Grabs data from the Heroes Lounge website. You can grab full team names or slugs.
+      This will also populate the player pool with the names of players on the involved teams.
     </div>
   `);
   }

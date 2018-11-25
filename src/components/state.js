@@ -214,7 +214,7 @@ class State {
 
     for (const i of [1, 2, 3, 4, 5]) {
       const bluep = {
-        name: $(`#blue-p${i}-name`).dropdown('get text'),
+        name: $(`input[name="blue-p${i}-name"]`).val(),
         hero: $(`#blue-p${i}-hero .player-hero-menu`).dropdown('get value'),
         classname: '',
       };
@@ -225,7 +225,7 @@ class State {
       this.blueTeam.players.push(bluep);
 
       const redp = {
-        name: $(`#red-p${i}-name`).dropdown('get text'),
+        name: $(`input[name="red-p${i}-name"]`).val(),
         hero: $(`#red-p${i}-hero .player-hero-menu`).dropdown('get value'),
         classname: '',
       };
@@ -251,22 +251,20 @@ class State {
 
     for (const i of [1, 2, 3, 4, 5]) {
       if (this.blueTeam.players) {
-        $(`#blue-p${i}-name`).dropdown('set exactly', this.blueTeam.players[i - 1].name);
-        $(`#blue-p${i}-name`).dropdown('set text', this.blueTeam.players[i - 1].name);
+        $(`input[name="blue-p${i}-name"]`).val(this.blueTeam.players[i - 1].name);
         $(`#blue-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.blueTeam.players[i - 1].hero);
       }
       else {
-        $(`#blue-p${i}-name`).dropdown('clear');
+        $(`input[name="blue-p${i}-name"]`).val('');
         $(`#blue-p${i}-hero .player-hero-menu`).dropdown('clear');
       }
 
       if (this.blueTeam.players) {
-        $(`#red-p${i}-name`).dropdown('set exactly', this.redTeam.players[i - 1].name);
-        $(`#red-p${i}-name`).dropdown('set text', this.redTeam.players[i - 1].name);
+        $(`input[name="red-p${i}-name"]`).val(this.redTeam.players[i - 1].name);
         $(`#red-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.redTeam.players[i - 1].hero);
       }
       else {
-        $(`#red-p${i}-name`).dropdown('clear');
+        $(`input[name="red-p${i}-name"]`).val('');
         $(`#red-p${i}-hero .player-hero-menu`).dropdown('clear');
       }
     }
