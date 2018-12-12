@@ -187,3 +187,7 @@ body {
 .alterac {
   background-image: url("../images/tiles/alterac.png");
 }
+
+.combined-score {
+  display: none;
+}

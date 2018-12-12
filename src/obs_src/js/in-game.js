@@ -16,8 +16,8 @@ class InGameHUD {
   updateState(state) {
     $('#blue-team-name').text(state.blueTeam.name);
     $('#red-team-name').text(state.redTeam.name);
-    $('#blue-team-score').text(isNaN(state.blueTeam.score) ? 0 : state.blueTeam.score);
-    $('#red-team-score').text(isNaN(state.redTeam.score) ? 0 : state.redTeam.score);
+    $('.team-score.blue').text(isNaN(state.blueTeam.score) ? 0 : state.blueTeam.score);
+    $('.team-score.red').text(isNaN(state.redTeam.score) ? 0 : state.redTeam.score);
 
     if (state.match.textOverride && state.match.textOverride !== '') {
       $('#best-of').hide();
