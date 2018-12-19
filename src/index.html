@@ -11,501 +11,533 @@
     <script src="semantic/dist/semantic.min.js"></script>
     <script src="main.js"></script>
   </head>
-  <body>
-    <div class="ui top attached tabular menu" id="section-menu">
-      <a class="item active" data-tab="status">Config</a>
-      <a class="item" data-tab="settings">General</a>
-      <a class="item" data-tab="map">Match</a>
-      <a class="item" data-tab="team">Team</a>
-      <a class="item" data-tab="stats">Stats</a>
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="settings" id="settings">
-      <div class="ui segment">
-        <h2 class="ui dividing header">General Data</h2>
-        <form class="ui form">
-          <div class="fields">
-            <div class="two wide field">
-              <label># Casters</label>
-              <div class="ui fluid selection dropdown" id="caster-count">
-                <i class="dropdown icon"></i>
-                <div class="text">2</div>
-                <div class="menu">
-                  <div class="item" data-value="1">1</div>
-                  <div class="item" data-value="2">2</div>
-                </div>
-              </div>
-            </div>
-            <div class="two wide field">
-              <label>Frame Variant</label>
-              <div class="ui fluid selection dropdown" id="frame-variant">
-                <i class="dropdown icon"></i>
-                <div class="text">1</div>
-                <div class="menu">
-                  <div class="item" data-value="1">1</div>
-                  <div class="item" data-value="2">2</div>
-                  <div class="item" data-value="3">3</div>
-                  <div class="item" data-value="4">4</div>
-                </div>
-              </div>
-            </div>
-            <div class="twelve wide field">
-              <label>Tournament Label</label>
-              <input type="text" name="tournament-name" id="tournament-name">
-            </div>
-          </div>
-          <div class="fields caster-1">
-            <div class="ten wide field">
-              <label>Caster 1</label>
-              <input type="text" name="caster-1-name" id="caster-1-name">
-            </div>
-            <div class="four wide field">
-              <label>Caster 1 Social</label>
-              <input type="text" name="caster-1-social" id="caster-1-social">
-            </div>
-            <div class="two wide field">
-              <label>Text Size</label>
-              <div class="ui fluid selection dropdown" id="caster-1-size">
-                <i class="dropdown icon"></i>
-                <div class="text">Medium</div>
-                <div class="menu">
-                  <div class="item" data-value="small">Small</div>
-                  <div class="item" data-value="medium">Medium</div>
-                  <div class="item" data-value="large">Large</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="fields caster-2">
-            <div class="ten wide field">
-              <label>Caster 2</label>
-              <input type="text" name="caster-2-name" id="caster-2-name">
-            </div>
-            <div class="four wide field">
-              <label>Caster 2 Social</label>
-              <input type="text" name="caster-2-social" id="caster-2-social">
-            </div>
-            <div class="two wide field">
-              <label>Text Size</label>
-              <div class="ui fluid selection dropdown" id="caster-2-size">
-                <i class="dropdown icon"></i>
-                <div class="text">Medium</div>
-                <div class="menu">
-                  <div class="item" data-value="small">Small</div>
-                  <div class="item" data-value="medium">Medium</div>
-                  <div class="item" data-value="large">Large</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="fields">
-            <div class="six wide field">
-              <label>Sidebar Title</label>
-              <input type="text" id="sidebar-title">
-            </div>
-            <div class="ten wide field">
-              <label>Sidebar Text</label>
-              <textarea rows="3" id="sidebar-text"></textarea>
-            </div>
-          </div>
-          <!-- There are no templates that currently use triple casters, so this is here for future use 
-          <div class="fields">
-            <div class="twelve wide field">
-              <label>Caster 3</label>
-              <input type="text" name="caster-2-name" id="caster-3-name">
-            </div>
-            <div class="four wide field">
-              <label>Caster 3 Social</label>
-              <input type="text" name="caster-2-social" id="caster-3-social">
-            </div>
-          </div> -->
-          <div class="field">
-            <label>Event Logo</label>
-            <div class="ui action input find-logo" id="event-logo">
-              <input type="text" placeholder="Event Logo">
-              <div class="ui buttons">
-                <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
-                <div class="ui left attached button browse">Browse</div>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label>Player Pool (optional, one per line)</label>
-            <textarea rows="4" id="player-pool"></textarea>
-          </div>
-        </form>
+  <body id="caster-tool">
+    <div class="ui fixed inverted compact main menu">
+      <div class="item">
+        Game: Heroes of the Storm
       </div>
-      
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="team" id="team-data">
-      <div class="ui segment">
-        <h2 class="ui dividing header">Team Controls</h2>
-        <form class="ui form">
-          <div class="fields">
-            <div class="two wide field">
-              <label>Swap Teams</label>
-              <div class="ui fluid button" id="team-data-swap">Swap</div>
-            </div>
-            <div class="three wide field">
-              <label>Display Popups</label>
-              <div class="ui fluid green button" id="player-popup-show">Display Popups</div>
-            </div>
-            <div class="six wide field">
-              <label>Popup Display Mode</label>
-              <div class="ui fluid selection dropdown" id="popup-display-mode">
-                <i class="dropdown icon"></i>
-                <div class="default text">Default: All</div>
-                <div class="menu">
-                  <div class="item" data-value="all">All</div>
-                  <div class="item" data-value="blue-then-red">All: Blue then Red</div>
-                  <div class="item" data-value="blue-only">Blue Only</div>
-                  <div class="item" data-value="red-only">Red Only</div>
-                  <div class="item" data-value="one-a-time-both">One At A Time: All</div>
-                  <div class="item" data-value="one-a-time-blue">One At A Time: Blue</div>
-                  <div class="item" data-value="one-a-time-red">One At A Time: Red</div>
-                </div>
-              </div>
-            </div>
-            <div class="three wide field">
-              <label>Clear Players</label>
-              <div class="ui fluid red button" id="team-names-clear">Clear Players</div>
-            </div>
-            <div class="three wide field">
-              <label>Clear All</label>
-              <div class="ui fluid red button" id="team-data-clear">Clear All</div>
-            </div>
-          </div>
-          <div class="fields">
-            <div class="three wide field">
-              <label>Popup Total Time (s)</label>
-              <input type="number" min="1" max="10000" id="popup-anim-time">
-            </div>
-            <div class="five wide field">
-              <label>Sync Score</label>
-              <div class="ui toggle checkbox" id="match-score-data-sync">
-                <input type="checkbox">
-                <label>Sync Score with Match Data</label>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="ui segment">
-        <div class="ui two column grid">
-          <div class="ui column">
-            <h2 class="ui blue dividing header">Blue Team</h2>
-            <form class="ui form">
-              <div class="fields">
-                <div class="twelve wide field">
-                  <label>Name</label>
-                  <input type="text" name="blue-name" id="team-blue-name">
-                </div>
-                <div class="four wide field">
-                  <label>Score</label>
-                  <input type="number" min="0" max="100" name="blue-score" id="team-blue-score">
-                </div>
-              </div>
-              <div class="field">
-                <label>Team Logo</label>
-               <div class="ui action input find-logo" id="team-blue-logo">
-                  <input type="text" placeholder="Team Logo">
-                  <div class="ui buttons">
-                    <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
-                    <div class="ui left attached button browse">Browse</div>
-                  </div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 1</label>
-                  <div class="ui action input">
-                    <input type="text" name="blue-p1-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="blue-p1-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 1 Hero</label>
-                  <div id="blue-p1-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 2</label>
-                  <div class="ui action input">
-                    <input type="text" name="blue-p2-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="blue-p2-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 2 Hero</label>
-                  <div id="blue-p2-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 3</label>
-                  <div class="ui action input">
-                    <input type="text" name="blue-p3-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="blue-p3-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 3 Hero</label>
-                  <div id="blue-p3-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 4</label>
-                  <div class="ui action input">
-                    <input type="text" name="blue-p4-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="blue-p4-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 4 Hero</label>
-                  <div id="blue-p4-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 5</label>
-                  <div class="ui action input">
-                    <input type="text" name="blue-p5-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="blue-p5-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 5 Hero</label>
-                  <div id="blue-p5-hero"></div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="ui column">
-            <h2 class="ui red dividing header">Red Team</h2>
-            <form class="ui form">
-              <div class="fields">
-                <div class="four wide field">
-                  <label>Score</label>
-                  <input type="number" min="0" max="100" name="red-score" id="team-red-score">
-                </div>
-                <div class="twelve wide field">
-                  <label>Name</label>
-                  <input type="text" name="red-name" id="team-red-name">
-                </div>
-              </div>
-              <div class="field">
-                <label>Team Logo</label>
-                <div class="ui action input find-logo" id="team-red-logo">
-                  <input type="text" placeholder="Team Logo">
-                  <div class="ui buttons">
-                    <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
-                    <div class="ui left attached button browse">Browse</div>
-                  </div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 1</label>
-                  <div class="ui action input">
-                    <input type="text" name="red-p1-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="red-p1-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 1 Hero</label>
-                  <div id="red-p1-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 2</label>
-                  <div class="ui action input">
-                    <input type="text" name="red-p2-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="red-p2-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 2 Hero</label>
-                  <div id="red-p2-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 3</label>
-                  <div class="ui action input">
-                    <input type="text" name="red-p3-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="red-p3-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 3 Hero</label>
-                  <div id="red-p3-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 4</label>
-                  <div class="ui action input">
-                    <input type="text" name="red-p4-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="red-p4-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 4 Hero</label>
-                  <div id="red-p4-hero"></div>
-                </div>
-              </div>
-              <div class="fields">
-                <div class="ten wide field">
-                  <label>Player 5</label>
-                  <div class="ui action input">
-                    <input type="text" name="red-p5-name">
-                    <div class="ui icon scrolling dropdown button player-entry" id="red-p5-name">
-                      <i class="address book icon"></i>
-                      <div class="menu">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="six wide field">
-                  <label>Player 5 Hero</label>
-                  <div id="red-p5-hero"></div>
-                </div>
-              </div>
-            </form>
-          </div>
-      </div>
+      <a class="item menu-opt" id="main-settings-button">
+        <i class="wrench icon"></i>
+        Settings
+      </a>
+      <a class="active item menu-opt" id="main-operate-button">
+        <i class="film icon"></i>
+        Operate
+      </a>
+      <div class="right menu">
+        <a class="green active item" id="update-button">
+          UPDATE
+        </a>
       </div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="map" id="map-data">
-      <div class="ui segment">
-        <h2 class="ui dividing header">
-          Match Setup
-          <div class="ui tiny red button" id="match-data-clear">Clear Data</div>
-        </h2>
-        <form class="ui form">
-          <div class="fields">
-            <div class="two wide field">
-              <label>Best Of</label>
-              <div class="ui compact selection dropdown" id="best-of">
-                <i class="dropdown icon"></i>
-                <div class="text"></div>
-                <div class="menu">
-                  <div class="item" data-value="none">N/A</div>
-                  <div class="item" data-value="1">1</div>
-                  <div class="item" data-value="2">2</div>
-                  <div class="item" data-value="3">3</div>
-                  <div class="item" data-value="4">4</div>
-                  <div class="item" data-value="5">5</div>
+    <div class="ui bottom attached segment" id="operate-mode">
+      <div class="ui secondary pointing menu" id="section-menu">
+        <a class="active item" data-tab="settings">General</a>
+        <a class="item" data-tab="map">Match</a>
+        <a class="item" data-tab="team">Team</a>
+        <a class="item" data-tab="stats">Stats</a>
+      </div>
+      <div class="contained basic ui tab segment active" data-tab="settings" id="settings">
+        <div class="ui segment">
+          <h2 class="ui dividing header">General Data</h2>
+          <form class="ui form">
+            <div class="fields">
+              <div class="two wide field">
+                <label># Casters</label>
+                <div class="ui fluid selection dropdown" id="caster-count">
+                  <i class="dropdown icon"></i>
+                  <div class="text">2</div>
+                  <div class="menu">
+                    <div class="item" data-value="1">1</div>
+                    <div class="item" data-value="2">2</div>
+                  </div>
+                </div>
+              </div>
+              <div class="two wide field">
+                <label>Frame Variant</label>
+                <div class="ui fluid selection dropdown" id="frame-variant">
+                  <i class="dropdown icon"></i>
+                  <div class="text">1</div>
+                  <div class="menu">
+                    <div class="item" data-value="1">1</div>
+                    <div class="item" data-value="2">2</div>
+                    <div class="item" data-value="3">3</div>
+                    <div class="item" data-value="4">4</div>
+                  </div>
+                </div>
+              </div>
+              <div class="twelve wide field">
+                <label>Tournament Label</label>
+                <input type="text" name="tournament-name" id="tournament-name">
+              </div>
+            </div>
+            <div class="fields caster-1">
+              <div class="ten wide field">
+                <label>Caster 1</label>
+                <input type="text" name="caster-1-name" id="caster-1-name">
+              </div>
+              <div class="four wide field">
+                <label>Caster 1 Social</label>
+                <input type="text" name="caster-1-social" id="caster-1-social">
+              </div>
+              <div class="two wide field">
+                <label>Text Size</label>
+                <div class="ui fluid selection dropdown" id="caster-1-size">
+                  <i class="dropdown icon"></i>
+                  <div class="text">Medium</div>
+                  <div class="menu">
+                    <div class="item" data-value="small">Small</div>
+                    <div class="item" data-value="medium">Medium</div>
+                    <div class="item" data-value="large">Large</div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="three wide field">
-              <label>Best of Text Override</label>
-              <input type="text" class="has-popup" id="best-of-override" data-content="Typing any text in this field and clicking update will replace the 'Best Of' text and graphics with the entered text. To reset, clear all text.">
-            </div>
-            <div class="nine wide field">
-              <label>Map Pool</label>
-              <div class="ui fluid multiple search selection dropdown multi-map-menu" id="map-pool">
-                <i class="dropdown icon"></i>
-                <div class="default text">Select Maps</div>
-                <div class="menu">
-                  <!-- Filled in dynamically -->
+            <div class="fields caster-2">
+              <div class="ten wide field">
+                <label>Caster 2</label>
+                <input type="text" name="caster-2-name" id="caster-2-name">
+              </div>
+              <div class="four wide field">
+                <label>Caster 2 Social</label>
+                <input type="text" name="caster-2-social" id="caster-2-social">
+              </div>
+              <div class="two wide field">
+                <label>Text Size</label>
+                <div class="ui fluid selection dropdown" id="caster-2-size">
+                  <i class="dropdown icon"></i>
+                  <div class="text">Medium</div>
+                  <div class="menu">
+                    <div class="item" data-value="small">Small</div>
+                    <div class="item" data-value="medium">Medium</div>
+                    <div class="item" data-value="large">Large</div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="four wide field">
-              <label>Presets</label>
-              <div class="ui fluid floating labeled icon dropdown button" id="map-pool-presets">
-                <i class="globe icon"></i>
-                Load Preset Pool
-                <div class="menu">
-                  <div class="header">Available Pools</div>
-                  <!-- filled in dynamically -->
+            <div class="fields">
+              <div class="six wide field">
+                <label>Sidebar Title</label>
+                <input type="text" id="sidebar-title">
+              </div>
+              <div class="ten wide field">
+                <label>Sidebar Text</label>
+                <textarea rows="3" id="sidebar-text"></textarea>
+              </div>
+            </div>
+            <!-- There are no templates that currently use triple casters, so this is here for future use 
+            <div class="fields">
+              <div class="twelve wide field">
+                <label>Caster 3</label>
+                <input type="text" name="caster-2-name" id="caster-3-name">
+              </div>
+              <div class="four wide field">
+                <label>Caster 3 Social</label>
+                <input type="text" name="caster-2-social" id="caster-3-social">
+              </div>
+            </div> -->
+            <div class="field">
+              <label>Event Logo</label>
+              <div class="ui action input find-logo" id="event-logo">
+                <input type="text" placeholder="Event Logo">
+                <div class="ui buttons">
+                  <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                  <div class="ui left attached button browse">Browse</div>
                 </div>
               </div>
             </div>
+            <div class="field">
+              <label>Player Pool (optional, one per line)</label>
+              <textarea rows="4" id="player-pool"></textarea>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+      <div class="contained basic ui tab segment" data-tab="team" id="team-data">
+        <div class="ui segment">
+          <h2 class="ui dividing header">Team Controls</h2>
+          <form class="ui form">
+            <div class="fields">
+              <div class="two wide field">
+                <label>Swap Teams</label>
+                <div class="ui fluid button" id="team-data-swap">Swap</div>
+              </div>
+              <div class="three wide field">
+                <label>Display Popups</label>
+                <div class="ui fluid green button" id="player-popup-show">Display Popups</div>
+              </div>
+              <div class="six wide field">
+                <label>Popup Display Mode</label>
+                <div class="ui fluid selection dropdown" id="popup-display-mode">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Default: All</div>
+                  <div class="menu">
+                    <div class="item" data-value="all">All</div>
+                    <div class="item" data-value="blue-then-red">All: Blue then Red</div>
+                    <div class="item" data-value="blue-only">Blue Only</div>
+                    <div class="item" data-value="red-only">Red Only</div>
+                    <div class="item" data-value="one-a-time-both">One At A Time: All</div>
+                    <div class="item" data-value="one-a-time-blue">One At A Time: Blue</div>
+                    <div class="item" data-value="one-a-time-red">One At A Time: Red</div>
+                  </div>
+                </div>
+              </div>
+              <div class="three wide field">
+                <label>Clear Players</label>
+                <div class="ui fluid red button" id="team-names-clear">Clear Players</div>
+              </div>
+              <div class="three wide field">
+                <label>Clear All</label>
+                <div class="ui fluid red button" id="team-data-clear">Clear All</div>
+              </div>
+            </div>
+            <div class="fields">
+              <div class="three wide field">
+                <label>Popup Total Time (s)</label>
+                <input type="number" min="1" max="10000" id="popup-anim-time">
+              </div>
+              <div class="five wide field">
+                <label>Sync Score</label>
+                <div class="ui toggle checkbox" id="match-score-data-sync">
+                  <input type="checkbox">
+                  <label>Sync Score with Match Data</label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="ui segment">
+          <div class="ui two column grid">
+            <div class="ui column">
+              <h2 class="ui blue dividing header">Blue Team</h2>
+              <form class="ui form">
+                <div class="fields">
+                  <div class="twelve wide field">
+                    <label>Name</label>
+                    <input type="text" name="blue-name" id="team-blue-name">
+                  </div>
+                  <div class="four wide field">
+                    <label>Score</label>
+                    <input type="number" min="0" max="100" name="blue-score" id="team-blue-score">
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Team Logo</label>
+                <div class="ui action input find-logo" id="team-blue-logo">
+                    <input type="text" placeholder="Team Logo">
+                    <div class="ui buttons">
+                      <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                      <div class="ui left attached button browse">Browse</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 1</label>
+                    <div class="ui action input">
+                      <input type="text" name="blue-p1-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="blue-p1-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 1 Hero</label>
+                    <div id="blue-p1-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 2</label>
+                    <div class="ui action input">
+                      <input type="text" name="blue-p2-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="blue-p2-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 2 Hero</label>
+                    <div id="blue-p2-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 3</label>
+                    <div class="ui action input">
+                      <input type="text" name="blue-p3-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="blue-p3-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 3 Hero</label>
+                    <div id="blue-p3-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 4</label>
+                    <div class="ui action input">
+                      <input type="text" name="blue-p4-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="blue-p4-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 4 Hero</label>
+                    <div id="blue-p4-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 5</label>
+                    <div class="ui action input">
+                      <input type="text" name="blue-p5-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="blue-p5-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 5 Hero</label>
+                    <div id="blue-p5-hero"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="ui column">
+              <h2 class="ui red dividing header">Red Team</h2>
+              <form class="ui form">
+                <div class="fields">
+                  <div class="four wide field">
+                    <label>Score</label>
+                    <input type="number" min="0" max="100" name="red-score" id="team-red-score">
+                  </div>
+                  <div class="twelve wide field">
+                    <label>Name</label>
+                    <input type="text" name="red-name" id="team-red-name">
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Team Logo</label>
+                  <div class="ui action input find-logo" id="team-red-logo">
+                    <input type="text" placeholder="Team Logo">
+                    <div class="ui buttons">
+                      <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                      <div class="ui left attached button browse">Browse</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 1</label>
+                    <div class="ui action input">
+                      <input type="text" name="red-p1-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="red-p1-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 1 Hero</label>
+                    <div id="red-p1-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 2</label>
+                    <div class="ui action input">
+                      <input type="text" name="red-p2-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="red-p2-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 2 Hero</label>
+                    <div id="red-p2-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 3</label>
+                    <div class="ui action input">
+                      <input type="text" name="red-p3-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="red-p3-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 3 Hero</label>
+                    <div id="red-p3-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 4</label>
+                    <div class="ui action input">
+                      <input type="text" name="red-p4-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="red-p4-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 4 Hero</label>
+                    <div id="red-p4-hero"></div>
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="ten wide field">
+                    <label>Player 5</label>
+                    <div class="ui action input">
+                      <input type="text" name="red-p5-name">
+                      <div class="ui icon scrolling dropdown button player-entry" id="red-p5-name">
+                        <i class="address book icon"></i>
+                        <div class="menu">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide field">
+                    <label>Player 5 Hero</label>
+                    <div id="red-p5-hero"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="contained basic ui tab segment" data-tab="map" id="map-data">
+        <div class="ui segment">
+          <h2 class="ui dividing header">
+            Match Setup
+            <div class="ui tiny red button" id="match-data-clear">Clear Data</div>
+          </h2>
+          <form class="ui form">
+            <div class="fields">
+              <div class="two wide field">
+                <label>Best Of</label>
+                <div class="ui compact selection dropdown" id="best-of">
+                  <i class="dropdown icon"></i>
+                  <div class="text"></div>
+                  <div class="menu">
+                    <div class="item" data-value="none">N/A</div>
+                    <div class="item" data-value="1">1</div>
+                    <div class="item" data-value="2">2</div>
+                    <div class="item" data-value="3">3</div>
+                    <div class="item" data-value="4">4</div>
+                    <div class="item" data-value="5">5</div>
+                  </div>
+                </div>
+              </div>
+              <div class="three wide field">
+                <label>Best of Text Override</label>
+                <input type="text" class="has-popup" id="best-of-override" data-content="Typing any text in this field and clicking update will replace the 'Best Of' text and graphics with the entered text. To reset, clear all text.">
+              </div>
+              <div class="nine wide field">
+                <label>Map Pool</label>
+                <div class="ui fluid multiple search selection dropdown multi-map-menu" id="map-pool">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Maps</div>
+                  <div class="menu">
+                    <!-- Filled in dynamically -->
+                  </div>
+                </div>
+              </div>
+              <div class="four wide field">
+                <label>Presets</label>
+                <div class="ui fluid floating labeled icon dropdown button" id="map-pool-presets">
+                  <i class="globe icon"></i>
+                  Load Preset Pool
+                  <div class="menu">
+                    <div class="header">Available Pools</div>
+                    <!-- filled in dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="fields">
+              <div class="eight wide field">
+                <label class="ui blue label">Blue Map Ban</label>
+                <div class="ui fluid search selection dropdown map-menu" id="blue-map-ban">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">No Map</div>
+                  <div class="menu">
+                    <!-- filled in dynamically -->
+                  </div>
+                </div>
+              </div>
+              <div class="eight wide field">
+                <label class="ui red label">Red Map Ban</label>
+                <div class="ui fluid search selection dropdown map-menu" id="red-map-ban">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">No Map</div>
+                  <div class="menu">
+                    <!-- filled in dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="contained basic ui tab segment" data-tab="stats">
+        <h2 class="ui dividing header">Lower Thirds</h2>
+        <div class="ui info message">
+          <div class="content">
+            <p>
+              Add "stat-lower-third.html" as a browser source to enable this feature!
+            </p>
           </div>
-          <div class="fields">
-            <div class="eight wide field">
-              <label class="ui blue label">Blue Map Ban</label>
-              <div class="ui fluid search selection dropdown map-menu" id="blue-map-ban">
-                <i class="dropdown icon"></i>
-                <div class="default text">No Map</div>
-                <div class="menu">
-                  <!-- filled in dynamically -->
-                </div>
-              </div>
-            </div>
-            <div class="eight wide field">
-              <label class="ui red label">Red Map Ban</label>
-              <div class="ui fluid search selection dropdown map-menu" id="red-map-ban">
-                <i class="dropdown icon"></i>
-                <div class="default text">No Map</div>
-                <div class="menu">
-                  <!-- filled in dynamically -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+        </div>
+        <div id="connected-stat-screens">
+
+        </div>
       </div>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="status" id="status">
-      <div class="ui secondary menu" id="status-tab-menu">
+    <div class="ui bottom attached segment" id="config-mode">
+      <div class="ui secondary pointing menu" id="status-tab-menu">
         <a class="active item" data-tab="status-config">Config</a>
         <a class="item" data-tab="theme-override">Theme Overrides</a>
         <a class="item" data-tab="status-keybinds">Keybinds</a>
         <a class="item" data-tab="status-overlays">Active Overlays</a>
       </div>
-      <div class="ui active tab" data-tab="status-config">
+      <div class="contained basic segment ui active tab" data-tab="status-config">
         <div class="ui segment">
           <h2 class="ui dividing header">Hots Caster Tool v<span class="app-version"></span></h2>
           <p>
@@ -671,7 +703,7 @@
           </form>
         </div>
       </div>
-      <div class="ui tab" data-tab="theme-override">
+      <div class="contained basic segment ui tab" data-tab="theme-override">
         <div class="ui segment">
           <h2 class="ui dividing header">Theme Overrides</h2>
           <div class="ui info message">
@@ -694,7 +726,7 @@
           </div>
         </div>
       </div>
-      <div class="ui tab" data-tab="status-overlays">
+      <div class="contained basic segment ui tab" data-tab="status-overlays">
         <div class="ui segment">
           <h2 class="ui dividing header">Active Overlays</h2>
           <table class="ui table" id="overlay-table">
@@ -710,7 +742,7 @@
           </table>
         </div>
       </div>
-      <div class="ui tab" data-tab="status-keybinds">
+      <div class="contained basic segment ui tab" data-tab="status-keybinds">
         <div class="ui segment">
           <h2 class="ui dividing header">Keybinds</h2>
           <div class="ui info message">
@@ -737,20 +769,6 @@
         </div>
       </div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="stats">
-      <h2 class="ui dividing header">Lower Thirds</h2>
-      <div class="ui info message">
-        <div class="content">
-          <p>
-            Add "stat-lower-third.html" as a browser source to enable this feature!
-          </p>
-        </div>
-      </div>
-      <div id="connected-stat-screens">
-
-      </div>
-    </div>
     <div id="message-container"></div>
-    <div class="ui green button" id="update-button">UPDATE</div>
   </body>
 </html>

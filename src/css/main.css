@@ -1,12 +1,6 @@
-#update-button {
-  position: absolute;
-  top: 3px;
-  right: 0;
-}
-
-.bottom.attached.tab.segment {
+.contained.tab.segment {
   overflow-y: auto;
-  height: calc(100vh - 57px);
+  height: calc(100vh - 152px);
 }
 
 #match-data-clear {
@@ -40,4 +34,9 @@
 
 .text-flex-container.right {
   justify-content: flex-end;
+}
+
+body#caster-tool {
+  margin: 40px 0 0 0;
+  height: calc(100% - 40px);
 }

@@ -52,7 +52,7 @@ function createReplayWatcher() {
   bgWindow.loadURL(bgPath);
 }
 
-$(document).ready(() => {
+function initGlobal() {
   $('.app-version').text(appVersion);
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
   $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
@@ -66,9 +66,38 @@ $(document).ready(() => {
       shell.openExternal(this.href);
   });
 
-  //createReplayWatcher();
-  //$('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
+  $('#update-button').click(() => {
+    $('#update-button').transition('pulse');
+    LowerThird.reloadPlayerLTMenu();
+    MapData.trySyncMatchScore();
+    appState.updateAndBroadcast.call(appState);
+    showMessage('Update Performed', 'positive');
+  });
 
+  http.listen(3005, function () {
+    console.log('listening on *:3005');
+  });
+
+  $('#main-settings-button').click(function() {
+    $('#config-mode').show();
+    $('#operate-mode').hide();
+    $('.main.menu .menu-opt').removeClass('active');
+    $('#main-settings-button').addClass('active');
+  });
+
+  $('#main-operate-button').click(function() {
+    $('#operate-mode').show();
+    $('#config-mode').hide();
+    $('.main.menu .menu-opt').removeClass('active');
+    $('#main-operate-button').addClass('active');
+  });
+
+  $('#config-mode').hide();
+}
+
+function initApp() {
+  ipc.removeAllListeners('replayParsed');
+  
   Casters.Init();
   TeamData.Init();
   MapData.Init();
@@ -92,20 +121,9 @@ $(document).ready(() => {
   LowerThird.setDataSource(DataSource);
   DataGrabber.InitWithState(appState);
 
-  http.listen(3005, function () {
-    console.log('listening on *:3005');
-  });
-
-  // couple global ui handles
   $('#section-menu .item').tab();
   $('#status-tab-menu .item').tab();
-  $('#update-button').click(() => {
-    $('#update-button').transition('pulse');
-    LowerThird.reloadPlayerLTMenu();
-    MapData.trySyncMatchScore();
-    appState.updateAndBroadcast.call(appState);
-    showMessage('Update Performed', 'positive');
-  });
+
   $('#update-keybinds-button').click(() => {
     appState.updateKeybinds.call(appState);
   });
@@ -115,4 +133,13 @@ $(document).ready(() => {
   $('input.has-popup').popup({
     on: 'focus',
   });
+}
+
+$(document).ready(() => {
+  //createReplayWatcher();
+  //$('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
+  
+  initGlobal();
+  // loadGameUI();
+  initApp();
 });
