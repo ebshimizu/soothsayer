@@ -1,16 +1,28 @@
-# hots-caster-tool
+# Falindrith's Caster Tool
 
-A tool for generating OBS overlays for casting Heroes of the Storm.
-Inspired by the [StarCraft Casting Tool](https://github.com/teampheenix/StarCraft-Casting-Tool)
+A tool for generating OBS overlays for casting various video games.
+Inspired by the [StarCraft Casting Tool](https://github.com/teampheenix/StarCraft-Casting-Tool).
 
 Like the project? There's a tip jar over at Ko-Fi:
 
 [![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/E1E2KHZ3)
 
-
 ## Usage
 
-Currently in development. There is no dist for the project yet.
+Download zip from releases, extract to folder with read/write access (Movies, My Documents, etc.).
+Placing in Program Files will restrict what the app can do (text files won't be written).
+
+### Supported Games
+
+Different games have different overlay support. The tool was initially developed
+to only support Heroes of the Storm casts, so some files that have no prefix are
+specific to hots (`map-select.html` for instance). Post `v1.1.0`, `obs-src` html files
+will be marked with a game prefix to indicate where they should be used.
+
+* Heroes of the Storm
+  * Supported overlays: all
+* Super Smash Bros Ultimate
+  * Supported overlays: `in-game`, `caster-frame`, `caster-single-frame`, `blue-team-logo`, `red-team-logo`
 
 ### Available Overlays
 
