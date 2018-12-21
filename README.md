@@ -16,7 +16,7 @@ Placing in Program Files will restrict what the app can do (text files won't be 
 
 Different games have different overlay support. The tool was initially developed
 to only support Heroes of the Storm casts, so some files that have no prefix are
-specific to hots (`map-select.html` for instance). Post `v1.1.0`, `obs-src` html files
+specific to hots (`map-select.html` for instance). Post `v1.1.0`, game-speciifc `obs-src` html files
 will be marked with a game prefix to indicate where they should be used.
 
 * Heroes of the Storm
