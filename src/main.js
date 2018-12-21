@@ -11,6 +11,7 @@ const LowerThird = require('./components/stat-lower-third');
 const Casters = require('./components/caster-data');
 const Util = require('./components/util');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
+const settings = require('electron-settings');
 
 const socketApp = require('express')();
 const http = require('http').Server(socketApp);
@@ -46,12 +47,47 @@ function showMessage(msg, classname) {
 
 window.showMessage = showMessage;
 
+// section loader logic
+function loadSection(name, text, elem) {
+  // no duplicate loads
+  if (window.currentGame === name) {
+    return;
+  }
+
+  window.currentGame = name;
+  const link = document.querySelector('link[name="'+ name + '"]');
+
+  if (!link) {
+    return;
+  }
+
+  const markup = link.import.querySelector('.operate-content').innerHTML;
+
+  $('#operate-mode').html(markup);
+  initApp(name);
+  settings.set('currentGame', name);
+  showMessage(`Loaded controls for ${text} (id: ${name})`, 'positive');
+}
+
+// check settings, set game.
+function initGameLoad() {
+  const gameID = settings.get('currentGame');
+  if (!gameID) {
+    $('#game-select-menu').dropdown('set exactly', 'hots');
+  }
+  else {
+    $('#game-select-menu').dropdown('set exactly', gameID);
+  }
+}
+
+// hots specific
 function createReplayWatcher() {
   const bgPath = `file://${path.join(__dirname, './bg-replay-watcher.html')}`;
   bgWindow = new BrowserWindow({width: 400, height: 400, show: false});
   bgWindow.loadURL(bgPath);
 }
 
+// run once
 function initGlobal() {
   $('.app-version').text(appVersion);
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
@@ -93,9 +129,17 @@ function initGlobal() {
   });
 
   $('#config-mode').hide();
+
+  // game mode dropdown
+  $('#game-select-menu').dropdown({
+    onChange: loadSection
+  });
+
+  initGameLoad();
 }
 
-function initApp() {
+// game name provided in case game specific init needs to happen later
+function initApp(name) {
   ipc.removeAllListeners('replayParsed');
   
   Casters.Init();
@@ -141,5 +185,5 @@ $(document).ready(() => {
   
   initGlobal();
   // loadGameUI();
-  initApp();
+  // initApp();
 });

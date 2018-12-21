@@ -307,7 +307,10 @@ class State {
 
   updateMatchData() {
     // map pool
-    this.match.mapPool = $('#map-pool').dropdown('get value').split(',');
+    const pool = $('#map-pool').dropdown('get value');
+    if (pool.length > 0) {
+      this.match.mapPool = pool.split(',');
+    }
 
     // series
     this.match.bestOf = $('#best-of').dropdown('get value');

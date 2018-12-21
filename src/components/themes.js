@@ -4,6 +4,8 @@ const path = require('path');
 const data = require('../data/core-file-list');
 
 let loadedThemes = {};
+let globalInit = false;
+let stateInit = false;
 
 // this is just the creation, update is a different function
 function createOverrideControls() {
@@ -77,24 +79,32 @@ function resetOverrides() {
 }
 
 function initThemes() {
-  $('#theme-menu').dropdown();
-  createOverrideControls();
-  scanThemes();
+  if (globalInit === false) {
+    $('#theme-menu').dropdown();
+    createOverrideControls();
+    scanThemes();
 
-  $('#rescan-themes').click(scanThemes);
+    $('#rescan-themes').click(scanThemes);
+
+    globalInit = true;
+  }
 }
 
 function initWithState(state) {
-  $('.set-theme-button').click(() => {
-    state.broadcastThemeChange();
-    renderThemeCredits(state.theme);
-    showMessage('Theme Changed', 'positive');
-  });
-  $('#theme-menu').dropdown('set exactly', state.theme.name);
-  $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
-  $('#theme-override-default').click(resetOverrides);
-  setOverrideMenus(state.theme);
-  $('#set-theme').click();
+  if (stateInit === false) {
+    $('.set-theme-button').click(() => {
+      state.broadcastThemeChange();
+      renderThemeCredits(state.theme);
+      showMessage('Theme Changed', 'positive');
+    });
+    $('#theme-menu').dropdown('set exactly', state.theme.name);
+    $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
+    $('#theme-override-default').click(resetOverrides);
+    setOverrideMenus(state.theme);
+    $('#set-theme').click();
+
+    stateInit = true;
+  }
 }
 
 function getTheme(id) {
