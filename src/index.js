@@ -1,23 +1,27 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-autoUpdater.on('checking-for-update', function() {
+autoUpdater.on('checking-for-update', function () {
   mainWindow.webContents.send('updateStatus', 'Checking for Update...');
 });
-autoUpdater.on('update-available', function(info) {
+autoUpdater.on('update-available', function (info) {
   console.log(info);
-  mainWindow.webContents.send('updateNotify', 'Update Available');
+  mainWindow.webContents.send('updateNotify', info.version);
 });
-autoUpdater.on('update-downloaded', function(info) {
+autoUpdater.on('update-downloaded', function (info) {
   console.log(info);
   mainWindow.webContents.send('updateReady', 'Restart to Install Update');
 });
-autoUpdater.on('download-progress', function(data) {
-  console.log(data);
+autoUpdater.on('download-progress', function (data) {
+  mainWindow.webContents.send('updateDownload', data.percent, data.bytesPerSecond);
+});
+
+ipcMain.on('checkUpdate', function () {
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 const createWindow = () => {
@@ -54,7 +58,6 @@ const createWindow = () => {
     }
   });
 
-  autoUpdater.checkForUpdatesAndNotify();
 };
 
 // This method will be called when Electron has finished

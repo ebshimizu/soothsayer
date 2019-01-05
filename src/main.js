@@ -56,11 +56,21 @@ window.showMessage = showMessage;
 
 // ipc functions
 ipcRenderer.on('updateReady', function(event, message) {
-  console.log(message);
+  $('#update-status').removeClass('blue').addClass('teal');
+  $('#update-status').text('Update Ready. Close app to update.');
+  showMessage('Update Ready. Close app to update');
 });
 
-ipcRenderer.on('updateNotify', function(event, message) {
-  showMessage(message, 'info');
+ipcRenderer.on('updateNotify', function(event, version) {
+  $('#update-status').addClass('active blue');
+  $('#update-status').html(`Update Downloading: v${version} <span class="speed"></span>`);
+  $('#update-status').show();
+});
+
+ipcRenderer.on('updateDownload', function(event, pct, speed) {
+  const p = pct.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  const b = (speed / 1000000).toLocaleString(undefined, { maximumFractionDigits: 1 });
+  $('#update-status .speed').text(`${p}%, ${b} MB/s`);
 });
 
 ipcRenderer.on('updateStatus', function(event, message) {
@@ -212,4 +222,5 @@ $(document).ready(() => {
   initGlobal();
   // loadGameUI();
   // initApp();
+  ipcRenderer.send('checkUpdate');
 });

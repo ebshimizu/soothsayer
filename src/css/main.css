@@ -44,3 +44,7 @@ body#caster-tool {
 #game-select-menu .text {
   margin-left: 7px;
 }
+
+.speed {
+    margin-left: 10px;
+}

@@ -1,7 +1,7 @@
-# Falindrith's Caster Tool
+# Soothsayer
 
 A tool for generating OBS overlays for casting various video games.
-Inspired by the [StarCraft Casting Tool](https://github.com/teampheenix/StarCraft-Casting-Tool).
+Originally inspired by the [StarCraft Casting Tool](https://github.com/teampheenix/StarCraft-Casting-Tool).
 
 Like the project? There's a tip jar over at Ko-Fi:
 
