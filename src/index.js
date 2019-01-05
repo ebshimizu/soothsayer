@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+const { app, BrowserWindow } = require('electron');
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -11,6 +11,10 @@ const createWindow = () => {
     width: 1024,
     height: 800,
     minHeight: 400,
+    webPreferences: {
+      nodeIntegration: true,
+      devTools: true,
+    },
   });
 
   // and load the index.html of the app.

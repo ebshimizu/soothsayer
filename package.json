@@ -1,52 +1,14 @@
 {
-    "name": "fals-caster-tool",
-    "productName": "fals-caster-tool",
+    "name": "soothsayer",
+    "productName": "soothsayer",
     "version": "1.1.0-dev",
     "description": "A tool for generating OBS overlays for casting some video games.",
     "main": "src/index.js",
-    "scripts": {
-        "start": "electron-forge start",
-        "package": "electron-forge package",
-        "make": "electron-forge make",
-        "lint": "eslint src"
-    },
     "keywords": [],
     "author": "falindrith",
     "license": "MIT",
-    "config": {
-        "forge": {
-            "make_targets": {
-                "win32": [
-                    "zip"
-                ],
-                "darwin": [
-                    "zip"
-                ],
-                "linux": [
-                    "zip"
-                ]
-            },
-            "electronPackagerConfig": {
-                "packageManager": "yarn"
-            },
-            "electronWinstallerConfig": {
-                "name": "hots_caster_tool"
-            },
-            "electronInstallerDebian": {},
-            "electronInstallerRedhat": {},
-            "github_repository": {
-                "owner": "",
-                "name": ""
-            },
-            "windowsStoreConfig": {
-                "packageName": "",
-                "name": "hotscastertool"
-            }
-        }
-    },
     "dependencies": {
         "chokidar": "^2.0.4",
-        "electron-compile": "^6.4.3",
         "electron-settings": "^3.2.0",
         "express": "^4.16.3",
         "fs-extra": "^7.0.0",
@@ -57,18 +19,42 @@
         "medea": "^1.0.3",
         "medeadown": "^1.1.9",
         "semantic-ui": "^2.4.2",
-        "socket.io": "^2.1.1"
+        "socket.io": "^2.2.0"
     },
     "devDependencies": {
-        "babel-plugin-transform-async-to-generator": "^6.24.1",
-        "babel-preset-env": "^1.7.0",
-        "babel-preset-react": "^6.24.1",
-        "electron-forge": "^5.2.2",
-        "electron-prebuilt-compile": "3.0.0",
+        "electron": "^4.0.1",
+        "electron-builder": "^20.11.1",
         "eslint": "3",
         "eslint-config-airbnb": "15",
         "eslint-plugin-import": "2",
         "eslint-plugin-jsx-a11y": "5",
         "eslint-plugin-react": "7"
+    },
+    "scripts": {
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder",
+        "start": "electron ./",
+        "publish": "electron-builder --x64 --publish always",
+        "protocol": "node ./node_modules/heroprotocol/postinstall.js"
+    },
+    "build": {
+        "appId": "com.soothsayer.app",
+        "productName": "Soothsayer",
+        "asar": false,
+        "publish": [
+            {
+                "provider": "github",
+                "private": false
+            }
+        ],
+        "nsis": {
+            "oneClick": true
+        },
+        "win": {
+            "target": "nsis"
+        },
+        "mac": {
+            "target": "dmg"
+        }
     }
 }
