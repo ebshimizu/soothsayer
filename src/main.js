@@ -19,7 +19,7 @@ const http = require('http').Server(socketApp);
 const io = require('socket.io')(http);
 const appVersion = require('electron').remote.app.getVersion();
 const path = require('path');
-const { shell, remote } = require('electron');
+const { shell, remote, ipcRenderer } = require('electron');
 const BrowserWindow = require('electron').remote.BrowserWindow;
 const ipc = require('electron').ipcRenderer;
 
@@ -53,6 +53,19 @@ function showMessage(msg, classname) {
 }
 
 window.showMessage = showMessage;
+
+// ipc functions
+ipcRenderer.on('updateReady', function(event, message) {
+  console.log(message);
+});
+
+ipcRenderer.on('updateNotify', function(event, message) {
+  showMessage(message, 'info');
+});
+
+ipcRenderer.on('updateStatus', function(event, message) {
+  console.log(message);
+});
 
 // section loader logic
 function loadSection(name, text, elem) {
@@ -97,6 +110,8 @@ function createReplayWatcher() {
 // run once
 function initGlobal() {
   $('.app-version').text(appVersion);
+  $('#update-status').hide();
+
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
   $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
     console.log(jqxhr);

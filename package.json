@@ -10,6 +10,7 @@
     "dependencies": {
         "chokidar": "^2.0.4",
         "electron-settings": "^3.2.0",
+        "electron-updater": "^4.0.6",
         "express": "^4.16.3",
         "fs-extra": "^7.0.0",
         "hots-parser": "^6.38.2",
@@ -48,7 +49,8 @@
             }
         ],
         "nsis": {
-            "oneClick": true
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
         },
         "win": {
             "target": "nsis"
