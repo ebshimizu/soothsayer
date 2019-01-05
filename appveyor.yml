@@ -16,6 +16,6 @@ cache:
   - '%USERPROFILE%\.electron'
 
 build_script:
-  - yarn run publish
+  - yarn run upload
 
 test: off
