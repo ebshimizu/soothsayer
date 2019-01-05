@@ -8,7 +8,6 @@ const Keybinds = require('./keybinds');
 
 class State {
   constructor() {
-    Keybinds.createKeybindInputs();
     this.loadState();
 
     // always clear overlays
@@ -59,14 +58,17 @@ class State {
     if (!this.keybinds) {
       this.keybinds = Keybinds.default();
     }
+  }
 
+  renderState() {
     this.displayTeamData();
     this.displayMatchData();
     this.displayCasterData();
     this.displayDataSource();
     Keybinds.displayKeybinds(this);
-    $('#set-theme').dropdown('set value', this.theme.name);
-    Themes.renderThemeCredits(this.theme);
+
+    $('#set-theme').dropdown('set value', this.theme.data.name);
+    Themes.renderThemeCredits(this.theme.data);
   }
 
   // expected format:
@@ -166,14 +168,21 @@ class State {
 
   updateTheme() {
     // get val from the dropdown, load the theme data
-    this.theme = Themes.getTheme($('#theme-menu').dropdown('get value'));
+    this.theme.data = Themes.getTheme($('#theme-menu').dropdown('get value'));
 
     if (!this.theme) {
       this.theme = {};
     }
     else {
-      this.theme.overrides = Themes.getOverrides();      
+      this.theme.overrides = Themes.getOverrides();
     }
+  }
+
+  updateThemeFolder() {
+    // check folder for relative pathing
+    this.theme.themeFolder = $('#theme-location').val();
+    this.theme.themeRel = path.relative(this.rootOBS, this.theme.themeFolder);
+    this.save();
   }
 
   save() {

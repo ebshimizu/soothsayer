@@ -20,8 +20,15 @@ function changeTheme(theme, target) {
     return;
   }
 
+  // default reset
+  if (!theme.data || theme.data.folderName === 'default') {
+    $('link#theme-css').remove();
+    console.log('Theme Change: default');
+    return;
+  }
+
   // check for overrides
-  let themeDir = theme.folderName;
+  let themeDir = theme.data.folderName;
   const page = window.location.pathname.split('/').pop();
 
   if (theme.overrides && (page in theme.overrides)) {
@@ -30,18 +37,13 @@ function changeTheme(theme, target) {
 
   console.log(`Theme Change: ${themeDir}`);
 
-  // default reset
-  if (!themeDir || themeDir === 'default') {
-    $('link#theme-css').remove();
-    return;
-  }
 
   // if not exists, create
   if (!$('link#theme-css').length) {
     $('head').append(`<link rel="stylesheet" type="text/css" id="theme-css" href="" />`);
   }
 
-  $('link#theme-css').attr('href', `themes/${themeDir}/css/${target}`);
+  $('link#theme-css').attr('href', `${theme.themeRel}/${themeDir}/css/${target}`);
 }
 
 // https://stackoverflow.com/questions/6229197/how-to-know-if-two-arrays-have-the-same-values

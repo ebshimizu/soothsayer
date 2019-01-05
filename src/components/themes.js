@@ -2,8 +2,10 @@ const fs = require('fs-extra');
 const themeWriter = require('./theme-writer');
 const path = require('path');
 const data = require('../data/core-file-list');
+const { dialog } = require('electron').remote;
 
 let loadedThemes = {};
+let appState;
 let globalInit = false;
 let stateInit = false;
 
@@ -78,12 +80,25 @@ function resetOverrides() {
   $('.theme-override.dropdown').dropdown('set exactly', 'no-override');
 }
 
+function browseThemeFolder() {
+  dialog.showOpenDialog({
+    title: 'Set Theme Folder',
+    properties: ['openDirectory'],
+  }, function(files) {
+    if (files) {
+      $('#theme-location').val(files[0]);
+      appState.updateThemeFolder(files[0]);
+      scanThemes(files[0]);
+      setOverrideMenus(appState.theme);
+    }
+  });
+}
+
 function initThemes() {
   if (globalInit === false) {
     $('#theme-menu').dropdown();
     createOverrideControls();
-    scanThemes();
-
+    $('#theme-location-browse').click(browseThemeFolder);
     $('#rescan-themes').click(scanThemes);
 
     globalInit = true;
@@ -92,17 +107,21 @@ function initThemes() {
 
 function initWithState(state) {
   if (stateInit === false) {
+    scanThemes(state.theme.themeFolder);
+
     $('.set-theme-button').click(() => {
       state.broadcastThemeChange();
-      renderThemeCredits(state.theme);
+      renderThemeCredits(state.theme.data);
       showMessage('Theme Changed', 'positive');
     });
-    $('#theme-menu').dropdown('set exactly', state.theme.name);
-    $('#make-themes').click(() => writeStaticThemes(state.rootOBS));
+    $('#theme-menu').dropdown('set exactly', state.theme.data.name);
     $('#theme-override-default').click(resetOverrides);
+    $('#theme-location').val(state.theme.themeFolder);
+
     setOverrideMenus(state.theme);
     $('#set-theme').click();
 
+    appState = state;
     stateInit = true;
   }
 }
@@ -189,13 +208,14 @@ function writeStaticThemes(obsDir) {
   themeWriter.createStaticThemes(loadedThemes, obsDir);
 }
 
-function scanThemes() {
+function scanThemes(folder) {
   // list things in themes dir. Looking for a 'themes.json' and will check to see if it works.
   // annoyingly configs are different for package and dev
-  let themeFolder = path.join(__dirname, '../obs_src/themes');
+  let themeFolder = folder;
 
   if (!fs.existsSync(themeFolder)) {
-    themeFolder = `${process.resourcesPath}/app/${themeFolder}`;
+    showMessage(`Error: Folder ${themeFolder} does not exist or is not a folder. Cannot load theme list.`, 'negative');
+    return;
   }
 
   let files = fs.readdirSync(themeFolder);
@@ -226,6 +246,8 @@ function scanThemes() {
     $('#theme-menu').dropdown('set exactly', appState.theme.name);
 
   updateOverrideMenus();
+
+  showMessage(`Loaded themes from ${folder}`, 'positive');
 }
 
 exports.Init = initThemes;

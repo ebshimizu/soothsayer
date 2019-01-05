@@ -85,7 +85,7 @@ function defaultKeybinds() {
 }
 
 function createKeybindInputs() {
-  $('#keybind-inputs').html();
+  $('#keybind-inputs').html('');
 
   let elem = '';
   for (let k in KeybindInfo) {

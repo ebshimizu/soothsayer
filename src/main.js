@@ -12,6 +12,7 @@ const Casters = require('./components/caster-data');
 const Util = require('./components/util');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 const settings = require('electron-settings');
+const Keybinds = require('./components/keybinds');
 
 const socketApp = require('express')();
 const http = require('http').Server(socketApp);
@@ -25,6 +26,7 @@ const ipc = require('electron').ipcRenderer;
 // global for debug
 let appState;
 let bgWindow;
+let suppressMessages = true;
 
 // hey so we're gonna stick heroes talents in the global window state because reasons
 window.heroesTalents = new HeroesTalents(
@@ -34,8 +36,13 @@ window.heroesTalents = new HeroesTalents(
 
 // shows and logs a transient message
 function showMessage(msg, classname) {
-  let elem = $(`<div class="ui transitinon hidden message ${classname}"><div class="content">${msg}</div></div>`);
   console.log(msg);
+
+  // log only
+  if (suppressMessages === true)
+    return;
+
+  let elem = $(`<div class="ui transitinon hidden message ${classname}"><div class="content">${msg}</div></div>`);
   $('#message-container').append(elem);
   elem.transition('fade left in');
   setTimeout(() => {
@@ -134,8 +141,14 @@ function initGlobal() {
   $('#game-select-menu').dropdown({
     onChange: loadSection
   });
+  Keybinds.createKeybindInputs();
+
+  appState = new State(io);
+  appState.onLowerThirdConnect = LowerThird.onLowerThirdConnect;
+  appState.onLowerThirdDisconnect = LowerThird.onLowerThirdDisconnect;
 
   initGameLoad();
+  suppressMessages = false;
 }
 
 // game name provided in case game specific init needs to happen later
@@ -149,9 +162,7 @@ function initApp(name) {
   DataSource.Init();
   LowerThird.Init();
 
-  appState = new State(io);
-  appState.onLowerThirdConnect = LowerThird.onLowerThirdConnect;
-  appState.onLowerThirdDisconnect = LowerThird.onLowerThirdDisconnect;
+  appState.renderState();
 
   ipc.on('replayParsed', function(event, data) {
     appState.setLastReplayData(data);
