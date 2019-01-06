@@ -14,4 +14,4 @@ cache:
   - $HOME/.cache/electron-builder
 
 script:
-  - yarn run upload
+  - travis_wait yarn run upload
