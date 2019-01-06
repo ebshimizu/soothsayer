@@ -58,6 +58,10 @@ function updateOverrideMenus() {
   }
 
   $('.theme-override.dropdown').dropdown('change values', vals);
+
+  if (appState) {
+    setOverrideMenus(appState.theme);
+  }
 }
 
 function setOverrideMenus(theme) {
