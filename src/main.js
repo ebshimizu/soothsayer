@@ -31,7 +31,7 @@ let suppressMessages = true;
 // hey so we're gonna stick heroes talents in the global window state because reasons
 window.heroesTalents = new HeroesTalents(
   path.join(__dirname, '/stats-of-the-storm/assets/heroes-talents'),
-  path.join(__dirname, '/stats-of-the-storm/assets/data')
+  path.join(__dirname, '/stats-of-the-storm/assets/data'),
 );
 
 // shows and logs a transient message
@@ -39,14 +39,15 @@ function showMessage(msg, classname) {
   console.log(msg);
 
   // log only
-  if (suppressMessages === true)
-    return;
+  if (suppressMessages === true) return;
 
-  let elem = $(`<div class="ui transitinon hidden message ${classname}"><div class="content">${msg}</div></div>`);
+  const elem = $(
+    `<div class="ui transitinon hidden message ${classname}"><div class="content">${msg}</div></div>`,
+  );
   $('#message-container').append(elem);
   elem.transition('fade left in');
   setTimeout(() => {
-    elem.transition('fade left out', 500, function() {
+    elem.transition('fade left out', 500, function () {
       elem.remove();
     });
   }, 4000);
@@ -55,25 +56,27 @@ function showMessage(msg, classname) {
 window.showMessage = showMessage;
 
 // ipc functions
-ipcRenderer.on('updateReady', function(event, message) {
-  $('#update-status').removeClass('blue').addClass('teal');
+ipcRenderer.on('updateReady', function (event, message) {
+  $('#update-status')
+    .removeClass('blue')
+    .addClass('teal');
   $('#update-status').text('Update Ready. Close app to update.');
   showMessage('Update Ready. Close app to update');
 });
 
-ipcRenderer.on('updateNotify', function(event, version) {
+ipcRenderer.on('updateNotify', function (event, version) {
   $('#update-status').addClass('active blue');
   $('#update-status').html(`Update Downloading: v${version} <span class="speed"></span>`);
   $('#update-status').show();
 });
 
-ipcRenderer.on('updateDownload', function(event, pct, speed) {
+ipcRenderer.on('updateDownload', function (event, pct, speed) {
   const p = pct.toLocaleString(undefined, { maximumFractionDigits: 0 });
   const b = (speed / 1000000).toLocaleString(undefined, { maximumFractionDigits: 1 });
   $('#update-status .speed').text(`${p}%, ${b} MB/s`);
 });
 
-ipcRenderer.on('updateStatus', function(event, message) {
+ipcRenderer.on('updateStatus', function (event, message) {
   console.log(message);
 });
 
@@ -85,7 +88,7 @@ function loadSection(name, text, elem) {
   }
 
   window.currentGame = name;
-  const link = document.querySelector('link[name="'+ name + '"]');
+  const link = document.querySelector(`link[name="${name}"]`);
 
   if (!link) {
     return;
@@ -113,7 +116,7 @@ function initGameLoad() {
 // hots specific
 function createReplayWatcher() {
   const bgPath = `file://${path.join(__dirname, './bg-replay-watcher.html')}`;
-  bgWindow = new BrowserWindow({width: 400, height: 400, show: false});
+  bgWindow = new BrowserWindow({ width: 400, height: 400, show: false });
   bgWindow.loadURL(bgPath);
 }
 
@@ -123,15 +126,15 @@ function initGlobal() {
   $('#update-status').hide();
 
   $('.dev-tools-button').click(() => remote.getCurrentWindow().toggleDevTools());
-  $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+  $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
     console.log(jqxhr);
     showMessage(`Error: ${jqxhr.status}`, 'negative');
   });
 
   // auto open external links
-  $(document).on('click', 'a[href^="http"]', function(event) {
-      event.preventDefault();
-      shell.openExternal(this.href);
+  $(document).on('click', 'a[href^="http"]', function (event) {
+    event.preventDefault();
+    shell.openExternal(this.href);
   });
 
   $('#update-button').click(() => {
@@ -146,25 +149,29 @@ function initGlobal() {
     console.log('listening on *:3005');
   });
 
-  $('#main-settings-button').click(function() {
+  $('#main-settings-button').click(function () {
     $('#config-mode').show();
     $('#operate-mode').hide();
     $('.main.menu .menu-opt').removeClass('active');
     $('#main-settings-button').addClass('active');
   });
 
-  $('#main-operate-button').click(function() {
+  $('#main-operate-button').click(function () {
     $('#operate-mode').show();
     $('#config-mode').hide();
     $('.main.menu .menu-opt').removeClass('active');
     $('#main-operate-button').addClass('active');
   });
 
+  $('.obs-src-button').click(function () {
+    shell.openItem(appState.rootOBS);
+  });
+
   $('#config-mode').hide();
 
   // game mode dropdown
   $('#game-select-menu').dropdown({
-    onChange: loadSection
+    onChange: loadSection,
   });
   Keybinds.createKeybindInputs();
 
@@ -183,7 +190,7 @@ function initGlobal() {
 // game name provided in case game specific init needs to happen later
 function initApp(name) {
   ipc.removeAllListeners('replayParsed');
-  
+
   Casters.Init();
   TeamData.Init();
   MapData.Init();
@@ -192,7 +199,7 @@ function initApp(name) {
 
   appState.renderState();
 
-  ipc.on('replayParsed', function(event, data) {
+  ipc.on('replayParsed', function (event, data) {
     appState.setLastReplayData(data);
   });
 
@@ -219,9 +226,9 @@ function initApp(name) {
 }
 
 $(document).ready(() => {
-  //createReplayWatcher();
-  //$('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
-  
+  // createReplayWatcher();
+  // $('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
+
   initGlobal();
   // loadGameUI();
   // initApp();
