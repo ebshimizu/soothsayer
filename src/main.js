@@ -172,6 +172,10 @@ function initGlobal() {
   appState.onLowerThirdConnect = LowerThird.onLowerThirdConnect;
   appState.onLowerThirdDisconnect = LowerThird.onLowerThirdDisconnect;
 
+  // init once
+  DataGrabber.Init();
+  DataSource.Init();
+
   initGameLoad();
   suppressMessages = false;
 }
@@ -184,7 +188,6 @@ function initApp(name) {
   TeamData.Init();
   MapData.Init();
   Themes.Init();
-  DataSource.Init();
   LowerThird.Init();
 
   appState.renderState();

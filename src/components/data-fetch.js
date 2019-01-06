@@ -75,28 +75,32 @@ function updateInfo(key) {
 }
 
 function changeDataGrabber(val) {
-  $('.data-grab-option').hide();
-  
-  $(`.data-grab-option[data-source="${val}"]`).show();
+  if (appState) {
+    $('.data-grab-option').hide();
+    $(`.data-grab-option[data-source="${val}"]`).show();
 
-  updateInfo(val);
+    updateInfo(val);
 
-  appState.updateDataSource();
-  appState.save();
+    appState.updateDataSource();
+    appState.save();
+  }
 }
 
-function initDataFetch(state) {
+function init() {
   $('#heroes-lounge-get').click(() => heroesLoungeGetTeamFull('title'));
   $('#heroes-lounge-get-slug').click(() => heroesLoungeGetTeamFull('slug'));
-
-  appState = state;
   $('.data-grab-option').hide();
 
   $('#data-grabber-menu').dropdown({
     onChange: changeDataGrabber,
   });
+}
+
+function initDataFetch(state) {
+  appState = state;
   $('#data-grabber-menu').dropdown('set exactly', appState.dataSource.dataGrabber);
 }
 
 
+exports.Init = init;
 exports.InitWithState = initDataFetch;

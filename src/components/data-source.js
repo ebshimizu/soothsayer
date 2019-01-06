@@ -32,6 +32,7 @@ function init() {
   $('#data-source-menu').dropdown({
     onChange: changeDataSource
   });
+  $('#set-replay-folder-button').click(browseReplayFolder);
 }
 
 function initWithState(state) {
@@ -40,20 +41,21 @@ function initWithState(state) {
   // assign active source, run an activation routine (auto happens on set)
   activeSource = appState.dataSource.active;
   $('#data-source-menu').dropdown('set exactly', activeSource);
-  $('#set-replay-folder-button').click(browseReplayFolder);
   //appState.setWatchLocation();
 }
 
 function changeDataSource(val) {
-  console.log(`Changing data source to ${val}`, 'info');
-  $('.data-source-options').hide();
-  $(`.data-source-options[data-source="${val}"]`).show();
+  if (appState) {
+    console.log(`Changing data source to ${val}`, 'info');
+    $('.data-source-options').hide();
+    $(`.data-source-options[data-source="${val}"]`).show();
 
-  if (val in DataSources)
-    DataSources[val].activate();
+    if (val in DataSources)
+      DataSources[val].activate();
 
-  activeSource = val;
-  appState.setDataSource(activeSource);
+    activeSource = val;
+    appState.setDataSource(activeSource);
+  }
 }
 
 // gets data in the format required by the lower thirds
