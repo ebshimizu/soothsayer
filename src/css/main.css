@@ -46,5 +46,11 @@ body#caster-tool {
 }
 
 .speed {
-    margin-left: 10px;
+  margin-left: 10px;
+}
+
+#theme-info .download.button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

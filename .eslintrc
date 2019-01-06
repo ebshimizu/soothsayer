@@ -7,6 +7,14 @@
     "linebreak-style": 0,
     "prefer-arrow-callback": "off",
     "no-restricted-syntax": "off",
-    "func-names": "off"
+    "func-names": "off",
+    "brace-style": [1, "stroustrup", { "allowSingleLine": true }],
+    "no-console": "off",
+    "no-underscore-dangle": "off"
+  },
+  "env": {
+    "node": true,
+    "browser": true,
+    "jquery": true
   }
 }
