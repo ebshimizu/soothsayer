@@ -1,8 +1,9 @@
 const fs = require('fs-extra');
-const themeWriter = require('./theme-writer');
+const request = require('request');
 const path = require('path');
 const data = require('../data/core-file-list');
-const { dialog } = require('electron').remote;
+const extract = require('extract-zip');
+const { dialog, app } = require('electron').remote;
 
 let loadedThemes = {};
 let appState;
@@ -94,38 +95,6 @@ function browseThemeFolder() {
   });
 }
 
-function initThemes() {
-  if (globalInit === false) {
-    $('#theme-menu').dropdown();
-    createOverrideControls();
-    $('#theme-location-browse').click(browseThemeFolder);
-    $('#rescan-themes').click(scanThemes);
-
-    globalInit = true;
-  }
-}
-
-function initWithState(state) {
-  if (stateInit === false) {
-    scanThemes(state.theme.themeFolder);
-
-    $('.set-theme-button').click(() => {
-      state.broadcastThemeChange();
-      renderThemeCredits(state.theme.data);
-      showMessage('Theme Changed', 'positive');
-    });
-    $('#theme-menu').dropdown('set exactly', state.theme.data.name);
-    $('#theme-override-default').click(resetOverrides);
-    $('#theme-location').val(state.theme.themeFolder);
-
-    setOverrideMenus(state.theme);
-    $('#set-theme').click();
-
-    appState = state;
-    stateInit = true;
-  }
-}
-
 function getTheme(id) {
   return loadedThemes[id];
 }
@@ -134,7 +103,7 @@ function renderThemeCredits(themeInfo) {
   const ti = $('#theme-info');
   ti.html('');
 
-  if (!themeInfo.name) {
+  if (!themeInfo || !themeInfo.name) {
     return;
   }
 
@@ -204,10 +173,6 @@ function showSocialLink(elem, classname, text) {
   }
 }
 
-function writeStaticThemes(obsDir) {
-  themeWriter.createStaticThemes(loadedThemes, obsDir);
-}
-
 function scanThemes(folder) {
   // list things in themes dir. Looking for a 'themes.json' and will check to see if it works.
   // annoyingly configs are different for package and dev
@@ -249,6 +214,195 @@ function scanThemes(folder) {
 
   showMessage(`Loaded themes from ${folder}`, 'positive');
 }
+
+function setDownloadThemeMessage(header, content) {
+  $('#download-theme-modal .message .header').text(header);
+  $('#download-theme-modal .message p').text(content);
+}
+
+function endDownloadModal(success) {
+  const status = success ? 'positive' : 'negative';
+  const icon = success ? 'check' : 'x icon';
+
+  $('#download-theme-modal .message').addClass(status);
+  $('#download-theme-modal .message i').removeClass().addClass(icon);
+  $('#download-theme-modal .done.button').show();
+}
+
+function extractTheme(theme) {
+  // assumes zip in specified location
+  setDownloadThemeMessage('Extracting Theme', `Downloaded theme to ${theme}. Extracting...`);
+  const tmpDir = path.join(app.getPath('userData'), 'theme-tmp');
+
+  fs.emptyDir(tmpDir, function(err) {
+    if (err) {
+      console.log(err);
+      setDownloadThemeMessage('Error Extracting Theme', `Unable to clean temporary storage location. ${err}.`);
+      endDownloadModal(false);
+      return;
+    }
+
+    extract(theme, { dir: tmpDir }, function(err) {
+      if (err) {
+        console.log(err);
+        setDownloadThemeMessage('Error Extracting Theme', `File might not be a ZIP. ${err}.`);
+        endDownloadModal(false); 
+        return;
+      }
+
+      // inspect files
+      const expectedThemeFile = path.join(tmpDir, 'theme.json');
+      console.log(`Checking manifest ${expectedThemeFile}`);
+
+      if (fs.existsSync(expectedThemeFile)) {
+        const themeData = fs.readJsonSync(expectedThemeFile, { throws: false });
+
+        // check for required themes
+        if ('name' in themeData && 'version' in themeData && 'author' in themeData && 'folderName' in themeData) {
+          console.log('Copying folder to theme directory');
+          const dest = path.join(appState.theme.themeFolder, themeData.folderName);
+
+          // clear directory for clean install
+          console.log(`Emptying ${dest}`);
+          fs.emptyDir(dest, function (err) {
+            if (err) {
+              console.log(err);
+              setDownloadThemeMessage('Error Extracting Theme', `Unable to empty existing theme folder ${dest}.`);
+              endDownloadModal(false);
+              return;
+            }
+
+            // copy
+            fs.copy(tmpDir, dest, { }, function(err) {
+              if (err) {
+                console.log(err);
+                setDownloadThemeMessage('Error Extracting Theme', 'Unable to copy theme to theme folder. Check console for details.');
+                endDownloadModal(false);                
+                return;
+              }
+
+              setDownloadThemeMessage(`Installed ${themeData.name} v${themeData.version}`, `Installed to ${dest}.`);
+              endDownloadModal(true);
+              scanThemes(appState.theme.themeFolder);
+
+              // cache url somewhere
+            })
+
+          })
+        }
+        else {
+          setDownloadThemeMessage('Error Extracting Theme', `File ${expectedThemeFile} is missing one or more of the required fields: name, version, author, folderName`);
+          endDownloadModal(false);          
+          return;
+        }
+      }
+      else {
+        setDownloadThemeMessage('Error Extracting Theme', 'Unable to find theme.json manifest in downloaded archive.');
+        endDownloadModal(false);        
+        return;
+      }
+    });
+  });
+}
+
+function downloadTheme() {
+  const url = $('#theme-download-url').val();
+  const fileLoc = path.join(app.getPath('userData'), 'downloaded-theme.zip');
+
+  if (fs.existsSync(fileLoc)) {
+    fs.unlinkSync(fileLoc);
+  }
+
+  $('#download-theme-modal .message i').removeClass().addClass('notched circle loading icon');
+  $('#download-theme-modal .actions').hide();
+  $('#download-theme-modal .message').show();
+  $('#download-theme-modal .labeled.input').addClass('disabled');
+  setDownloadThemeMessage('Downloading Theme', `Downloading from ${url}`);
+
+  request
+    .get(url)
+    .on('response', function (response) {
+      console.log(response);
+      setDownloadThemeMessage('Downloading Theme', `GET URL ${url} returned status ${response.statusCode} '${response.statusMessage}'`);
+    })
+    .on('error', function (err) {
+      setDownloadThemeMessage('Error Downloading Theme', `${err}`);
+      $('#download-theme-modal .message').addClass('negative');
+      // display Ok button
+    })
+    .pipe(fs.createWriteStream(fileLoc))
+    .on('finish', function () {
+      extractTheme(fileLoc);
+    });
+
+  return false;
+}
+
+function startThemeDownload(presetURL) {
+  // show modal
+  $('#download-theme-modal .actions').show();
+  $('#download-theme-modal .message').removeClass('positive negative').hide();
+  $('#download-theme-modal .labeled.input').removeClass('disabled');
+  $('#download-theme-modal .done.button').hide();
+
+  if (typeof(presetURL) === 'string') {
+    $('#theme-download-url').val(presetURL);
+  }
+  else {
+    $('#theme-download-url').val('');
+  }
+
+  $('#download-theme-modal').modal({
+    closable: false,
+    onDeny: function() {
+      return true;
+    },
+    onApprove: downloadTheme,
+  }).modal('show');
+}
+
+function initThemes() {
+  if (globalInit === false) {
+    $('#theme-menu').dropdown();
+    createOverrideControls();
+    $('#theme-location-browse').click(browseThemeFolder);
+    $('#download-theme-button').click(startThemeDownload);
+    $('#download-theme-modal .done.button').click(() => {
+      $('#download-theme-modal').modal('hide');
+    });
+
+    globalInit = true;
+  }
+}
+
+function initWithState(state) {
+  if (stateInit === false) {
+    scanThemes(state.theme.themeFolder);
+
+    $('.set-theme-button').click(() => {
+      state.broadcastThemeChange();
+      renderThemeCredits(state.theme.data);
+      showMessage('Theme Changed', 'positive');
+    });
+
+    if (state.theme.data) {
+      $('#theme-menu').dropdown('set exactly', state.theme.data.name);
+    }
+
+    $('#theme-override-default').click(resetOverrides);
+    $('#theme-location').val(state.theme.themeFolder);
+    $('#rescan-themes').click(function () {
+      scanThemes(state.theme.themeFolder);
+    });
+
+    setOverrideMenus(state.theme);
+    $('#set-theme').click();
+
+    appState = state;
+    stateInit = true;
+  }
+}
+
 
 exports.Init = initThemes;
 exports.InitWithState = initWithState;

@@ -16,6 +16,7 @@
         "electron-settings": "^3.2.0",
         "electron-updater": "^4.0.6",
         "express": "^4.16.3",
+        "extract-zip": "^1.6.7",
         "fs-extra": "^7.0.0",
         "hots-parser": "^6.38.2",
         "jquery": "^3.3.1",
@@ -23,6 +24,7 @@
         "linvodb3": "^3.25.1",
         "medea": "^1.0.3",
         "medeadown": "^1.1.9",
+        "request": "^2.88.0",
         "semantic-ui": "^2.4.2",
         "socket.io": "^2.2.0"
     },

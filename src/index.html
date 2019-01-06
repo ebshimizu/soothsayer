@@ -105,6 +105,10 @@
                 </div>
               </div>
               <div class="three wide field">
+                <label>Download Theme</label>
+                <div class="ui fluid button" id="download-theme-button">Download</div>
+              </div>
+              <div class="three wide field">
                 <label>Scan For Themes</label>
                 <div class="ui fluid button" id="rescan-themes">Scan</div>
               </div>
@@ -288,5 +292,35 @@
       </div>
     </div>
     <div id="message-container"></div>
+    <div class="ui modal" id="download-theme-modal">
+      <div class="header">Download Theme</div>
+      <div class="content">
+        <p>
+          Download a theme from a url. The downloaded theme will be placed in a folder inside the currently
+          specified theme folder. Downloaded themes are expected to be a ZIP containing the theme.json file.
+          <strong>If a theme with the same name already exists, it will be overwritten.</strong>
+        </p>
+        <div class="ui fluid labeled input">
+          <div class="ui label">
+            URL
+          </div>
+          <input type="text" name="theme-download-url" id="theme-download-url">
+        </div>
+        <div class="ui icon message">
+          <i class="notched circle loading icon"></i>
+          <div class="content">
+            <div class="header">Downloading Theme...</div>
+            <p>[Status]</p>
+          </div>
+        </div>
+        <div class="ui fluid green done button">
+          OK
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui green approve button">Download</div>
+        <div class="ui red cancel button">Cancel</div>
+      </div>
+    </div>
   </body>
 </html>
