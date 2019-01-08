@@ -62,6 +62,9 @@ function updateOverrideMenus() {
   if (appState) {
     setOverrideMenus(appState.theme);
   }
+  else {
+    setOverrideMenus({ });
+  }
 }
 
 function setOverrideMenus(theme) {
@@ -461,6 +464,7 @@ function initThemes() {
     $('#download-theme-modal .done.button').click(() => {
       $('#download-theme-modal').modal('hide');
     });
+    updateOverrideMenus();
 
     globalInit = true;
   }
