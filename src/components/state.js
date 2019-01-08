@@ -19,6 +19,15 @@ class State {
       this.rootOBS = path.join(process.resourcesPath, 'app', 'src', 'obs_src');
     }
 
+    // ensure text folder exists on load
+    try {
+      fs.ensureDirSync(path.join(this.rootOBS, 'text'));
+    }
+    catch (e) {
+      console.log(e);
+      showMessage('Error: unable to create text output directory. Check console for details.', 'negative');
+    }
+
     Keybinds.setKeybinds(this);
   }
 
