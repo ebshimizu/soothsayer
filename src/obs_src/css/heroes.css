@@ -51,7 +51,7 @@
       }
     
       .CCho {
-        background-image: url('../../stats-of-the-storm/assets/heroes-talents/images/heroes/cho.png');
+        background-image: url('../../stats-of-the-storm/assets/heroes-talents/images/heroes/chogall.png');
       }
     
       .Chro {
@@ -330,3 +330,6 @@
         background-image: url('../../stats-of-the-storm/assets/heroes-talents/images/heroes/zuljin.png');
       }
     
+      .IMPE {
+        background-image: url('../../stats-of-the-storm/assets/heroes-talents/images/heroes/imperius.png');
+      }
