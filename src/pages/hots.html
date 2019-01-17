@@ -1,6 +1,7 @@
 <script id="hots-operate-page" class="operate-content" type="text/x-handlebars-template">
   <div class="ui secondary pointing menu" id="section-menu">
     <a class="active item" data-tab="settings">General</a>
+    <a class="item" data-tab="tournament">Tournament</a>
     <a class="item" data-tab="map">Match</a>
     <a class="item" data-tab="team">Team</a>
     <a class="item" data-tab="stats">Stats</a>
@@ -35,8 +36,14 @@
             </div>
           </div>
           <div class="twelve wide field">
-            <label>Tournament Label</label>
-            <input type="text" name="tournament-name" id="tournament-name">
+            <label>Event Logo</label>
+            <div class="ui action input find-logo" id="event-logo">
+              <input type="text" placeholder="Event Logo">
+              <div class="ui buttons">
+                <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
+                <div class="ui left attached button browse">Browse</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="fields caster-1">
@@ -105,22 +112,53 @@
           </div>
         </div> -->
         <div class="field">
-          <label>Event Logo</label>
-          <div class="ui action input find-logo" id="event-logo">
-            <input type="text" placeholder="Event Logo">
-            <div class="ui buttons">
-              <div class="ui right attached icon button clear-field"><i class="ui erase icon"></i></div>
-              <div class="ui left attached button browse">Browse</div>
-            </div>
-          </div>
-        </div>
-        <div class="field">
           <label>Player Pool (optional, one per line)</label>
           <textarea rows="4" id="player-pool"></textarea>
         </div>
       </form>
     </div>
     
+  </div>
+  <div class="contained basic ui tab segment" data-tab="tournament" id="tournament">
+    <div class="ui segment">
+      <h2 class="ui dividing header">Tournament Data</h2>
+      <form class="ui form">
+        <div class="fields">
+          <div class="sixteen wide field">
+            <label>Tournament Label</label>
+            <input type="text" name="tournament-name" id="tournament-name">
+          </div>
+        </div>
+      </form>
+      <h3 class="ui dividing header">Standings</h3>
+      <div id="tournament-standings">
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th class="two wide">Rank</th>
+              <th class="six wide">Team</th>
+              <th class="four wide">Logo</th>
+              <th class="two wide">Win</th>
+              <th class="two wide">Loss</th>
+              <th class="two wide">Ops</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+          <tfoot class="full width">
+            <tr>
+              <th colspan="6">
+                <div class="ui right floated labeled blue icon add button">
+                  <i class="plus icon"></i>
+                  Add Row
+                </div>
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="contained basic ui tab segment" data-tab="team" id="team-data">
     <div class="ui segment">

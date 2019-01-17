@@ -4,6 +4,7 @@ const settings = require('electron-settings');
 const fs = require('fs-extra');
 const path = require('path');
 const DataSource = require('./data-source');
+const Tournament = require('./tournament');
 const Keybinds = require('./keybinds');
 
 class State {
@@ -132,12 +133,13 @@ class State {
     io.sockets.emit(event, data);
   }
 
+  // add functions to this to update the state
   updateAndBroadcast() {
     this.updateTeamData();
     this.updateMatchData();
     this.updateCasterData();
     this.updateDataSource();
-    // tournament data?
+    this.updateTournamentData();
 
     this.broadcastStateChange();
     this.save();
@@ -519,7 +521,11 @@ class State {
   }
 
   displayTournamentData() {
+    Tournament.render(this.tournament);
+  }
 
+  updateTournamentData() {
+    this.tournament.standings = Tournament.getStandings();
   }
 
   addStanding(place, team, win, loss, logo) {

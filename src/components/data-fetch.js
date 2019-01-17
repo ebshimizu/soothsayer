@@ -157,6 +157,7 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
       });
 
       showMessage(`Loaded Recent Results for Heroes Lounge ${season} ${div}`, 'positive');
+      appState.displayTournamentData();
     }
   }
   catch (e) {

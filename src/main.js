@@ -8,6 +8,7 @@ const Themes = require('./components/themes');
 const DataSource = require('./components/data-source');
 const DataGrabber = require('./components/data-fetch');
 const LowerThird = require('./components/stat-lower-third');
+const Tournament = require('./components/tournament');
 const Casters = require('./components/caster-data');
 const Util = require('./components/util');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
@@ -196,6 +197,7 @@ function initApp(name) {
   MapData.Init();
   Themes.Init();
   LowerThird.Init();
+  Tournament.Init();
 
   appState.renderState();
 
@@ -210,6 +212,7 @@ function initApp(name) {
   LowerThird.InitWithState(appState);
   LowerThird.setDataSource(DataSource);
   DataGrabber.InitWithState(appState);
+  Tournament.InitWithState(appState);
 
   $('#section-menu .item').tab();
   $('#status-tab-menu .item').tab();
