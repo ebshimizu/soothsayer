@@ -43,11 +43,9 @@ function renderStandings(data) {
 
   // sort standings
   data.sort(function (a, b) {
-    if (a.place < b.place)
-      return -1;
-    
-    if (a.place > b.place)
-      return 1;
+    if (a.place < b.place) return -1;
+
+    if (a.place > b.place) return 1;
 
     return 0;
   });
@@ -69,11 +67,27 @@ function getStandings() {
 
   rows.each(function () {
     data.push({
-      place: parseInt($(this).find('input[name="place"]').val()),
-      team: $(this).find('input[name="team"]').val(),
-      win: parseInt($(this).find('input[name="win"]').val()),
-      loss: parseInt($(this).find('input[name="loss"]').val()),
-      logo: $(this).find('input[name="logo"]').val(),
+      place: parseInt(
+        $(this)
+          .find('input[name="place"]')
+          .val(),
+      ),
+      team: $(this)
+        .find('input[name="team"]')
+        .val(),
+      win: parseInt(
+        $(this)
+          .find('input[name="win"]')
+          .val(),
+      ),
+      loss: parseInt(
+        $(this)
+          .find('input[name="loss"]')
+          .val(),
+      ),
+      logo: $(this)
+        .find('input[name="logo"]')
+        .val(),
     });
   });
 
@@ -81,11 +95,13 @@ function getStandings() {
 }
 
 function init() {
-  $('#tournament-standings .add.button').click(function() {
-    $('#tournament-standings table.celled tbody').append(rankingRow({}, $('#tournament-standings table.celled tbody tr').length + 1));
+  $('#tournament-standings .add.button').click(function () {
+    $('#tournament-standings table.celled tbody').append(
+      rankingRow({}, $('#tournament-standings table.celled tbody tr').length + 1),
+    );
   });
 
-  $(document).on('click', '#tournament-standings .delete-row.button', function(event) {
+  $(document).on('click', '#tournament-standings .delete-row.button', function (event) {
     $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).remove();
   });
 }
