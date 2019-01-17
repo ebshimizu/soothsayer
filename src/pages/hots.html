@@ -124,9 +124,27 @@
       <h2 class="ui dividing header">Tournament Data</h2>
       <form class="ui form">
         <div class="fields">
-          <div class="sixteen wide field">
+          <div class="ten wide field">
             <label>Tournament Label</label>
             <input type="text" name="tournament-name" id="tournament-name">
+          </div>
+          <div class="three wide field">
+            <label>Standings Format</label>
+            <div class="ui fluid selection dropdown" id="tournament-standing-format">
+              <i class="dropdown icon"></i>
+              <div class="text"></div>
+              <div class="menu">
+                <div class="item" data-value="top">Top N</div>
+                <div class="item" data-value="focus">Team Focus</div>
+                <div class="item" data-value="combined">All + Team Focus</div>
+              </div>
+            </div>
+          </div>
+          <div class="three wide field">
+            <label>Standings Table Limit</label>
+            <div class="ui fluid input" id="tournament-standing-limit">
+              <input type="text" class="has-popup" value="8"  data-position="bottom center" data-content="This is the maximum number of teams that will be shown in Top N mode and Team Focus mode.">
+            </div>
           </div>
         </div>
       </form>

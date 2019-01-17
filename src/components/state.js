@@ -513,11 +513,9 @@ class State {
   }
 
   clearTournamentData() {
-    this.tournament = {
-      standings: [],
-      recent: [],
-      bracket: {},
-    };
+    this.tournament.standings = [];
+    this.tournament.recent = [];
+    this.tournament.bracket = {};
   }
 
   displayTournamentData() {
@@ -526,6 +524,7 @@ class State {
 
   updateTournamentData() {
     this.tournament.standings = Tournament.getStandings();
+    this.tournament.standingsSettings = Tournament.getStandingsSettings();
   }
 
   addStanding(place, team, win, loss, logo) {

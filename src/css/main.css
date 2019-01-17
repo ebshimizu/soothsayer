@@ -54,3 +54,7 @@ body#caster-tool {
   right: 10px;
   top: 10px;
 }
+
+#tournament-standings tr.zoom {
+  background-color: #8a5abe !important;
+}
