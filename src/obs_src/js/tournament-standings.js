@@ -1,10 +1,9 @@
 const socket = io("http://localhost:3005/");
 
-function tableRow(r, i) {
+function tableRow(r, i, hidden) {
   return `
-    <div class="row ${i % 2 === 0 ? "even" : "odd"} ${
-    r.focus || r.zoom ? "focus" : ""
-  }">
+    <div class="entry row ${i % 2 === 0 ? "even" : "odd"} ${
+    r.focus || r.zoom ? "focus" : ""} ${hidden ? 'transition hidden' : ''}">
       <div class="field place">${r.place}</div>
       <div class="field team-name">${r.team}</div>
       <div class="field record">${r.win}-${r.loss}</div>
@@ -32,6 +31,8 @@ class TournamentStandings {
   updateState(state) {
     $("#tournament-name").text(state.casters.tournament);
     $(".standings-table").html("");
+    clearTimeout(this.timeout);
+
     this.limit = Math.min(
       state.tournament.standingsSettings.limit,
       state.tournament.standings.length
@@ -119,7 +120,42 @@ class TournamentStandings {
     // top n cycling
     this.standings = state.tournament.standings;
 
-    // if we're not displaying everything, start the loop
+    if (this.mode === 'top') {
+      // if we're not displaying everything, start the loop
+      if (this.limit < state.tournament.standings.length) {
+        this.currentPage = 0;
+        this.timeout = setTimeout(() => this.cyclePage.call(this), 10000);
+      }
+    }
+  }
+
+  cyclePage() {
+    let next = this.currentPage + 1;
+    if (next >= Math.ceil(this.standings.length / this.limit)) {
+      next = 0;
+    }
+
+    let rmin = next * this.limit;
+    const self = this;
+
+    $('#topn-table div.entry').each(function (i) {
+      let elem = $(this);
+      elem.transition('fade out', 500, function () {
+        elem.remove();
+        const idx = rmin + i;
+        if (idx < self.standings.length) {
+          let newElem = $(tableRow(self.standings[idx], i, true));
+          $('#topn-table').append(newElem);
+          newElem.transition('fade in', 500);
+        }
+        else {
+          $('#topn-table').append('<div class="empty entry"></div>');
+        }
+      })
+    });
+
+    this.currentPage = next;
+    this.timeout = setTimeout(() => this.cyclePage.call(this), 10000);
   }
 }
 
