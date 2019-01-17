@@ -41,6 +41,7 @@ class State {
     this.casters = settings.get('casters');
     this.dataSource = settings.get('dataSource');
     this.keybinds = settings.get('keybinds');
+    this.tournament = settings.get('tournament');
 
     if (!this.blueTeam) {
       this.blueTeam = { };
@@ -67,6 +68,9 @@ class State {
     if (!this.keybinds) {
       this.keybinds = Keybinds.default();
     }
+    if (!this.tournament) {
+      this.tournament = {};
+    }
   }
 
   renderState() {
@@ -74,6 +78,8 @@ class State {
     this.displayMatchData();
     this.displayCasterData();
     this.displayDataSource();
+    this.displayTournamentData();
+
     Keybinds.displayKeybinds(this);
 
     if (this.theme.data) {
@@ -131,11 +137,13 @@ class State {
     this.updateMatchData();
     this.updateCasterData();
     this.updateDataSource();
+    // tournament data?
 
     this.broadcastStateChange();
     this.save();
   }
-
+  
+  // add things to this section to broadcast to the connected frames
   broadcastSubset() {
     return {
       blueTeam: this.blueTeam,
@@ -145,6 +153,7 @@ class State {
       theme: this.theme,
       casters: this.casters,
       misc: this.miscData,
+      tournament: this.tournament,
     };
   }
 
@@ -199,6 +208,7 @@ class State {
     this.save();
   }
 
+  // add things to this function to save on update
   save() {
     settings.set('blueTeam', this.blueTeam);
     settings.set('redTeam', this.redTeam);
@@ -207,6 +217,7 @@ class State {
     settings.set('casters', this.casters);
     settings.set('dataSource', this.dataSource);
     settings.set('miscData', this.miscData);
+    settings.set('tournament', this.tournament);
   }
 
   updateKeybinds() {
@@ -497,6 +508,39 @@ class State {
     // save data source settings
     settings.set('dataSource', this.dataSource);
     console.log(`started watching ${this.dataSource.replayFolder}`);
+  }
+
+  clearTournamentData() {
+    this.tournament = {
+      standings: [],
+      recent: [],
+      bracket: {},
+    };
+  }
+
+  displayTournamentData() {
+
+  }
+
+  addStanding(place, team, win, loss, logo) {
+    this.tournament.standings.push({
+      team,
+      place,
+      win,
+      loss,
+      logo,
+    });
+  }
+
+  addRecent(team1, team2, team1Score, team2Score, team1Logo, team2Logo) {
+    this.tournament.recent.push({
+      team1,
+      team2,
+      team1Score,
+      team2Score,
+      team1Logo,
+      team2Logo,
+    });
   }
 }
 
