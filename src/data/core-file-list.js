@@ -15,6 +15,7 @@ const coreThemeFiles = [
   'blue-team-logo',
   'logo',
   'tournament-standings',
+  'ticker-lower-third',
 ];
 
 exports.coreThemeFiles = coreThemeFiles;
