@@ -29,10 +29,25 @@ function tickerItem(r, id) {
             <label>Item Mode</label>
             ${tickerDropdown()}
           </div>
-          <div class="ten wide field">
+          <div class="seven wide field">
             <label>Category Title</label>
             <div class="ui fluid input">
               <input type="text" name="ticker-cat" value="${r.category ? r.category : ''}">
+            </div>
+          </div>
+          <div class="three wide field">
+            <label>Delete</label>
+            <div class="ui red fluid labeled icon button" name="delete">
+              <i class="trash icon"></i>
+              Delete
+            </div>
+          </div>
+        </div>
+        <div class="fields">
+          <div class="sixteen wide field">
+            <label>Plain Text / Subtitle</label>
+            <div class="ui fluid input">
+              <input type="text" name="ticker-subtitle" value="${r.text ? r.text : ''}">
             </div>
           </div>
         </div>
@@ -66,13 +81,13 @@ function tickerItem(r, id) {
           <div class="three wide field">
             <label>Blue Team Score</label>
             <div class="ui fluid input">
-              <input type="number" name="ticker-blue-score" value="${r.blueScore ? r.blueScore : ''}">
+              <input type="number" name="ticker-blue-score" value="${!isNaN(r.blueScore) ? r.blueScore : ''}">
             </div>
           </div>
           <div class="three wide field">
             <label>Red Team Score</label>
             <div class="ui fluid input">
-              <input type="number" name="ticker-red-score" value="${r.redScore ? r.redScore : ''}">
+              <input type="number" name="ticker-red-score" value="${!isNaN(r.redScore) ? r.redScore : ''}">
             </div>
           </div>
           <div class="four wide field">
@@ -105,7 +120,7 @@ function tickerItem(r, id) {
 function tickerAbsoluteSort(a, b) {
   if (a.order < b.order)
     return -1;
-  
+
   if (a.order > b.order)
     return 1;
 
@@ -115,10 +130,10 @@ function tickerAbsoluteSort(a, b) {
 function tickerCategorySort(a, b) {
   if (a.category < b.category)
     return -1;
-  
+
   if (a.category > b.category)
     return 1;
-  
+
   // tiebreaker
   return tickerAbsoluteSort(a, b);
 }
@@ -153,6 +168,9 @@ function addItem(data, id) {
   });
 
   elem.find('.ticker-mode.dropdown').dropdown('set exactly', data.mode ? data.mode : 'text');
+  elem.find('.button[name="delete"]').click(() => {
+    $(`#ticker-items .ticker-item[item-id="${id}"]`).remove();
+  });
 }
 
 function clearItems() {
@@ -204,7 +222,7 @@ function getTickerData() {
   const items = [];
 
   $('#ticker-items .ticker-item').each(function () {
-    items.push(getTickerItemData(this));    
+    items.push(getTickerItemData(this));
   });
 
   return items;

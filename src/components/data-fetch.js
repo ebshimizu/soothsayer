@@ -1,3 +1,4 @@
+const moment = require('moment');
 let appState;
 
 function heroesLoungeGetTeamFull(type) {
@@ -163,24 +164,84 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
   catch (e) {
     showMessage(`Heroes Lounge Standings Load Error: ${e}`, 'negative');
   }
+}
+
+async function heroesLoungeLoadUpcoming() {
+  if (!appState) {
+    showMessage('App is not initialized yet. Please wait a moment before trying again.');
+    return [];
+  }
+
+  const tickerItems = [];
+
+  try {
+    // TEST
+    const response = await fetch(`https://heroeslounge.gg/api/v1/matches/withApprovedCastBetween/${moment().format('YYYY-MM-DD')}/${moment().add(3,'d').format('YYYY-MM-DD')}`);
+
+    if (!response.ok) {
+      showMessage(
+        `Error: Failed to retrieve upcoming casted games for Heroes Lounge. Code: ${response.status}.`,
+        'negative',
+      );
+    }
+    else {
+      const data = await response.json();
+
+      for (const id in data) {
+        const match = data[id];
+        tickerItems.push({
+          order: id,
+          category: 'Upcoming Matches',
+          mode: 'upcoming',
+          twitch: match.channel.url.substring(match.channel.url.lastIndexOf('/') + 1),
+          text: match.division.title,
+          blueTeam: match.teams[0].title,
+          redTeam: match.teams[1].title,
+          upcomingDate: moment(`${match.wbp}+01:00`).local().format('YYYY-MM-DD[T]HH:mm'),
+        });
+      }
+    }
+  }
+  catch (e) {
+    showMessage(`Heroes Lounge Upcoming Matches Load Error: ${e}`, 'negative');
+  }
+
+  return tickerItems;
+}
+
+async function heroesLoungeLoadStandings() {
+  // fill in from dropdowns
+  $('#heroes-lounge-get-recent').addClass('disabled loading');
+  $('#heroes-lounge-get-standings').addClass('disabled loading');
+
+  await heroesLoungeLoadStandingsForDiv(
+    $('#heroes-lounge-league').dropdown('get text'),
+    $('#heroes-lounge-division').dropdown('get value'),
+  );
 
   $('#heroes-lounge-get-standings').removeClass('disabled loading');
+  $('#heroes-lounge-get-recent').removeClass('disabled loading');
 }
 
-function heroesLoungeLoadStandings() {
-  // fill in from dropdowns
+async function heroesLoungeLoadTicker() {
+  $('#heroes-lounge-get-recent').addClass('disabled loading');
   $('#heroes-lounge-get-standings').addClass('disabled loading');
-  heroesLoungeLoadStandingsForDiv(
-    $('#heroes-lounge-league').dropdown('get text'),
-    $('#heroes-lounge-division').dropdown('get value'),
-  );
-}
 
-function heroesLoungeLoadTicker() {
-  heroesLoungeLoadStandingsForDiv(
+  await heroesLoungeLoadStandingsForDiv(
     $('#heroes-lounge-league').dropdown('get text'),
     $('#heroes-lounge-division').dropdown('get value'),
   );
+
+  const upcoming = await heroesLoungeLoadUpcoming();
+
+  // reformat recent data into ticker items
+  let items = appState.convertRecentToTicker();
+  items = items.concat(upcoming);
+
+  appState.setTickerItems(items);
+
+  $('#heroes-lounge-get-standings').removeClass('disabled loading');
+  $('#heroes-lounge-get-recent').removeClass('disabled loading');
 }
 
 async function heroesLoungeLeagueChange(value, text, choice) {
@@ -301,6 +362,7 @@ function init() {
   $('#heroes-lounge-get-slug').click(() => heroesLoungeGetTeamFull('slug'));
   $('.data-grab-option').hide();
   $('#heroes-lounge-get-standings').click(heroesLoungeLoadStandings);
+  $('#heroes-lounge-get-recent').click(heroesLoungeLoadTicker);
   heroesLoungeInitDropdowns();
 
   $('#data-grabber-menu').dropdown({

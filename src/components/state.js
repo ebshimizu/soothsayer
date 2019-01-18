@@ -571,6 +571,38 @@ class State {
     Ticker.renderItems(this.ticker.items);
     Ticker.renderOptions(this.ticker.options);
   }
+
+  clearTickerItems() {
+    this.ticker.items = [];
+    this.displayTickerData();
+  }
+
+  setTickerItems(items) {
+    this.ticker.items = items;
+    this.displayTickerData();
+  }
+
+  // doesn't actually add to the ticker, returns in case other ops needed
+  convertRecentToTicker() {
+    const items = [];
+    for (let i = 0; i < this.tournament.recent.length; i++) {
+      const item = this.tournament.recent[i];
+
+      items.push({
+        order: i,
+        category: 'Recent Results',
+        mode: 'recent',
+        blueTeam: item.team1,
+        redTeam: item.team2,
+        blueScore: item.team1Score,
+        redScore: item.team2Score,
+        blueLogo: item.team1Logo,
+        redLogo: item.team2Logo,
+      });
+    }
+
+    return items;
+  }
 }
 
 function constructState(io) {
