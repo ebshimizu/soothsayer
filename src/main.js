@@ -10,6 +10,7 @@ const DataGrabber = require('./components/data-fetch');
 const LowerThird = require('./components/stat-lower-third');
 const Tournament = require('./components/tournament');
 const Casters = require('./components/caster-data');
+const Ticker = require('./components/ticker');
 const Util = require('./components/util');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 const settings = require('electron-settings');
@@ -198,6 +199,7 @@ function initApp(name) {
   Themes.Init();
   LowerThird.Init();
   Tournament.Init();
+  Ticker.Init();
 
   appState.renderState();
 
@@ -213,6 +215,7 @@ function initApp(name) {
   LowerThird.setDataSource(DataSource);
   DataGrabber.InitWithState(appState);
   Tournament.InitWithState(appState);
+  Ticker.InitWithState(appState);
 
   $('#section-menu .item').tab();
   $('#status-tab-menu .item').tab();

@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const DataSource = require('./data-source');
 const Tournament = require('./tournament');
+const Ticker = require('./ticker');
 const Keybinds = require('./keybinds');
 
 class State {
@@ -43,6 +44,7 @@ class State {
     this.dataSource = settings.get('dataSource');
     this.keybinds = settings.get('keybinds');
     this.tournament = settings.get('tournament');
+    this.ticker = settings.get('ticker');
 
     if (!this.blueTeam) {
       this.blueTeam = { };
@@ -72,6 +74,12 @@ class State {
     if (!this.tournament) {
       this.tournament = {};
     }
+    if (!this.ticker) {
+      this.ticker = {
+        items: [],
+        options: {}
+      };
+    }
   }
 
   renderState() {
@@ -80,6 +88,7 @@ class State {
     this.displayCasterData();
     this.displayDataSource();
     this.displayTournamentData();
+    this.displayTickerData();
 
     Keybinds.displayKeybinds(this);
 
@@ -140,6 +149,7 @@ class State {
     this.updateCasterData();
     this.updateDataSource();
     this.updateTournamentData();
+    this.updateTickerData();
 
     this.broadcastStateChange();
     this.save();
@@ -156,6 +166,7 @@ class State {
       casters: this.casters,
       misc: this.miscData,
       tournament: this.tournament,
+      ticker: this.ticker,
     };
   }
 
@@ -220,6 +231,7 @@ class State {
     settings.set('dataSource', this.dataSource);
     settings.set('miscData', this.miscData);
     settings.set('tournament', this.tournament);
+    settings.set('ticker', this.ticker);
   }
 
   updateKeybinds() {
@@ -546,6 +558,18 @@ class State {
       team1Logo,
       team2Logo,
     });
+  }
+
+  updateTickerData() {
+    this.ticker = {};
+
+    this.ticker.items = Ticker.getItems();
+    this.ticker.options = Ticker.getOptions();
+  }
+
+  displayTickerData() {
+    Ticker.renderItems(this.ticker.items);
+    Ticker.renderOptions(this.ticker.options);
   }
 }
 

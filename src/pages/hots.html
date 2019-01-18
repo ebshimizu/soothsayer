@@ -5,6 +5,7 @@
     <a class="item" data-tab="map">Match</a>
     <a class="item" data-tab="team">Team</a>
     <a class="item" data-tab="stats">Stats</a>
+    <a class="item" data-tab="ticker">Ticker</a>
   </div>
   <div class="contained basic ui tab segment active" data-tab="settings" id="settings">
     <div class="ui segment">
@@ -551,6 +552,61 @@
     </div>
     <div id="connected-stat-screens">
 
+    </div>
+  </div>
+  <div class="contained basic ui tab segment" data-tab="ticker">
+    <div class="ui segment">
+      <h2 class="ui dividing header">Ticker</h2>
+      <div class="ui form">
+        <div class="fields">
+          <div class="four wide field">
+            <label>Animation Type</label>
+            <div class="ui dropdown selection fluid" id="ticker-anim-mode">
+              <i class="dropdown icon"></i>
+              <div class="text"></div>
+              <div class="menu">
+                <div class="item" data-value="fade">Fade</div>
+                <div class="item" data-value="fade right">Fade Right</div>
+                <div class="item" data-value="fade left">Fade Right</div>
+                <div class="item" data-value="fade up">Fade Up</div>
+              </div>
+            </div>
+          </div>
+          <div class="four wide field">
+            <label>Ordering Mode</label>
+            <div class="ui dropdown selection fluid" id="ticker-order-mode">
+              <i class="dropdown icon"></i>
+              <div class="text"></div>
+              <div class="menu">
+                <div class="item" data-value="grouped">Grouped</div>
+                <div class="item" data-value="absolute">Absolute</div>
+              </div>
+            </div>
+          </div>
+          <div class="four wide field"></div>
+          <div class="four wide field">
+            <label>Items</label>
+            <div class="ui fluid blue labeled icon button" id="ticker-add-item">
+              <i class="plus icon"></i>
+              Add Item
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui segment">
+      <h2 class="ui dividing header">Ticker Items</h2>
+      <div class="ui info message">
+        <div class="content">
+          <p>
+            Grouped ordering mode will group items with the same category title together and use order to break ties, while
+            absolute ordering mode will use the order value exclusively.
+          </p>
+        </div>
+      </div>
+      <div id="ticker-items">
+
+      </div>
     </div>
   </div>
 </script>
