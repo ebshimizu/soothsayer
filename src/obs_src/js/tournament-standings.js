@@ -4,14 +4,20 @@ function tableRow(r, i, hidden) {
   return `
     <div class="entry row ${i % 2 === 0 ? "even" : "odd"} ${
     r.focus || r.zoom ? "focus" : ""} ${hidden ? 'transition hidden' : ''}">
-      <div class="field place">${r.place}</div>
-      <div class="field team-name">${r.team}</div>
-      <div class="field record">${r.win}-${r.loss}</div>
-      <div class="field win">${r.win}</div>
-      <div class="field loss">${r.loss}</div>
-      <div class="field logo">
-        <img src="${r.logo}" />
-      </div>
+      ${tableRowInside(r)}
+    </div>
+  `;
+}
+
+function tableRowInside(r) {
+  return ` 
+    <div class="field place">${r.place}</div>
+    <div class="field team-name">${r.team}</div>
+    <div class="field record">${r.win}-${r.loss}</div>
+    <div class="field win">${r.win}</div>
+    <div class="field loss">${r.loss}</div>
+    <div class="field logo">
+      <img src="${r.logo}" />
     </div>
   `;
 }
@@ -104,11 +110,11 @@ class TournamentStandings {
     // zoom
     // zoom first needs the location of the zoom team (if any)
     // determine range
-    let zmin = Math.max(0, zoomIdx - this.limit / 2);
+    let zmin = Math.max(0, zoomIdx - Math.floor(this.limit / 2));
     const zmax = Math.min(state.tournament.standings.length, zmin + this.limit);
 
     if (zmax - zmin < this.limit) {
-      zmin = Math.max(0, zmax - limit);
+      zmin = Math.max(0, zmax - this.limit);
     }
 
     for (let i = zmin; i < zmax; i++) {
@@ -141,15 +147,15 @@ class TournamentStandings {
     $('#topn-table div.entry').each(function (i) {
       let elem = $(this);
       elem.transition('fade out', 500, function () {
-        elem.remove();
         const idx = rmin + i;
         if (idx < self.standings.length) {
-          let newElem = $(tableRow(self.standings[idx], i, true));
-          $('#topn-table').append(newElem);
-          newElem.transition('fade in', 500);
+          $(this).removeClass('empty').addClass('row');
+          $(this).html(tableRowInside(self.standings[idx]));
+          $(this).transition('fade in', 500);
         }
         else {
-          $('#topn-table').append('<div class="empty entry"></div>');
+          $(this).html('');
+          $(this).addClass('empty').removeClass('row');
         }
       })
     });
