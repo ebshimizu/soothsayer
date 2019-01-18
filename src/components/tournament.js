@@ -2,20 +2,24 @@ let appState;
 
 function rankingRow(row, i) {
   return `
-    <tr row-id=${i} rank="${row.place}" class="${row.focus ? 'active' : ''} ${row.zoom ? 'zoom' : ''}">
+    <tr row-id=${i} rank="${row.place}" class="${row.focus ? "active" : ""} ${
+    row.zoom ? "zoom" : ""
+  }">
       <td>
         <div class="ui fluid input" name="place">
-          <input type="number" name="place" value="${row.place ? row.place : i}">
+          <input type="number" name="place" value="${
+            row.place ? row.place : i
+          }">
         </div>
       </td>
       <td>
         <div class="ui fluid input" name="team">
-          <input type="text" name="team" value="${row.team ? row.team : ''}">
+          <input type="text" name="team" value="${row.team ? row.team : ""}">
         </div>
       </td>
       <td>
         <div class="ui fluid input" name="logo">
-          <input type="text" name="logo" value="${row.logo ? row.logo : ''}">
+          <input type="text" name="logo" value="${row.logo ? row.logo : ""}">
         </div>
       </td>
       <td>
@@ -46,11 +50,13 @@ function rankingRow(row, i) {
 }
 
 function renderStandings(data) {
-  const tbl = $('#tournament-standings table.celled tbody');
-  tbl.html('');
+  if (!data) return;
+
+  const tbl = $("#tournament-standings table.celled tbody");
+  tbl.html("");
 
   // sort standings
-  data.sort(function (a, b) {
+  data.sort(function(a, b) {
     if (a.place < b.place) return -1;
 
     if (a.place > b.place) return 1;
@@ -70,15 +76,15 @@ function render(data) {
 
 function getStandings() {
   // iterate through rows, pull data into state expected format
-  const rows = $('#tournament-standings table.celled tbody tr');
+  const rows = $("#tournament-standings table.celled tbody tr");
   const data = [];
 
-  rows.each(function () {
+  rows.each(function() {
     data.push({
       place: parseInt(
         $(this)
           .find('input[name="place"]')
-          .val(),
+          .val()
       ),
       team: $(this)
         .find('input[name="team"]')
@@ -86,18 +92,18 @@ function getStandings() {
       win: parseInt(
         $(this)
           .find('input[name="win"]')
-          .val(),
+          .val()
       ),
       loss: parseInt(
         $(this)
           .find('input[name="loss"]')
-          .val(),
+          .val()
       ),
       logo: $(this)
         .find('input[name="logo"]')
         .val(),
-      focus: $(this).hasClass('active'),
-      zoom: $(this).hasClass('zoom'),
+      focus: $(this).hasClass("active"),
+      zoom: $(this).hasClass("zoom")
     });
   });
 
@@ -106,34 +112,56 @@ function getStandings() {
 
 function getStandingsSettings() {
   return {
-    mode: $('#tournament-standing-format').dropdown('get value'),
-    limit: parseInt($('#tournament-standing-limit input').val()),
+    mode: $("#tournament-standing-format").dropdown("get value"),
+    limit: parseInt($("#tournament-standing-limit input").val())
   };
 }
 
 function init() {
-  $('#tournament-standings .add.button').click(function () {
-    $('#tournament-standings table.celled tbody').append(
-      rankingRow({}, $('#tournament-standings table.celled tbody tr').length + 1),
+  $("#tournament-standings .add.button").click(function() {
+    $("#tournament-standings table.celled tbody").append(
+      rankingRow(
+        {},
+        $("#tournament-standings table.celled tbody tr").length + 1
+      )
     );
   });
-  $('#tournament-starting-format').dropdown();
+  $("#tournament-starting-format").dropdown();
 
-  $(document).on('click', '#tournament-standings .delete-row.button', function (event) {
-    $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).remove();
+  $(document).on("click", "#tournament-standings .delete-row.button", function(
+    event
+  ) {
+    $(
+      `#tournament-standings table tr[row-id="${$(this).attr("row-id")}"]`
+    ).remove();
   });
 
-  $(document).on('click', '#tournament-standings .highlight-row.button', function (event) {
-    $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).toggleClass('active');
-  });
-
-  $(document).on('click', '#tournament-standings .zoom-row.button', function (event) {
-    if ($(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).hasClass('zoom')) {
-      $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).removeClass('zoom');
+  $(document).on(
+    "click",
+    "#tournament-standings .highlight-row.button",
+    function(event) {
+      $(
+        `#tournament-standings table tr[row-id="${$(this).attr("row-id")}"]`
+      ).toggleClass("active");
     }
-    else {
-      $(`#tournament-standings table tr`).removeClass('zoom');
-      $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).addClass('zoom');
+  );
+
+  $(document).on("click", "#tournament-standings .zoom-row.button", function(
+    event
+  ) {
+    if (
+      $(
+        `#tournament-standings table tr[row-id="${$(this).attr("row-id")}"]`
+      ).hasClass("zoom")
+    ) {
+      $(
+        `#tournament-standings table tr[row-id="${$(this).attr("row-id")}"]`
+      ).removeClass("zoom");
+    } else {
+      $(`#tournament-standings table tr`).removeClass("zoom");
+      $(
+        `#tournament-standings table tr[row-id="${$(this).attr("row-id")}"]`
+      ).addClass("zoom");
     }
   });
 }
@@ -143,13 +171,13 @@ function initWithState(state) {
 
   if (appState.tournament.standingsSettings) {
     const standingMode = appState.tournament.standingsSettings.mode;
-    $('#tournament-standing-format').dropdown('set exactly', standingMode);
-    $('#tournament-standing-limit input').val(appState.tournament.standingsSettings.limit);
+    $("#tournament-standing-format").dropdown("set exactly", standingMode);
+    $("#tournament-standing-limit input").val(
+      appState.tournament.standingsSettings.limit
+    );
+  } else {
+    $("#tournament-standing-format").dropdown("set exactly", "top");
   }
-  else {
-    $('#tournament-standing-format').dropdown('set exactly', 'top');
-  }
-  
 }
 
 exports.Init = init;
