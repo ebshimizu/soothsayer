@@ -19,6 +19,7 @@ function tickerDropdown() {
 function tickerItem(r, id) {
   return `
     <div class="ui ticker-item segment" item-id="${id}">
+      <h3 class="ui dividing header"></h3>
       <div class="ui form">
         <div class="fields">
           <div class="two wide field">
@@ -45,7 +46,7 @@ function tickerItem(r, id) {
             </div>
           </div>
         </div>
-        <div class="text fields">
+        <div class="text-type fields">
           <div class="sixteen wide field">
             <label>Plain Text</label>
             <div class="ui fluid input">
@@ -165,20 +166,23 @@ function changeTickerMode(mode, id) {
   elem.find('.upcoming').hide();
   elem.find('.recent').hide();
   elem.find('.teams').hide();
-  elem.find('.text').hide();
+  elem.find('.text-type').hide();
 
   if (mode === 'upcoming') {
     elem.find('.teams').show();
     elem.find('.upcoming').show();
     elem.find('input[name="ticker-cat"]').val('Upcoming Matches');
+    elem.find('h3').text('Upcoming Match');
   }
   else if (mode === 'recent') {
     elem.find('.teams').show();
     elem.find('.recent').show();
     elem.find('input[name="ticker-cat"]').val('Recent Results');
+    elem.find('h3').text('Recent Result');
   }
   else {
-    elem.find('.text').show();
+    elem.find('.text-type').show();
+    elem.find('h3').text('Plain Text');
   }
 }
 

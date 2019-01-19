@@ -1,26 +1,35 @@
 const socket = io('http://localhost:3005/');
 
+function tableRowInside(r) {
+  const elem = $(` 
+    <div class="field place"></div>
+    <div class="field team-name"></div>
+    <div class="field record"></div>
+    <div class="field win"></div>
+    <div class="field loss"></div>
+    <div class="field logo"></div>
+  `);
+
+  elem.siblings('.place').text(r.place);
+  elem.siblings('.team-name').text(r.team);
+  elem.siblings('.record').text(`${r.win}-${r.loss}`);
+  elem.siblings('.loss').text(r.loss);
+  elem.siblings('.win').text(r.win);
+  setCSSImage(elem.find('.logo'), r.logo);
+
+  return elem;
+}
+
 function tableRow(r, i, hidden) {
-  return `
+  const elem = $(`
     <div class="entry row ${i % 2 === 0 ? 'even' : 'odd'} ${r.focus || r.zoom ? 'focus' : ''} ${
     hidden ? 'transition hidden' : ''
   }">
-      ${tableRowInside(r)}
     </div>
-  `;
-}
+  `);
 
-function tableRowInside(r) {
-  return ` 
-    <div class="field place">${r.place}</div>
-    <div class="field team-name">${r.team}</div>
-    <div class="field record">${r.win}-${r.loss}</div>
-    <div class="field win">${r.win}</div>
-    <div class="field loss">${r.loss}</div>
-    <div class="field logo">
-      <img src="${r.logo}" />
-    </div>
-  `;
+  elem.html(tableRowInside(r));
+  return elem;
 }
 
 class TournamentStandings {
@@ -128,11 +137,11 @@ class TournamentStandings {
     // top n cycling
     this.standings = state.tournament.standings;
 
-    if (this.mode === 'top') {
+    if (this.mode === 'cycle') {
       // if we're not displaying everything, start the loop
       if (this.limit < state.tournament.standings.length) {
         this.currentPage = 0;
-        this.timeout = setTimeout(() => this.cyclePage.call(this), 10000);
+        this.timeout = setInterval(() => this.cyclePage.call(this), 10000);
       }
     }
   }
@@ -167,7 +176,6 @@ class TournamentStandings {
     });
 
     this.currentPage = next;
-    this.timeout = setTimeout(() => this.cyclePage.call(this), 10000);
   }
 }
 

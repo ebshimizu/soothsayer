@@ -171,7 +171,7 @@ function initWithState(state) {
     $('#tournament-standing-limit input').val(appState.tournament.standingsSettings.limit);
   }
   else {
-    $('#tournament-standing-format').dropdown('set exactly', 'top');
+    $('#tournament-standing-format').dropdown('set exactly', 'cycle');
   }
 }
 
