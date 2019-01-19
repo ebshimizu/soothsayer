@@ -2,65 +2,6 @@ const moment = require('moment');
 
 let appState;
 
-function heroesLoungeGetTeamFull(type) {
-  const matchId = $('#heroes-lounge-id').val();
-
-  // series of asyncs
-  $.get(`http://heroeslounge.gg/api/v1/matches/${matchId}/teams`, '', function (teams) {
-    // ok now the other teams
-    if (teams.length === 2) {
-      console.log(teams);
-      $('#team-blue-name').val(teams[0][type]);
-      $('#team-red-name').val(teams[1][type]);
-      showMessage(
-        `Heroes Lounge Grabber: Loaded ${matchId}. Blue: ${teams[0][type]}, Red: ${
-          teams[1][type]
-        }.`,
-        'positive',
-      );
-
-      $.get(`http://heroeslounge.gg/api/v1/teams/${teams[0].id}/logo`, '', function (logo1) {
-        if (logo1.path) {
-          $('#team-blue-logo input').val(logo1.path);
-          showMessage(`Heroes Lounge Grabber: Loaded ${teams[0][type]}'s logo.`, 'positive');
-        }
-        else {
-          showMessage(`Heroes Lounge Grabber: Failed to load ${teams[0][type]}'s logo`, 'negative');
-        }
-      });
-      $.get(`http://heroeslounge.gg/api/v1/teams/${teams[1].id}/logo`, '', function (logo2) {
-        if (logo2.path) {
-          $('#team-red-logo input').val(logo2.path);
-          showMessage(`Heroes Lounge Grabber: Loaded ${teams[1][type]}'s logo.`, 'positive');
-        }
-        else {
-          showMessage(`Heroes Lounge Grabber: Failed to load ${teams[1][type]}'s logo`, 'negative');
-        }
-      });
-      $.get(`http://heroeslounge.gg/api/v1/teams/${teams[0].id}/sloths`, '', function (p1) {
-        $.get(`http://heroeslounge.gg/api/v1/teams/${teams[1].id}/sloths`, '', function (p2) {
-          // stip tags, add to pool
-          const players = p1.concat(p2);
-          const names = [];
-          for (const player of players) {
-            names.push(player.battle_tag.substring(0, player.battle_tag.indexOf('#')));
-          }
-
-          $('#player-pool').val(names.join('\n'));
-          $('#player-pool').focusout();
-          showMessage(
-            `Heroes Lounge Grabber: Player Pool Loaded. Count ${names.length}.`,
-            'positive',
-          );
-        });
-      });
-    }
-    else {
-      showMessage(`Heroes Lounge Grabber: Failed to get data for ${matchId}.`, 'negative');
-    }
-  });
-}
-
 async function heroesLoungeGetLogo(id) {
   let logo = '';
 
@@ -76,7 +17,85 @@ async function heroesLoungeGetLogo(id) {
   return logo;
 }
 
-async function heroesLoungeLoadStandingsForDiv(season, div) {
+async function heroesLoungeGetTeamFull(type) {
+  const matchId = $('#heroes-lounge-id').val();
+  let teams = {};
+
+  // series of asyncs
+  try {
+    const response = await fetch(`http://heroeslounge.gg/api/v1/matches/${matchId}/teams`);
+
+    if (!response.ok) {
+      showMessage(
+        `Error: Failed to load Heroes Lounge Match ${matchId}. http://heroeslounge.gg/api/v1/matches/${matchId}/teams returned status ${
+          response.code
+        }.`,
+        'negative',
+      );
+    }
+    else {
+      teams = await response.json();
+
+      if (teams.length === 2) {
+        // console.log(teams);
+        $('#team-blue-name').val(teams[0][type]);
+        $('#team-red-name').val(teams[1][type]);
+        showMessage(
+          `Heroes Lounge Grabber: Loaded ${matchId}. Blue: ${teams[0][type]}, Red: ${
+            teams[1][type]
+          }.`,
+          'positive',
+        );
+
+        const blueLogo = await heroesLoungeGetLogo(teams[0].id);
+        $('#team-blue-logo input').val(blueLogo);
+
+        const redLogo = await heroesLoungeGetLogo(teams[1].id);
+        $('#team-red-logo input').val(redLogo);
+
+        showMessage(
+          'Heroes Lounge Grabber: Attempted to load team logos. Some teams may be missing logos, check the Teams tab.',
+          'info',
+        );
+
+        showMessage('Attempting to load player list...', 'info');
+        try {
+          const team1Req = await fetch(`http://heroeslounge.gg/api/v1/teams/${teams[0].id}/sloths`);
+          const team2Req = await fetch(`http://heroeslounge.gg/api/v1/teams/${teams[1].id}/sloths`);
+
+          const p1 = await team1Req.json();
+          const p2 = await team2Req.json();
+
+          const players = p1.concat(p2);
+          const names = [];
+          for (const player of players) {
+            names.push(player.battle_tag.substring(0, player.battle_tag.indexOf('#')));
+          }
+
+          $('#player-pool').val(names.join('\n'));
+          $('#player-pool').focusout();
+          showMessage(
+            `Heroes Lounge Grabber: Player Pool Loaded. Count ${names.length}.`,
+            'positive',
+          );
+        }
+        catch (e) {
+          showMessage(
+            `Warning: failed to load Player List for Heroes Lounge match ${id}. ${e}`,
+            'warning',
+          );
+        }
+      }
+    }
+  }
+  catch (e) {
+    showMessage(`Error loading Heroes Lounge match id: ${matchId}. ${e}`, 'negative');
+  }
+
+  return teams;
+}
+
+async function heroesLoungeLoadStandingsForDiv(season, div, seasonId) {
   if (!appState) {
     showMessage('App is not initialized yet. Please wait a moment before trying again.');
     return;
@@ -99,9 +118,7 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
 
       // attempt team logos
       const teamListReq = await fetch(
-        `http://heroeslounge.gg/api/v1/seasons/${$('#heroes-lounge-league').dropdown(
-          'get value',
-        )}/teams`,
+        `http://heroeslounge.gg/api/v1/seasons/${seasonId}/teams`,
       );
       const teamList = await teamListReq.json();
 
@@ -201,11 +218,11 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
 
       showMessage(`Loaded Recent Results for Heroes Lounge ${season} ${div}`, 'positive');
 
-      showMessage(`Attempting to resolve high res logos...`);
+      showMessage('Attempting to resolve high res logos...');
 
       for (let i = 0; i < appState.tournament.recent.length; i++) {
         const entry = appState.tournament.recent[i];
-        
+
         if (entry.team1 in teams) {
           const logo = await heroesLoungeGetLogo(teams[entry.team1].id);
           if (logo !== '') {
@@ -304,14 +321,20 @@ async function heroesLoungeLoadStandings() {
   $('#heroes-lounge-get-recent').removeClass('disabled loading');
 }
 
-async function heroesLoungeLoadTicker() {
+async function heroesLoungeLoadTicker(season, div, seasonId) {
   $('#heroes-lounge-get-recent').addClass('disabled loading');
   $('#heroes-lounge-get-standings').addClass('disabled loading');
 
-  await heroesLoungeLoadStandingsForDiv(
-    $('#heroes-lounge-league').dropdown('get text'),
-    $('#heroes-lounge-division').dropdown('get value'),
-  );
+  if (!div && !seasonId) {
+    await heroesLoungeLoadStandingsForDiv(
+      $('#heroes-lounge-league').dropdown('get text'),
+      $('#heroes-lounge-division').dropdown('get value'),
+      $('#heroes-lounge-league').dropdown('get value'),
+    );
+  }
+  else {
+    await heroesLoungeLoadStandingsForDiv(season, div, seasonId);
+  }
 
   const upcoming = await heroesLoungeLoadUpcoming();
 
@@ -325,6 +348,38 @@ async function heroesLoungeLoadTicker() {
   $('#heroes-lounge-get-recent').removeClass('disabled loading');
 
   appState.updateAndBroadcastTicker();
+}
+
+// attempts to load everything for a single match from a single click
+async function heroesLoungeOneClick(type) {
+  // first up, match id (since that defines the division and season)
+  await heroesLoungeGetTeamFull(type);
+  const matchId = $('#heroes-lounge-id').val();
+
+  // next, determine the season and division
+  try {
+    const matchReq = await fetch(`https://heroeslounge.gg/api/v1/matches/${matchId}/`);
+    const match = await matchReq.json();
+
+    const divReq = await fetch(`https://heroeslounge.gg/api/v1/divisions/${match.div_id}`);
+    const division = await divReq.json();
+
+    const seasonReq = await fetch(`https://heroeslounge.gg/api/v1/seasons/${division.season_id}/`);
+    const season = await seasonReq.json();
+
+    // ok so now...
+    showMessage(`Heroes Lounge: Loading standings and ticker for ${season.title}, ${division.title}...`, 'info');
+    await heroesLoungeLoadTicker(season.slug, division.slug, season.id);
+
+    // set dropdown text? kinda misleading, division loads async?
+    $('#team-blue-score').val('0');
+    $('#team-red-score').val('0');
+    appState.updateAndBroadcast();
+    showMessage(`Heroes Lounge One Click Setup Complete`, 'positive');
+  }
+  catch (e) {
+    showMessage(`Heroes Lounge One Click Load failure: ${e}`, 'negative');
+  }
 }
 
 async function heroesLoungeLeagueChange(value, text, choice) {
@@ -446,6 +501,8 @@ function init() {
   $('.data-grab-option').hide();
   $('#heroes-lounge-get-standings').click(heroesLoungeLoadStandings);
   $('#heroes-lounge-get-recent').click(heroesLoungeLoadTicker);
+  $('#heroes-lounge-magic').click(() => heroesLoungeOneClick('title'));
+  $('#heroes-lounge-magic-slugs').click(() => heroesLoungeOneClick('slug'));
   heroesLoungeInitDropdowns();
 
   $('#data-grabber-menu').dropdown({
