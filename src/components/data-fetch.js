@@ -189,16 +189,45 @@ async function heroesLoungeLoadUpcoming() {
 
       for (const id in data) {
         const match = data[id];
-        tickerItems.push({
-          order: id,
-          category: 'Upcoming Matches',
-          mode: 'upcoming',
-          twitch: match.channel.url.substring(match.channel.url.lastIndexOf('/') + 1),
-          text: match.division.title,
-          blueTeam: match.teams[0].title,
-          redTeam: match.teams[1].title,
-          upcomingDate: moment(`${match.wbp}+01:00`).local().format('YYYY-MM-DD[T]HH:mm'),
-        });
+
+        // check date
+        const matchDate = moment(`${match.wbp}+01:00`);
+        if (matchDate.isAfter(moment())) {
+          // i want the team logos
+          let blueLogo = '';
+          let redLogo = '';
+
+          try {
+            const blueReq = await fetch(`https://heroeslounge.gg/api/v1/teams/${match.teams[0].id}/logo`);
+            const blueDat = await blueReq.json().catch(e => console.log(e));
+            blueLogo = blueDat.path;
+          }
+          catch (e) {
+            console.log(`Failed to retrieve logo for ${match.teams[0].title}`);
+          }
+
+          try {
+            const redReq = await fetch(`https://heroeslounge.gg/api/v1/teams/${match.teams[1].id}/logo`);
+            const redDat = await redReq.json().catch(e => console.log(e));
+            redLogo = redDat.path;
+          }
+          catch (e) {
+            console.log(`Failed to retrieve logo for ${match.teams[1].title}`);
+          }
+
+          tickerItems.push({
+            order: id,
+            category: 'Upcoming Matches',
+            mode: 'upcoming',
+            twitch: match.channel.url.substring(match.channel.url.lastIndexOf('/') + 1),
+            text: match.division.title,
+            blueTeam: match.teams[0].title,
+            redTeam: match.teams[1].title,
+            blueLogo,
+            redLogo,
+            upcomingDate: matchDate.local().format('YYYY-MM-DD[T]HH:mm'),
+          });
+        }
       }
     }
   }

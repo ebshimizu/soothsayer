@@ -50,6 +50,7 @@ class Ticker {
     // don't do anything except hide on 0 length item field.
     if (this.items.length === 0) {
       this.hide();
+      $('#ticker-title').text('');
       return;
     }
 
@@ -160,7 +161,10 @@ class Ticker {
 
     // substitution
     elem.find('.twitch-handle').text(item.twitch);
-    elem.find('.date').text(moment(item.upcomingDate).tz(moment.tz.guess()).format('MMM D, h:mma z'));
+
+    if (item.upcomingDate && item.upcomingDate !== '') {
+      elem.find('.date').text(moment(item.upcomingDate).tz(moment.tz.guess()).format('MMM D, h:mma z'));
+    }
     elem.find('.blue.name').text(item.blueTeam);
     elem.find('.red.name').text(item.redTeam);
     elem.find('.subtitle').text(item.text);
