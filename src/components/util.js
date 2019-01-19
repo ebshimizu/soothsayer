@@ -1,5 +1,7 @@
 // couple common util functions
+const { dialog } = require('electron').remote;
 const fs = require('fs-extra');
+const path = require('path');
 const statList = require('../stats-of-the-storm/js/game-data/detail-stat-list');
 const mapStatList = require('../stats-of-the-storm/js/game-data/map-stats');
 const StatNames = require('../stats-of-the-storm/js/game-data/detail-stat-string');
@@ -69,6 +71,30 @@ function heroImgCSSGen(ht, outFile) {
   fs.writeFileSync(outFile, out, { flags: 'w+' });
 }
 
+// assumes the destination input is an input that will be filled with the resulting image
+function browseForImage(destInput) {
+  dialog.showOpenDialog({
+    title: 'Locate Image',
+    filters: [
+      { name: 'Images', extensions: ['jpg', 'png', 'gif', 'jpeg' ] },
+    ],
+    properties: ['openFile'],
+  }, function(files) {
+    if (files) {
+      let rootFolder = path.join(__dirname, '../obs_src');
+
+      if (!fs.existsSync(rootFolder)) {
+        rootFolder = path.join(process.resourcesPath, 'app', 'src', 'obs_src');
+      }
+
+      // needs relative path from the files. they're all here.
+      destInput.val(path.relative(rootFolder, files[0]));
+    }
+  });
+}
+
+
 exports.heroMenu = heroMenu;
 exports.heroImgCSSGen = heroImgCSSGen;
 exports.statMenu = statMenu;
+exports.browseForImage = browseForImage;

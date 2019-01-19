@@ -161,7 +161,6 @@ class Ticker {
         </div>
         <div class="blue logo"></div>
         <div class="red logo"></div>
-        <div class="subtitle"></div>
       </div>
     `);
 
@@ -177,7 +176,6 @@ class Ticker {
     }
     elem.find('.blue.name').text(item.blueTeam);
     elem.find('.red.name').text(item.redTeam);
-    elem.find('.subtitle').text(item.text);
 
     setCSSImage(elem.find('.blue.logo'), item.blueLogo);
     setCSSImage(elem.find('.red.logo'), item.redLogo);
@@ -201,7 +199,6 @@ class Ticker {
         <div class="red logo"></div>
         <div class="blue score"></div>
         <div class="red score"></div>
-        <div class="subtitle"></div>
       </div>
     `);
 
@@ -210,7 +207,6 @@ class Ticker {
     elem.find('.red.name').text(item.redTeam);
     elem.find('.blue.score').text(item.blueScore);
     elem.find('.red.score').text(item.redScore);
-    elem.find('.subtitle').text(item.text);
 
     if (item.blueScore > item.redScore) {
       elem.find('.blue').addClass('winner');

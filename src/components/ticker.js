@@ -1,3 +1,5 @@
+const Util = require('./util');
+
 let appState;
 
 function tickerDropdown() {
@@ -43,9 +45,9 @@ function tickerItem(r, id) {
             </div>
           </div>
         </div>
-        <div class="fields">
+        <div class="text fields">
           <div class="sixteen wide field">
-            <label>Plain Text / Subtitle</label>
+            <label>Plain Text</label>
             <div class="ui fluid input">
               <input type="text" name="ticker-subtitle" value="${r.text ? r.text : ''}">
             </div>
@@ -60,8 +62,16 @@ function tickerItem(r, id) {
           </div>
           <div class="four wide field">
             <label>Blue Team Logo</label>
-            <div class="ui fluid input">
+            <div class="ui fluid action input">
               <input type="text" name="ticker-blue-logo" value="${r.blueLogo ? r.blueLogo : ''}">
+              <div class="ui buttons" team="blue">
+                <div class="ui right attached icon button browse" item-id="${id}">
+                  <i class="folder open icon"></i>
+                </div>
+                <div class="ui left attached icon button erase" item-id="${id}">
+                  <i class="eraser icon"></i>
+                </div>
+              </div>
             </div>
           </div>
           <div class="four wide field">
@@ -72,8 +82,16 @@ function tickerItem(r, id) {
           </div>
           <div class="four wide field">
             <label>Red Team Logo</label>
-            <div class="ui fluid input">
+            <div class="ui fluid action input">
               <input type="text" name="ticker-red-logo" value="${r.redLogo ? r.redLogo : ''}">
+              <div class="ui buttons" team="red">
+                <div class="ui right attached icon button browse" item-id="${id}">
+                  <i class="folder open icon"></i>
+                </div>
+                <div class="ui left attached icon button erase" item-id="${id}">
+                  <i class="eraser icon"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -147,6 +165,7 @@ function changeTickerMode(mode, id) {
   elem.find('.upcoming').hide();
   elem.find('.recent').hide();
   elem.find('.teams').hide();
+  elem.find('.text').hide();
 
   if (mode === 'upcoming') {
     elem.find('.teams').show();
@@ -157,6 +176,9 @@ function changeTickerMode(mode, id) {
     elem.find('.teams').show();
     elem.find('.recent').show();
     elem.find('input[name="ticker-cat"]').val('Recent Results');
+  }
+  else {
+    elem.find('.text').show();
   }
 }
 
@@ -262,6 +284,16 @@ function init() {
   $('#ticker-order-mode').dropdown();
   $('#ticker-add-item').click(() => {
     addItem({}, $('#ticker-items .ticker-item').length + 1);
+  });
+
+  $(document).on('click', '#ticker-items .browse.button', function (event) {
+    Util.browseForImage(
+      $(this).parent().siblings('input'),
+    );
+  });
+
+  $(document).on('click', '#ticker-items .erase.button', function (event) {
+    $(this).parent().siblings('input').val('');
   });
 }
 
