@@ -154,6 +154,15 @@ class State {
     this.broadcastStateChange();
     this.save();
   }
+
+  // special separate update function for the ticker
+  updateAndBroadcastTicker() {
+    this.updateTickerData();
+    this.save();
+
+    io.sockets.emit('tickerUpdate', this.broadcastSubset());
+    showMessage('Ticker Updated', 'positive');
+  }
   
   // add things to this section to broadcast to the connected frames
   broadcastSubset() {
@@ -624,6 +633,10 @@ function constructState(io) {
 
     socket.on('requestState', () => {
       socket.emit('update', state.broadcastSubset());
+    });
+
+    socket.on('requestTicker', () => {
+      socket.emit('tickerUpdate', state.broadcastSubset());
     });
 
     socket.on('requestMapPool', () => {

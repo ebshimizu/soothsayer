@@ -55,6 +55,7 @@ class Ticker {
     }
 
     this.sortItems();
+    this.preloadLogos();
     this.nextItem = 0;
     this.cycle();
     this.timeout = setInterval(() => this.cycle.call(this), this.opts.delay);
@@ -63,6 +64,16 @@ class Ticker {
   sortItems() {
     if (this.opts.orderMode === 'grouped') this.items.sort(tickerCategorySort);
     else this.items.sort(tickerAbsoluteSort);
+  }
+
+  preloadLogos() {
+    for (let i = 0; i < this.items.length; i++) {
+      let img = new Image();
+      img.src = this.items[i].blueLogo;
+
+      let img2 = new Image();
+      img2.src = this.items[i].redLogo;
+    }
   }
 
   hide(cb) {
@@ -225,10 +236,10 @@ $(document).ready(() => {
 
   socket.on('requestID', () => {
     socket.emit('reportID', lt.ID());
-    socket.emit('requestState');
+    socket.emit('requestTicker');
   });
 
-  socket.on('update', (state) => {
+  socket.on('tickerUpdate', (state) => {
     lt.updateState.call(lt, state);
   });
   

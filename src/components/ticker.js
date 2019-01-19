@@ -268,6 +268,7 @@ function init() {
 function initWithState(state) {
   appState = state;
   appState.displayTickerData();
+  $('#ticker-update').click(() => appState.updateAndBroadcastTicker());
 }
 
 exports.Init = init;

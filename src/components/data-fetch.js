@@ -200,6 +200,26 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
       });
 
       showMessage(`Loaded Recent Results for Heroes Lounge ${season} ${div}`, 'positive');
+
+      showMessage(`Attempting to resolve high res logos...`);
+
+      for (let i = 0; i < appState.tournament.recent.length; i++) {
+        const entry = appState.tournament.recent[i];
+        
+        if (entry.team1 in teams) {
+          const logo = await heroesLoungeGetLogo(teams[entry.team1].id);
+          if (logo !== '') {
+            entry.team1Logo = logo;
+          }
+        }
+        if (entry.team2 in teams) {
+          const logo = await heroesLoungeGetLogo(teams[entry.team2].id);
+          if (logo !== '') {
+            entry.team2Logo = logo;
+          }
+        }
+      }
+
       appState.displayTournamentData();
     }
   }
@@ -303,6 +323,8 @@ async function heroesLoungeLoadTicker() {
 
   $('#heroes-lounge-get-standings').removeClass('disabled loading');
   $('#heroes-lounge-get-recent').removeClass('disabled loading');
+
+  appState.updateAndBroadcastTicker();
 }
 
 async function heroesLoungeLeagueChange(value, text, choice) {
