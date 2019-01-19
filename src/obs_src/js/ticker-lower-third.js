@@ -68,10 +68,10 @@ class Ticker {
 
   preloadLogos() {
     for (let i = 0; i < this.items.length; i++) {
-      let img = new Image();
+      const img = new Image();
       img.src = this.items[i].blueLogo;
 
-      let img2 = new Image();
+      const img2 = new Image();
       img2.src = this.items[i].redLogo;
     }
   }

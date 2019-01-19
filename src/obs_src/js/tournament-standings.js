@@ -15,7 +15,13 @@ function tableRowInside(r) {
   elem.siblings('.record').text(`${r.win}-${r.loss}`);
   elem.siblings('.loss').text(r.loss);
   elem.siblings('.win').text(r.win);
-  setCSSImage(elem.find('.logo'), r.logo);
+
+  if (r.logo !== '') {
+    setCSSImage(elem.siblings('.logo'), r.logo);
+  }
+  else {
+    setCSSImage(elem.siblings('.logo'), './images/default-logo.png');
+  }
 
   return elem;
 }
@@ -84,6 +90,12 @@ class TournamentStandings {
 
       return 0;
     });
+
+    // logo preload
+    for (let i = 0; i < state.tournament.standings.length; i++) {
+      const img = new Image();
+      img.src = state.tournament.standings[i].logo;
+    }
 
     // header
     $('.standings-table').append(`
