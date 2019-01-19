@@ -81,19 +81,25 @@ function tickerItem(r, id) {
           <div class="three wide field">
             <label>Blue Team Score</label>
             <div class="ui fluid input">
-              <input type="number" name="ticker-blue-score" value="${!isNaN(r.blueScore) ? r.blueScore : ''}">
+              <input type="number" name="ticker-blue-score" value="${
+                !isNaN(r.blueScore) ? r.blueScore : ''
+              }">
             </div>
           </div>
           <div class="three wide field">
             <label>Red Team Score</label>
             <div class="ui fluid input">
-              <input type="number" name="ticker-red-score" value="${!isNaN(r.redScore) ? r.redScore : ''}">
+              <input type="number" name="ticker-red-score" value="${
+                !isNaN(r.redScore) ? r.redScore : ''
+              }">
             </div>
           </div>
           <div class="four wide field" style="display:none;">
             <label>Date</label>
             <div class="ui fluid input">
-              <input type="datetime-local" name="ticker-recent-date" value="${r.recentDate ? r.recentDate : ''}">
+              <input type="datetime-local" name="ticker-recent-date" value="${
+                r.recentDate ? r.recentDate : ''
+              }">
             </div>
           </div>
         </div>
@@ -108,7 +114,9 @@ function tickerItem(r, id) {
           <div class="four wide field">
             <label>Date</label>
             <div class="ui fluid input">
-              <input type="datetime-local" name="ticker-upcoming-date" value="${r.upcomingDate ? r.upcomingDate : ''}">
+              <input type="datetime-local" name="ticker-upcoming-date" value="${
+                r.upcomingDate ? r.upcomingDate : ''
+              }">
             </div>
           </div>
         </div>
@@ -118,21 +126,17 @@ function tickerItem(r, id) {
 }
 
 function tickerAbsoluteSort(a, b) {
-  if (a.order < b.order)
-    return -1;
+  if (a.order < b.order) return -1;
 
-  if (a.order > b.order)
-    return 1;
+  if (a.order > b.order) return 1;
 
   return 0;
 }
 
 function tickerCategorySort(a, b) {
-  if (a.category < b.category)
-    return -1;
+  if (a.category < b.category) return -1;
 
-  if (a.category > b.category)
-    return 1;
+  if (a.category > b.category) return 1;
 
   // tiebreaker
   return tickerAbsoluteSort(a, b);
@@ -180,8 +184,7 @@ function clearItems() {
 function renderTickerItems(data) {
   clearItems();
 
-  if (!data)
-    return;
+  if (!data) return;
 
   // sort for display
   const mode = appState ? appState.ticker.options.orderMode : 'grouped';
@@ -198,14 +201,18 @@ function renderTickerItems(data) {
 }
 
 function getTickerInput(elem, name) {
-  return $(elem).find(`input[name="${name}"]`).val();
+  return $(elem)
+    .find(`input[name="${name}"]`)
+    .val();
 }
 
 function getTickerItemData(elem) {
   return {
     order: parseInt(getTickerInput(elem, 'ticker-order')),
     category: getTickerInput(elem, 'ticker-cat'),
-    mode: $(elem).find('.ticker-mode').dropdown('get value'),
+    mode: $(elem)
+      .find('.ticker-mode')
+      .dropdown('get value'),
     blueTeam: getTickerInput(elem, 'ticker-blue-team'),
     blueLogo: getTickerInput(elem, 'ticker-blue-logo'),
     redTeam: getTickerInput(elem, 'ticker-red-team'),
@@ -238,7 +245,10 @@ function getTickerOptions() {
 
 function showTickerOptions(opts) {
   if (opts) {
-    $('#ticker-anim-mode').dropdown('set exactly', opts.animationMode ? opts.animationMode : 'fade right');
+    $('#ticker-anim-mode').dropdown(
+      'set exactly',
+      opts.animationMode ? opts.animationMode : 'fade right',
+    );
     $('#ticker-order-mode').dropdown('set exactly', opts.orderMode ? opts.orderMode : 'grouped');
   }
   else {

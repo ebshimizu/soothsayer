@@ -1,6 +1,6 @@
 const socket = io('http://localhost:3005/');
 
-var lt;
+let lt;
 
 function tickerAbsoluteSort(a, b) {
   if (a.order < b.order) return -1;
@@ -57,6 +57,7 @@ class Ticker {
     this.sortItems();
     this.nextItem = 0;
     this.cycle();
+    this.timeout = setInterval(() => this.cycle.call(this), this.opts.delay);
   }
 
   sortItems() {
@@ -65,16 +66,13 @@ class Ticker {
   }
 
   hide(cb) {
-    if (!cb)
-      cb = () => {};
+    if (!cb) cb = () => {};
 
-    $('#ticker-content')
-      .transition(`${this.opts.animationMode} out`, 500, cb);
+    $('#ticker-content').transition(`${this.opts.animationMode} out`, 500, cb);
   }
 
   show(cb) {
-    if (!cb)
-      cb = () => {};
+    if (!cb) cb = () => {};
 
     $('#ticker-content.hidden').transition(`${this.opts.animationMode} in`, 500, cb);
   }
@@ -94,13 +92,10 @@ class Ticker {
     this.hide(() => {
       $('#ticker-content').html(self.renderItem(item));
 
-
       self.show(() => {
         self.nextItem += 1;
 
         if (self.nextItem >= self.items.length) self.nextItem = 0;
-
-        self.timeout = setTimeout(() => self.cycle.call(self), self.opts.delay);
       });
     });
   }
@@ -163,7 +158,11 @@ class Ticker {
     elem.find('.twitch-handle').text(item.twitch);
 
     if (item.upcomingDate && item.upcomingDate !== '') {
-      elem.find('.date').text(moment(item.upcomingDate).tz(moment.tz.guess()).format('MMM D, h:mma z'));
+      elem.find('.date').text(
+        moment(item.upcomingDate)
+          .tz(moment.tz.guess())
+          .format('MMM D, h:mma z'),
+      );
     }
     elem.find('.blue.name').text(item.blueTeam);
     elem.find('.red.name').text(item.redTeam);
@@ -232,6 +231,7 @@ $(document).ready(() => {
   socket.on('update', (state) => {
     lt.updateState.call(lt, state);
   });
+  
   socket.on('changeTheme', (themeDir) => {
     changeTheme(themeDir, 'ticker-lower-third.css');
   });

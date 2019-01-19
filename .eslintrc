@@ -10,7 +10,8 @@
     "func-names": "off",
     "brace-style": [1, "stroustrup", { "allowSingleLine": true }],
     "no-console": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "radix": "off"
   },
   "env": {
     "node": true,

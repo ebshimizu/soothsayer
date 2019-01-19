@@ -1,4 +1,5 @@
 const moment = require('moment');
+
 let appState;
 
 function heroesLoungeGetTeamFull(type) {
@@ -60,6 +61,21 @@ function heroesLoungeGetTeamFull(type) {
   });
 }
 
+async function heroesLoungeGetLogo(id) {
+  let logo = '';
+
+  try {
+    const req = await fetch(`https://heroeslounge.gg/api/v1/teams/${id}/logo`);
+    const dat = await req.json().catch(e => console.log(e));
+    logo = dat.path;
+  }
+  catch (e) {
+    console.log(`Failed to retrieve logo for ${id}`);
+  }
+
+  return logo;
+}
+
 async function heroesLoungeLoadStandingsForDiv(season, div) {
   if (!appState) {
     showMessage('App is not initialized yet. Please wait a moment before trying again.');
@@ -80,6 +96,20 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
     else {
       const page = await response.text();
       const standingsRows = $(page).find('table.table.table-striped.table-sm tbody tr');
+
+      // attempt team logos
+      const teamListReq = await fetch(
+        `http://heroeslounge.gg/api/v1/seasons/${$('#heroes-lounge-league').dropdown(
+          'get value',
+        )}/teams`,
+      );
+      const teamList = await teamListReq.json();
+
+      // convert to object keyed on team names
+      const teams = {};
+      for (let i = 0; i < teamList.length; i += 1) {
+        teams[teamList[i].title] = teamList[i];
+      }
 
       standingsRows.each(function (idx) {
         const standing = parseInt(
@@ -102,10 +132,22 @@ async function heroesLoungeLoadStandingsForDiv(season, div) {
             .slice(4)
             .text(),
         );
+
         appState.addStanding(standing, team, win, total - win);
       });
 
       showMessage(`Loaded Standings for Heroes Lounge ${season} ${div}`, 'positive');
+
+      showMessage('Attempting to load logos');
+
+      for (let i = 0; i < appState.tournament.standings.length; i++) {
+        let logo = '';
+        if (appState.tournament.standings[i].team in teams) {
+          logo = await heroesLoungeGetLogo(teams[appState.tournament.standings[i].team].id);
+        }
+
+        appState.tournament.standings[i].logo = logo;
+      }
 
       const recent = $(page)
         .find("h3:contains('Recent Results')")
@@ -176,11 +218,19 @@ async function heroesLoungeLoadUpcoming() {
 
   try {
     // TEST
-    const response = await fetch(`https://heroeslounge.gg/api/v1/matches/withApprovedCastBetween/${moment().format('YYYY-MM-DD')}/${moment().add(3,'d').format('YYYY-MM-DD')}`);
+    const response = await fetch(
+      `https://heroeslounge.gg/api/v1/matches/withApprovedCastBetween/${moment().format(
+        'YYYY-MM-DD',
+      )}/${moment()
+        .add(3, 'd')
+        .format('YYYY-MM-DD')}`,
+    );
 
     if (!response.ok) {
       showMessage(
-        `Error: Failed to retrieve upcoming casted games for Heroes Lounge. Code: ${response.status}.`,
+        `Error: Failed to retrieve upcoming casted games for Heroes Lounge. Code: ${
+          response.status
+        }.`,
         'negative',
       );
     }
@@ -194,26 +244,8 @@ async function heroesLoungeLoadUpcoming() {
         const matchDate = moment(`${match.wbp}+01:00`);
         if (matchDate.isAfter(moment())) {
           // i want the team logos
-          let blueLogo = '';
-          let redLogo = '';
-
-          try {
-            const blueReq = await fetch(`https://heroeslounge.gg/api/v1/teams/${match.teams[0].id}/logo`);
-            const blueDat = await blueReq.json().catch(e => console.log(e));
-            blueLogo = blueDat.path;
-          }
-          catch (e) {
-            console.log(`Failed to retrieve logo for ${match.teams[0].title}`);
-          }
-
-          try {
-            const redReq = await fetch(`https://heroeslounge.gg/api/v1/teams/${match.teams[1].id}/logo`);
-            const redDat = await redReq.json().catch(e => console.log(e));
-            redLogo = redDat.path;
-          }
-          catch (e) {
-            console.log(`Failed to retrieve logo for ${match.teams[1].title}`);
-          }
+          const blueLogo = await heroesLoungeGetLogo(match.teams[0].id);
+          const redLogo = await heroesLoungeGetLogo(math.teams[0].id);
 
           tickerItems.push({
             order: id,
