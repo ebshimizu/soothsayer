@@ -4,11 +4,14 @@
     <meta charset="utf-8">
     <title>OBS Stat Lower Third</title>
     <script src="lib/jquery-3.3.1.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/moment-timezone-with-data.js"></script>
     <script src="http://localhost:3005/socket.io/socket.io.js"></script>
     <script src="js/util.js"></script>
     <script src="js/ticker-lower-third.js"></script>
     <script src="../semantic/dist/components/transition.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../semantic/dist/components/transition.min.css" />
+    <link rel="stylesheet" type="text/css" href="../semantic/dist/components/icon.min.css" />
     <link rel="stylesheet" type="text/css" href="css/ticker-lower-third.css" />
   </head>
   <body>
@@ -22,7 +25,9 @@
       <div id="logo2"></div>
       <div id="logo3"></div>
       <!-- Dynamic elements -->
-      <div class="lt-bg tournament-name-flex"><div class="tournament-name" id="tournament-name"></div></div>
+      <div class="lt-bg ticker-title-flex">
+        <div class="ticker-title" id="ticker-title"></div>
+      </div>
       <!-- Lower Third Configs -->
       <div class="lt-elem transition hidden" id="ticker-content">
         

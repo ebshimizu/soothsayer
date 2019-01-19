@@ -90,7 +90,7 @@ function tickerItem(r, id) {
               <input type="number" name="ticker-red-score" value="${!isNaN(r.redScore) ? r.redScore : ''}">
             </div>
           </div>
-          <div class="four wide field">
+          <div class="four wide field" style="display:none;">
             <label>Date</label>
             <div class="ui fluid input">
               <input type="datetime-local" name="ticker-recent-date" value="${r.recentDate ? r.recentDate : ''}">
@@ -215,6 +215,7 @@ function getTickerItemData(elem) {
     recentDate: getTickerInput(elem, 'ticker-recent-date'),
     twitch: getTickerInput(elem, 'ticker-twitch'),
     upcomingDate: getTickerInput(elem, 'ticker-upcoming-date'),
+    text: getTickerInput(elem, 'ticker-subtitle'),
   };
 }
 

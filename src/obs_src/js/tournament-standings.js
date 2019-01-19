@@ -1,9 +1,10 @@
-const socket = io("http://localhost:3005/");
+const socket = io('http://localhost:3005/');
 
 function tableRow(r, i, hidden) {
   return `
-    <div class="entry row ${i % 2 === 0 ? "even" : "odd"} ${
-    r.focus || r.zoom ? "focus" : ""} ${hidden ? 'transition hidden' : ''}">
+    <div class="entry row ${i % 2 === 0 ? 'even' : 'odd'} ${r.focus || r.zoom ? 'focus' : ''} ${
+    hidden ? 'transition hidden' : ''
+  }">
       ${tableRowInside(r)}
     </div>
   `;
@@ -24,24 +25,24 @@ function tableRowInside(r) {
 
 class TournamentStandings {
   constructor() {
-    this.name = "Tournament Standings";
+    this.name = 'Tournament Standings';
   }
 
   ID() {
     return {
-      name: this.name
+      name: this.name,
     };
   }
 
   // changes up the state n stuff
   updateState(state) {
-    $("#tournament-name").text(state.casters.tournament);
-    $(".standings-table").html("");
+    $('#tournament-name').text(state.casters.tournament);
+    $('.standings-table').html('');
     clearTimeout(this.timeout);
 
     this.limit = Math.min(
       state.tournament.standingsSettings.limit,
-      state.tournament.standings.length
+      state.tournament.standings.length,
     );
 
     if (isNaN(this.limit)) {
@@ -51,21 +52,23 @@ class TournamentStandings {
     // mode setup (still write to tables unless performance becomes a problem?)
     this.mode = state.tournament.standingsSettings.mode;
 
-    if (this.mode === "focus") {
-      $("#topn-table").hide();
-      $("#zoom-table").show();
-      $(".standings-table").removeClass("dual");
-    } else if (this.mode === "combined") {
-      $("#topn-table").show();
-      $("#zoom-table").show();
-      $(".standings-table").addClass("dual");
-    } else {
-      $("#topn-table").show();
-      $("#zoom-table").hide();
-      $(".standings-table").removeClass("dual");
+    if (this.mode === 'focus') {
+      $('#topn-table').hide();
+      $('#zoom-table').show();
+      $('.standings-table').removeClass('dual');
+    }
+    else if (this.mode === 'combined') {
+      $('#topn-table').show();
+      $('#zoom-table').show();
+      $('.standings-table').addClass('dual');
+    }
+    else {
+      $('#topn-table').show();
+      $('#zoom-table').hide();
+      $('.standings-table').removeClass('dual');
     }
 
-    state.tournament.standings.sort(function(a, b) {
+    state.tournament.standings.sort(function (a, b) {
       if (a.place < b.place) return -1;
 
       if (a.place > b.place) return 1;
@@ -74,7 +77,7 @@ class TournamentStandings {
     });
 
     // header
-    $(".standings-table").append(`
+    $('.standings-table').append(`
       <div class="header row">
         <div class="field place">Rank</div>
         <div class="field team-name">Team</div>
@@ -85,8 +88,8 @@ class TournamentStandings {
       </div>
     `);
 
-    if (this.mode === "combined") {
-      $("#topn-table").prepend('<div class="alt row">All Teams</div>');
+    if (this.mode === 'combined') {
+      $('#topn-table').prepend('<div class="alt row">All Teams</div>');
     }
 
     // top n
@@ -99,12 +102,11 @@ class TournamentStandings {
       }
     }
 
-    const topLimit =
-      this.mode === "combined" ? state.tournament.standings.length : this.limit;
+    const topLimit = this.mode === 'combined' ? state.tournament.standings.length : this.limit;
     for (let i = 0; i < topLimit; i++) {
       const r = state.tournament.standings[i];
 
-      $("#topn-table").append(tableRow(r, i));
+      $('#topn-table').append(tableRow(r, i));
     }
 
     // zoom
@@ -120,7 +122,7 @@ class TournamentStandings {
     for (let i = zmin; i < zmax; i++) {
       const r = state.tournament.standings[i];
 
-      $("#zoom-table").append(tableRow(r, i));
+      $('#zoom-table').append(tableRow(r, i));
     }
 
     // top n cycling
@@ -141,23 +143,27 @@ class TournamentStandings {
       next = 0;
     }
 
-    let rmin = next * this.limit;
+    const rmin = next * this.limit;
     const self = this;
 
     $('#topn-table div.entry').each(function (i) {
-      let elem = $(this);
+      const elem = $(this);
       elem.transition('fade out', 500, function () {
         const idx = rmin + i;
         if (idx < self.standings.length) {
-          $(this).removeClass('empty').addClass('row');
+          $(this)
+            .removeClass('empty')
+            .addClass('row');
           $(this).html(tableRowInside(self.standings[idx]));
           $(this).transition('fade in', 500);
         }
         else {
           $(this).html('');
-          $(this).addClass('empty').removeClass('row');
+          $(this)
+            .addClass('empty')
+            .removeClass('row');
         }
-      })
+      });
     });
 
     this.currentPage = next;
@@ -169,15 +175,15 @@ $(document).ready(() => {
   // just kinda runs on page load huh
   const tournament = new TournamentStandings();
 
-  socket.on("requestID", () => {
-    socket.emit("reportID", tournament.ID());
-    socket.emit("requestState");
+  socket.on('requestID', () => {
+    socket.emit('reportID', tournament.ID());
+    socket.emit('requestState');
   });
 
-  socket.on("update", state => {
+  socket.on('update', (state) => {
     tournament.updateState.call(tournament, state);
   });
-  socket.on("changeTheme", themeDir => {
-    changeTheme(themeDir, "tournament-standings.css");
+  socket.on('changeTheme', (themeDir) => {
+    changeTheme(themeDir, 'tournament-standings.css');
   });
 });
