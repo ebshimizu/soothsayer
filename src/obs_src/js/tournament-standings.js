@@ -173,9 +173,14 @@ class TournamentStandings {
         const idx = rmin + i;
         if (idx < self.standings.length) {
           $(this)
-            .removeClass('empty')
+            .removeClass('empty focus')
             .addClass('row');
           $(this).html(tableRowInside(self.standings[idx]));
+
+          if (self.standings[idx].zoom || self.standings[idx].focus) {
+            $(this).addClass('focus');
+          }
+
           $(this).transition('fade in', 500);
         }
         else {
