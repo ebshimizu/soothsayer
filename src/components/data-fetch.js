@@ -282,7 +282,7 @@ async function heroesLoungeLoadUpcoming() {
         if (matchDate.isAfter(moment())) {
           // i want the team logos
           const blueLogo = await heroesLoungeGetLogo(match.teams[0].id);
-          const redLogo = await heroesLoungeGetLogo(match.teams[0].id);
+          const redLogo = await heroesLoungeGetLogo(match.teams[1].id);
 
           tickerItems.push({
             order: id,
