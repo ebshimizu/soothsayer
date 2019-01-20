@@ -1,7 +1,7 @@
 {
     "name": "soothsayer",
     "productName": "soothsayer",
-    "version": "1.2.0-beta2",
+    "version": "1.2.0-beta3",
     "description": "Soothsayer: A tool for generating OBS overlays for casting some video games.",
     "main": "src/index.js",
     "keywords": [],
