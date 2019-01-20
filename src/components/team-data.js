@@ -56,6 +56,15 @@ function initTeamData() {
     $(`#red-p${i}-hero`).html(heroMenu(heroesTalents, 'player-hero-menu'));
   }
 
+  $('#team-names-clear').click(() => {
+    for (const i of [1, 2, 3, 4, 5]) {
+      $(`input[name="blue-p${i}-name"]`).val('');
+      $(`input[name="red-p${i}-name"]`).val('');
+    } 
+
+    $('.player-hero-menu').dropdown('clear');
+  });
+
   $('#team-data .player-hero-menu').dropdown({
     fullTextSearch: true,
   });
@@ -71,7 +80,8 @@ function initWithState(state) {
   $('#team-data-clear').click(() => state.resetTeamData());
   $('#player-popup-show').click(() => {
     showMessage('Running Player Name Popups', 'positive');
-    state.sendAll('runPopups', {})
+    state.updateAndBroadcast();
+    state.sendAll('runPopups', {});
   });
   $('#player-pool').focusout(updatePlayerPoolMenus);
   updatePlayerPoolMenus();
