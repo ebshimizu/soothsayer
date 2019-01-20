@@ -374,6 +374,12 @@ async function heroesLoungeOneClick(type) {
     // set dropdown text? kinda misleading, division loads async?
     $('#team-blue-score').val('0');
     $('#team-red-score').val('0');
+
+    // tournament name suggestion
+    let seasonTitle = season.title.replace('[', '').replace(']', ' ');
+    const title = `Heroes Lounge | ${seasonTitle} | ${division.title}`;
+    $('#tournament-name').val(title);
+
     appState.updateAndBroadcast();
     showMessage(`Heroes Lounge One Click Setup Complete`, 'positive');
   }
@@ -476,8 +482,11 @@ function updateInfo(key) {
     $('#data-grabber-info').html(`
     <div class="header">Heroes Lounge</div
     <div class="content">
-      Grabs data from the Heroes Lounge website. You can grab full team names or slugs.
+      Grabs data from the Heroes Lounge website. You can grab full team names or short names (slugs).
       This will also populate the player pool with the names of players on the involved teams.
+      Using the "One Click" option with fill in tournament standings and the ticker for the
+      division that the match is in. You will still need to fill in the Tournament Name
+      in the Tournament tab after running the one click grabber.
     </div>
   `);
   }
