@@ -377,7 +377,8 @@ async function heroesLoungeOneClick(type) {
 
     // tournament name suggestion
     let seasonTitle = season.title.replace('[', '').replace(']', ' ');
-    const title = `Heroes Lounge | ${seasonTitle} | ${division.title}`;
+    let divTitle = division.title.replace('Division', 'Div');
+    const title = `Heroes Lounge | ${seasonTitle} ${divTitle}`;
     $('#tournament-name').val(title);
 
     appState.updateAndBroadcast();
