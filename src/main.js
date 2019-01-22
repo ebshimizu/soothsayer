@@ -12,6 +12,7 @@ const Tournament = require('./components/tournament');
 const Casters = require('./components/caster-data');
 const Ticker = require('./components/ticker');
 const Util = require('./components/util');
+const Profiles = require('./components/profiles');
 const { HeroesTalents } = require('./stats-of-the-storm/js/heroes-talents');
 const settings = require('electron-settings');
 const Keybinds = require('./components/keybinds');
@@ -180,6 +181,8 @@ function initGlobal() {
   appState = new State(io);
   appState.onLowerThirdConnect = LowerThird.onLowerThirdConnect;
   appState.onLowerThirdDisconnect = LowerThird.onLowerThirdDisconnect;
+  appState.onPlayerProfileConnect = Profiles.onPlayerProfileConnect;
+  appState.onPlayerProfileDisconnect = Profiles.onPlayerProfileDisconnect;
 
   // init once
   DataGrabber.Init();
@@ -200,6 +203,7 @@ function initApp(name) {
   LowerThird.Init();
   Tournament.Init();
   Ticker.Init();
+  Profiles.Init();
 
   appState.renderState();
 
@@ -216,6 +220,7 @@ function initApp(name) {
   DataGrabber.InitWithState(appState);
   Tournament.InitWithState(appState);
   Ticker.InitWithState(appState);
+  Profiles.InitWithStat(appState);
 
   $('#section-menu .item').tab();
   $('#status-tab-menu .item').tab();

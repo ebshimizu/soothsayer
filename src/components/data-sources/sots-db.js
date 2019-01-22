@@ -60,9 +60,10 @@ function tryLoadDB() {
   activeDB = new SotsDB.HeroesDatabase(path);
 
   try {
-    activeDB.load(() => { }, () => { });
-    $('#sots-db-load').removeClass('loading disabled').text('Load OK');
-    getCollections();
+    activeDB.load(() => {
+      $('#sots-db-load').removeClass('loading disabled').text('Load OK');
+      getCollections();
+    }, () => { });
   }
   catch (err) {
     showMessage(`Stats of the Storm Data Source: ${err}`, 'error');
@@ -303,6 +304,48 @@ function playerStats(player, callback, wildcard) {
       }
 
       callback(ret);
+    });
+  });
+}
+
+function allPlayerStats(player, callback) {
+  // determine player
+  const query = { };
+
+  if (player.indexOf('#') >= 0) {
+    query.name = player.substr(0, player.indexOf('#'));
+    query.tag = parseInt(player.substr(player.indexOf('#') + 1), 10);
+  }
+  else {
+    query.name = player;
+  }
+
+  activeDB.getPlayers(query, function(err, players) {
+    if (err) {
+      callback({ error: err });
+      return;
+    }
+
+    if (players.length === 0) {
+      callback({ error: `No player named ${player} found` });
+      return;
+    }
+
+    // ok well we're just gonna take the first player sooo hope there's no duplicates
+    activeDB.getHeroDataForPlayerWithFilter(players[0]._id, { }, function(err, docs) {
+      if (err) {
+        callback({ error: err });
+        return;
+      }
+
+      if (docs.length === 0) {
+        callback({ error: `No data available for player ${player}.` });
+        return;
+      }
+
+      const playerStats = summarizePlayerData(docs)[players[0]._id];
+      
+      callback(playerStats);
     });
   });
 }

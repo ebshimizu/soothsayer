@@ -114,6 +114,9 @@ class State {
     if (overlayData.name === 'Lower Third') {
       this.onLowerThirdConnect(socket);
     }
+    else if (overlayData.name === 'Player Profile') {
+      this.onPlayerProfileDisconnect(socket);
+    }
 
     console.log(`Registered '${overlayData.name}' from ${socket.id}.`);
   }
@@ -124,6 +127,9 @@ class State {
 
     if (this.overlays[socketID].name === 'Lower Third') {
       this.onLowerThirdDisconnect(socketID);
+    }
+    else if (this.overlays[socketID].name === 'Player Profile') {
+      this.onPlayerProfileDisconnect(socketID);
     }
 
     delete this.overlays[socketID];

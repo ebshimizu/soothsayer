@@ -99,6 +99,7 @@ function playerStatsForHero(player, hero, callback, wildcard) {
 }
 
 // all player stats
+// well, really draft player stats i didn't think that far ahead
 // Player is a battletag (maybe)
 // required fields (basically the same as playerStatsForHero)
 // - games, win, winPct, K, D, A, TD, KDA, timeDeadPct, KillParticipation, ToonHandle, BTag
@@ -106,7 +107,13 @@ function playerStats(player, callback, wildcard) {
   DataSources[activeSource].playerStats(player, callback, wildcard);
 }
 
+// sometimes you just want everything
+function allPlayerStats(player, callback) {
+  DataSources[activeSource].allPlayerStats(player, callback);
+}
+
 exports.Init = init;
 exports.InitWithState = initWithState;
 exports.heroDraft = heroDraft;
 exports.getLTData = getLTData;
+exports.allPlayerStats = allPlayerStats;
