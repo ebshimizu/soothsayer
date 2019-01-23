@@ -21,6 +21,8 @@ class MapSelect {
       this.updateMapPool(state.match.mapPool);
     }
 
+    $('#tournament-name').text(state.casters.tournament);
+
     // bans
     $('.map-grid-item').removeClass(this.tileClasses);
 
@@ -104,12 +106,16 @@ class MapSelect {
     return `
       <div class="${classname} map-select-row"  game-number="${index}">
         <div class="map-banner"></div>
+        <div class="util-1"></div>
+        <div class="util-2"></div>
         <div class="picked-by">
           <div class="label">Pick</div>
+          <div class="name"></div>
           <div class="banner-team-logo"></div>
         </div>
         <div class="winner">
           <div class="label">Winner</div>
+          <div class="name"></div>
           <div class="banner-team-logo"></div>
         </div>
       </div>
@@ -121,6 +127,7 @@ class MapSelect {
 
     if (game.pick === 'red' || game.pick === 'blue') {
       setCSSImage(elem.find('.picked-by .banner-team-logo'), game.pick === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
+      elem.find('.picked-by .name').text(game.pick === 'blue' ? state.blueTeam.name : state.redTeam.name);
     }
     else {
       elem.find('.picked-by').hide();
@@ -129,6 +136,7 @@ class MapSelect {
     if (game.win === 'red' || game.win === 'blue') {
       elem.find('.winner').show();
       setCSSImage(elem.find('.winner .banner-team-logo'), game.win === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
+      elem.find('.winner .name').text(game.win === 'blue' ? state.blueTeam.name : state.redTeam.name);
       elem.addClass(`${game.win} win`);
     }
     else {

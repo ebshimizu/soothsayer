@@ -98,6 +98,7 @@ body#map-list-only
   top: 24vh;
   right: 14.4vw;
   z-index: -1;
+  color: rgba(0,0,0,0);
 }
 
 .score-container {
@@ -329,6 +330,17 @@ body#map-list-only
   background-size: contain;
   background-repeat: no-repeat;
   margin-top: 3%;
+}
+
+#tournament-name {
+  display: none;
+}
+
+.map-select-header,
+.picked-by .name,
+.winner .name
+{
+  display: none;
 }
 
 .doom .map-tile {
