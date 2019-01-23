@@ -125,7 +125,7 @@
       <h2 class="ui dividing header">Tournament Data</h2>
       <form class="ui form">
         <div class="fields">
-          <div class="ten wide field">
+          <div class="seven wide field">
             <label>Tournament Label</label>
             <input type="text" name="tournament-name" id="tournament-name">
           </div>
@@ -148,6 +148,18 @@
               <input type="text" class="has-popup" value="8"  data-position="bottom center" data-content="This is the maximum number of teams that will be shown in Top N mode and Team Focus mode.">
             </div>
           </div>
+          <div class="three wide field">
+            <label>Record Format</label>
+            <div class="ui fluid selection dropdown" id="tournament-standing-record-format">
+              <i class="dropdown icon"></i>
+              <div class="text"></div>
+              <div class="menu">
+                <div class="item" data-value="wl">W-L</div>
+                <div class="item" data-value="wld">W-L-D</div>
+                <div class="item" data-value="wdl">W-D-L</div>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
       <h3 class="ui dividing header">Standings</h3>
@@ -156,10 +168,11 @@
           <thead>
             <tr>
               <th class="two wide">Rank</th>
-              <th class="six wide">Team</th>
-              <th class="four wide">Logo</th>
+              <th class="five wide">Team</th>
+              <th class="three wide">Logo</th>
               <th class="two wide">Win</th>
               <th class="two wide">Loss</th>
+              <th class="two wide">Draw</th>
               <th class="two wide">Ops</th>
             </tr>
           </thead>
@@ -168,7 +181,7 @@
           </tbody>
           <tfoot class="full width">
             <tr>
-              <th colspan="6">
+              <th colspan="7">
                 <div class="ui right floated labeled blue icon add button">
                   <i class="plus icon"></i>
                   Add Row

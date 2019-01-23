@@ -58,3 +58,11 @@ body#caster-tool {
 #tournament-standings tr.zoom {
   background-color: #8a5abe !important;
 }
+
+div.license {
+  margin-bottom: 10px;
+}
+
+span.license.name {
+  font-weight: bold;
+}

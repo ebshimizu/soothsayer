@@ -1,20 +1,33 @@
 const socket = io('http://localhost:3005/');
 
-function tableRowInside(r) {
+function record(r, format) {
+  if (format === 'wld') {
+    return `${r.win}-${r.loss}-${r.draw}`;
+  }
+  else if (format === 'wdl') {
+    return `${r.win}-${r.draw}-${r.loss}`;
+  }
+
+  return `${r.win}-${r.loss}`;
+}
+
+function tableRowInside(r, format) {
   const elem = $(` 
     <div class="field place"></div>
     <div class="field team-name"></div>
     <div class="field record"></div>
     <div class="field win"></div>
     <div class="field loss"></div>
+    <div class="field draw"></div>
     <div class="field logo"></div>
   `);
 
   elem.siblings('.place').text(r.place);
   elem.siblings('.team-name').text(r.team);
-  elem.siblings('.record').text(`${r.win}-${r.loss}`);
+  elem.siblings('.record').text(record(r, format));
   elem.siblings('.loss').text(r.loss);
   elem.siblings('.win').text(r.win);
+  elem.siblings('.draw').text(r.draw);
 
   if (r.logo !== '') {
     setCSSImage(elem.siblings('.logo'), r.logo);
@@ -26,7 +39,7 @@ function tableRowInside(r) {
   return elem;
 }
 
-function tableRow(r, i, hidden) {
+function tableRow(r, i, format, hidden) {
   const elem = $(`
     <div class="entry row ${i % 2 === 0 ? 'even' : 'odd'} ${r.focus || r.zoom ? 'focus' : ''} ${
     hidden ? 'transition hidden' : ''
@@ -34,7 +47,7 @@ function tableRow(r, i, hidden) {
     </div>
   `);
 
-  elem.html(tableRowInside(r));
+  elem.html(tableRowInside(r, format));
   return elem;
 }
 
@@ -66,6 +79,9 @@ class TournamentStandings {
 
     // mode setup (still write to tables unless performance becomes a problem?)
     this.mode = state.tournament.standingsSettings.mode;
+    this.format = state.tournament.standingsSettings.recordFormat
+      ? state.tournament.standingsSettings.recordFormat
+      : 'wl';
 
     if (this.mode === 'focus') {
       $('#topn-table').hide();
@@ -127,7 +143,7 @@ class TournamentStandings {
     for (let i = 0; i < topLimit; i++) {
       const r = state.tournament.standings[i];
 
-      $('#topn-table').append(tableRow(r, i));
+      $('#topn-table').append(tableRow(r, i, this.format));
     }
 
     // zoom
@@ -143,7 +159,7 @@ class TournamentStandings {
     for (let i = zmin; i < zmax; i++) {
       const r = state.tournament.standings[i];
 
-      $('#zoom-table').append(tableRow(r, i));
+      $('#zoom-table').append(tableRow(r, i, this.format));
     }
 
     // top n cycling
@@ -175,7 +191,7 @@ class TournamentStandings {
           $(this)
             .removeClass('empty focus')
             .addClass('row');
-          $(this).html(tableRowInside(self.standings[idx]));
+          $(this).html(tableRowInside(self.standings[idx], self.format));
 
           if (self.standings[idx].zoom || self.standings[idx].focus) {
             $(this).addClass('focus');

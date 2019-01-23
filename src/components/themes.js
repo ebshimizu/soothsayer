@@ -362,6 +362,13 @@ function renderThemeCredits(themeInfo) {
       <h3 class="ui sub header">${themeInfo.version}</h3>
       <div class="content">
         <p>${themeInfo.description ? themeInfo.description : 'No Description Provided'}</p>
+        <div class="is-hidden license">
+          <h4 class="ui dividing license header">License</h3>
+          <p>
+            <a href="#"><span class="license name"></span></a>
+            <span class="license text"></span>
+          </p>
+        </div>
         <div class="ui labels">
           <a class="ui hidden twitter blue label"><i class="twitter icon"></i><span class="name"></span></a>
           <a class="ui hidden twitch violet label"><i class="twitch icon"></i><span class="name"></span></a>
@@ -369,6 +376,7 @@ function renderThemeCredits(themeInfo) {
           <a class="ui hidden telegram blue label"><i class="telegram icon"></i><span class="name"></span></a>
           <a class="ui hidden github basic violet label"><i class="github icon"></i><span class="name"></span></a>
           <a class="ui hidden kofi label"><span class="name"></span><div class="detail">Ko-Fi</div></a>
+          <a class="ui hidden license image"><img src="" /></a>
         </div>
       </div>
       <div class="download button">
@@ -384,6 +392,25 @@ function renderThemeCredits(themeInfo) {
     for (const link in themeInfo.links) {
       showSocialLink(ti, link, themeInfo.links[link]);
     }
+  }
+
+  if (themeInfo.license) {
+    if (themeInfo.license.name) {
+      ti.find('.license.name').text(themeInfo.license.name);
+    }
+    if (themeInfo.license.long) {
+      ti.find('.license.text').text(themeInfo.license.long);
+    }
+    if (themeInfo.license.image) {
+      ti.find('.license.image img').attr('src', themeInfo.license.image);
+      ti.find('a.license.image').removeClass('hidden');
+    }
+    if (themeInfo.license.link) {
+      ti.find('.license.image').attr('href', themeInfo.license.link);
+      ti.find('.license p a').attr('href', themeInfo.license.link);
+    }
+
+    ti.find('div.license').removeClass('is-hidden');
   }
 
   // also only show the cloud button if it was originally downloaded from a website

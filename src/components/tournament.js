@@ -21,11 +21,11 @@ function rankingRow(row, i) {
         <div class="ui fluid action input" name="logo">
           <input type="text" name="logo" value="${row.logo ? row.logo : ''}">
           <div class="ui buttons">
-            <div class="ui right attached icon button browse" row-id="${i}">
-              <i class="folder open icon"></i>
-            </div>
-            <div class="ui left attached icon button erase" row-id="${i}">
+            <div class="ui right attached icon button erase" row-id="${i}">
               <i class="eraser icon"></i>
+            </div>
+            <div class="ui left attached icon button browse" row-id="${i}">
+              <i class="folder open icon"></i>
             </div>
           </div>
         </div>
@@ -38,6 +38,11 @@ function rankingRow(row, i) {
       <td>
         <div class="ui fluid input" name="loss">
           <input type="number" name="loss" value="${row.loss ? row.loss : 0}">
+        </div>
+      </td>
+      <td>
+        <div class="ui fluid input" name="draw">
+          <input type="number" name="draw" value="${row.draw ? row.draw : 0}">
         </div>
       </td>
       <td>
@@ -110,6 +115,11 @@ function getStandings() {
       logo: $(this)
         .find('input[name="logo"]')
         .val(),
+      draw: parseInt(
+        $(this)
+          .find('input[name="draw"]')
+          .val(),
+      ),
       focus: $(this).hasClass('active'),
       zoom: $(this).hasClass('zoom'),
     });
@@ -122,6 +132,7 @@ function getStandingsSettings() {
   return {
     mode: $('#tournament-standing-format').dropdown('get value'),
     limit: parseInt($('#tournament-standing-limit input').val()),
+    recordFormat: $('#tournament-standing-record-format').dropdown('get value'),
   };
 }
 
@@ -132,6 +143,7 @@ function init() {
     );
   });
   $('#tournament-starting-format').dropdown();
+  $('#tournament-standing-record-format').dropdown();
 
   $(document).on('click', '#tournament-standings .delete-row.button', function (event) {
     $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).remove();
@@ -158,7 +170,9 @@ function init() {
   });
 
   $(document).on('click', '#tournament-standings .erase.button', function (event) {
-    $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"] input[name="logo"]`).val('');
+    $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"] input[name="logo"]`).val(
+      '',
+    );
   });
 }
 
@@ -169,9 +183,17 @@ function initWithState(state) {
     const standingMode = appState.tournament.standingsSettings.mode;
     $('#tournament-standing-format').dropdown('set exactly', standingMode);
     $('#tournament-standing-limit input').val(appState.tournament.standingsSettings.limit);
+
+    if (appState.tournament.standingsSettings.recordFormat) {
+      $('#tournament-standing-record-format').dropdown('set exactly', appState.tournament.standingsSettings.recordFormat);
+    }
+    else {
+      $('#tournament-standing-record-format').dropdown('set exactly', 'wl');
+    }
   }
   else {
     $('#tournament-standing-format').dropdown('set exactly', 'cycle');
+    $('#tournament-standing-record-format').dropdown('set exactly', 'wl');
   }
 }
 

@@ -4,3 +4,7 @@ body {
   overflow: none;
   background-color: rgba(0,0,0,0);
 }
+
+.draw {
+  display: none;
+}
