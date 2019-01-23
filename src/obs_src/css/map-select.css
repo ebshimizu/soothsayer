@@ -331,6 +331,10 @@ body#map-list-only
   margin-top: 3%;
 }
 
+.map-select-header {
+  display: none;
+}
+
 .doom .map-tile {
   background-image: url("../images/panels/doom.png");
 }

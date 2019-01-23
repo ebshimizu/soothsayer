@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>OBS Map Select</title>
+    <title>Soothsayer | Hots Map Select</title>
     <script src="lib/jquery-3.3.1.min.js"></script>
     <script src="http://localhost:3005/socket.io/socket.io.js"></script>
     <script src="../data/maps.js"></script>
@@ -18,7 +18,13 @@
   <body>
     <div class="map-grid-container"></div>
     <div id="map-select-title">Map Selection</div>
-    <div class="map-selection-container"></div>
+    <div class="map-selection-container">
+      <div class="map-select-header">
+        <div class="pick header">Pick</div>
+        <div class="map header">Map</div>
+        <div class="win header">Winner</div>
+      </div>
+    </div>
     <div class="team" id="blue-team">
       <div class="blue team-bg-opt"></div>
       <div class="team-logo blue"></div>
@@ -33,8 +39,12 @@
         <div class="red team-name">Red Team</div>
       </div>
     </div>
-    <div class="score-container blue"><div class="score blue"></div></div>
-    <div class="score-container red"><div class="score red"></div></div>
-    <div id="vs-graphic-opt"></div>
+    <div class="score-container blue">
+      <div class="score blue"></div>
+    </div>
+    <div class="score-container red">
+      <div class="score red"></div>
+    </div>
+    <div id="vs-graphic-opt">VS</div>
   </body>
 </html>
