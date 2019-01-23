@@ -283,12 +283,18 @@ async function heroesLoungeLoadUpcoming() {
           // i want the team logos
           const blueLogo = await heroesLoungeGetLogo(match.teams[0].id);
           const redLogo = await heroesLoungeGetLogo(match.teams[1].id);
+          const twitchMatch = match.channel.url.match(/\/(\w+)\/?$/);
+          let twitch = '';
+
+          if (twitchMatch) {
+            twitch = twitchMatch[1];
+          }
 
           tickerItems.push({
             order: id,
             category: 'Upcoming Matches',
             mode: 'upcoming',
-            twitch: match.channel.url.substring(match.channel.url.lastIndexOf('/') + 1),
+            twitch,
             text: match.division.title,
             blueTeam: match.teams[0].title,
             redTeam: match.teams[1].title,
