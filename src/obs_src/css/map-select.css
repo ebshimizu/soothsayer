@@ -3,6 +3,11 @@
   src: url('../fonts/nexa-bold.otf') format('opentype');
 }
 
+@font-face {
+  font-family: "Nexa Light";
+  src: url('../fonts/nexa-light.otf') format('opentype');
+}
+
 :root {
   --blue-border-color: #2185d0;
   --red-border-color: #db2828;
@@ -75,7 +80,7 @@ body#map-list-only
 }
 
 .team-name-container .team-name {
-  font-family: 'Nexa', sans-serif;
+  font-family: 'Nexa Bold', sans-serif;
   color: #FFF;
   text-align: center;
   font-weight: bold;
@@ -98,7 +103,7 @@ body#map-list-only
 .score-container {
   width: 5vw;
   height: 10vh;
-  font-family: 'Nexa', sans-serif;
+  font-family: 'Nexa Bold', sans-serif;
   font-weight: bold;
   font-size: 7vmin;
   display: flex;
@@ -192,7 +197,7 @@ body#map-list-only
   width: 100%;
   position: absolute;
   bottom: 0;
-  font-family: "Nexa", sans-serif;
+  font-family: "Nexa Bold", sans-serif;
   font-weight: bold;
 }
 
@@ -311,7 +316,7 @@ body#map-list-only
 .winner .label
 {
   height: calc(20% - 5px);
-  font-family: 'Nexa', sans-serif;
+  font-family: 'Nexa Light', sans-serif;
   color: #FFF;
   text-align: center;
   padding-top: 5px;
