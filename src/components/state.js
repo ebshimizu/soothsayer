@@ -115,7 +115,7 @@ class State {
       this.onLowerThirdConnect(socket);
     }
     else if (overlayData.name === 'Player Profile') {
-      this.onPlayerProfileDisconnect(socket);
+      this.onPlayerProfileConnect(socket);
     }
 
     console.log(`Registered '${overlayData.name}' from ${socket.id}.`);

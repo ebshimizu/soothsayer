@@ -108,6 +108,10 @@ function playerStats(player, callback, wildcard) {
 }
 
 // sometimes you just want everything
+// this should return an object consisting of:
+// name, stats (object with stat keys, ideally replay ids),
+// heroes: array of objects (name, games, win)
+// win, games, heroPool
 function allPlayerStats(player, callback) {
   DataSources[activeSource].allPlayerStats(player, callback);
 }

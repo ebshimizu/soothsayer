@@ -220,7 +220,8 @@ function initApp(name) {
   DataGrabber.InitWithState(appState);
   Tournament.InitWithState(appState);
   Ticker.InitWithState(appState);
-  Profiles.InitWithStat(appState);
+  Profiles.InitWithState(appState);
+  Profiles.setDataSource(DataSource);
 
   $('#section-menu .item').tab();
   $('#status-tab-menu .item').tab();

@@ -289,7 +289,7 @@ function constructLTUI(socket) {
     </div>
   `;
 
-  $('#connected-stat-screens').append(elem);
+  $('#connected-stat-lt').append(elem);
 
   // handlers
   const e = $(`.lower-third-controls[socket-id="${socket.id}"]`);

@@ -344,8 +344,33 @@ function allPlayerStats(player, callback) {
       }
 
       const playerStats = summarizePlayerData(docs)[players[0]._id];
+      const heroStats = summarizeHeroData(docs);
       
-      callback(playerStats);
+      // some reformatting
+      const stats = {
+        name: player,
+        stats: playerStats.averages,
+        heroes: [],
+        wins: playerStats.wins,
+        games: playerStats.games,
+      };
+
+      stats.stats.KDA = playerStats.totalKDA;
+      stats.stats.HighestKillStreak = playerStats.highestStreak;
+
+      for (const h in heroStats.heroes) {
+        const hData = {
+          name: h,
+          games: heroStats.heroes[h].games,
+          wins: heroStats.heroes[h].wins,
+        };
+        hData.winPct = hData.wins / hData.games;
+        stats.heroes.push(hData);
+      }
+
+      stats.heroPool = stats.heroes.length;
+
+      callback(stats);
     });
   });
 }
@@ -356,3 +381,4 @@ exports.deactivate = deactivate;
 exports.heroDraft = heroDraft;
 exports.playerStatsForHero = playerStatsForHero;
 exports.playerStats = playerStats;
+exports.allPlayerStats = allPlayerStats;

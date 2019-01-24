@@ -4,8 +4,6 @@ const socket = io('http://localhost:3005/');
 class PlayerProfile {
   constructor() {
     this.name = 'Player Profile';
-    this.visibleElem = '';
-    this.hideLt();
   }
 
   ID() {
@@ -16,7 +14,7 @@ class PlayerProfile {
 
   // changes up the state n stuff
   updateState(state) {
-
+    // tournament name?
   }
 
   stageStats(data) {
@@ -31,7 +29,7 @@ $(document).ready(() => {
   const pp = new PlayerProfile();
 
   socket.on('requestID', () => { 
-    socket.emit('reportID', lt.ID());
+    socket.emit('reportID', pp.ID());
     socket.emit('requestState');
   });
 
