@@ -122,6 +122,9 @@ function processPlayerProfileData(data, type) {
       statRow.val = `${((data.wins / data.games) * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
       statRow.raw = data.wins / data.games;
     }
+    else if (stat === 'ClutchHealsPerformed') {
+      statRow.val = statRow.raw.toLocaleString(undefined, { maximumFractionDigits: 1 });
+    }
     else if (stat === 'heroPool') {
       statRow.name = 'Hero Pool';
       statRow.val = data.heroPool;

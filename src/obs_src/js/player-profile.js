@@ -74,7 +74,7 @@ class PlayerProfile {
   render() {
     // the basics
     $('.player-name').text(this.stagedData.name);
-    $('.type').text(getLabel(this.stagedData.type));
+    $('.type .text').text(getLabel(this.stagedData.type));
     $('.type').attr('type', this.stagedData.type);
 
     if (this.stagedData.logo !== '') {
