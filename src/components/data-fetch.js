@@ -252,6 +252,7 @@ async function heroesLoungeLoadUpcoming() {
   }
 
   const tickerItems = [];
+  showMessage('Ticker: Loading Heroes Lounge upcoming matches', 'info');
 
   try {
     // TEST
@@ -277,31 +278,33 @@ async function heroesLoungeLoadUpcoming() {
       for (const id in data) {
         const match = data[id];
 
-        // check date
-        const matchDate = moment(`${match.wbp}+01:00`);
-        if (matchDate.isAfter(moment())) {
-          // i want the team logos
-          const blueLogo = await heroesLoungeGetLogo(match.teams[0].id);
-          const redLogo = await heroesLoungeGetLogo(match.teams[1].id);
-          const twitchMatch = match.channel.url.match(/\/(\w+)\/?$/);
-          let twitch = '';
+        if (match.channel) {
+          // check date
+          const matchDate = moment(`${match.wbp}+01:00`);
+          if (matchDate.isAfter(moment())) {
+            // i want the team logos
+            const blueLogo = await heroesLoungeGetLogo(match.teams[0].id);
+            const redLogo = await heroesLoungeGetLogo(match.teams[1].id);
+            const twitchMatch = match.channel.url.match(/\/(\w+)\/?$/);
+            let twitch = '';
 
-          if (twitchMatch) {
-            twitch = twitchMatch[1];
+            if (twitchMatch) {
+              twitch = twitchMatch[1];
+            }
+
+            tickerItems.push({
+              order: id,
+              category: 'Upcoming Matches',
+              mode: 'upcoming',
+              twitch,
+              text: match.division.title,
+              blueTeam: match.teams[0].title,
+              redTeam: match.teams[1].title,
+              blueLogo,
+              redLogo,
+              upcomingDate: matchDate.local().format('YYYY-MM-DD[T]HH:mm'),
+            });
           }
-
-          tickerItems.push({
-            order: id,
-            category: 'Upcoming Matches',
-            mode: 'upcoming',
-            twitch,
-            text: match.division.title,
-            blueTeam: match.teams[0].title,
-            redTeam: match.teams[1].title,
-            blueLogo,
-            redLogo,
-            upcomingDate: matchDate.local().format('YYYY-MM-DD[T]HH:mm'),
-          });
         }
       }
     }
