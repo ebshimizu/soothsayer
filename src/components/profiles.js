@@ -1,5 +1,6 @@
 const StatData = require('../stats-of-the-storm/js/game-data/detail-stat-string');
 const Formatter = require('../stats-of-the-storm/js/util/formatters');
+const { updatePlayerPoolMenus } = require('./team-data');
 
 let appState;
 let dataSource;
@@ -269,6 +270,7 @@ function onPlayerProfileConnect(socket) {
   elem.find('.pp-run').click(() => {
     renderPlayerProfile(socket.id);
   });
+  updatePlayerPoolMenus();
 }
 
 function onPlayerProfileDisconnect(socketID) {

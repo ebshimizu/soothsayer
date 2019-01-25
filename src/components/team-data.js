@@ -132,9 +132,11 @@ function updatePlayerPoolMenus() {
     }
 
     $('.player-entry').dropdown('change values', values);
+    $('.pp-player-name').dropdown('change values', values);
   }
   else {
     $('.player-entry').dropdown('change values', []);
+    $('.pp-player-name').dropdown('change values', []);
   }
 }
 
