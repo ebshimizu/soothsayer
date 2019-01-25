@@ -313,11 +313,11 @@ function allPlayerStats(player, callback) {
   const query = { };
 
   if (player.indexOf('#') >= 0) {
-    query.name = player.substr(0, player.indexOf('#'));
+    query.name = { $regex: new RegExp(player.substr(0, player.indexOf('#')), 'i') };
     query.tag = parseInt(player.substr(player.indexOf('#') + 1), 10);
   }
   else {
-    query.name = player;
+    query.name = { $regex: new RegExp(`^${player}$`, 'i') };
   }
 
   activeDB.getPlayers(query, function(err, players) {

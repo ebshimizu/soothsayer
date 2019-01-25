@@ -16,6 +16,7 @@ const coreThemeFiles = [
   'logo',
   'tournament-standings',
   'ticker-lower-third',
+  'hots-player-profile',
 ];
 
 exports.coreThemeFiles = coreThemeFiles;

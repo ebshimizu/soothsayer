@@ -79,6 +79,18 @@ function constructProfileUI(socket) {
               <i class="twitch icon"></i>
             </div>
           </div>
+          <div class="four wide field">
+            <label>Team (for logo)</label>
+            <div class="ui fluid selection dropdown pp-team">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Team</div>
+              <div class="menu">
+                <div class="item" data-value="none">None</div>
+                <div class="item" data-value="blue"><div class="ui blue empty circular label"></div>Blue</div>
+                <div class="item" data-value="red"><div class="ui red empty circular label"></div>Red</div>
+              </div>
+            </div>
+          </div>
           <!-- <div class="eight wide field">
             <label>Notes</label>
             
@@ -106,7 +118,7 @@ function processPlayerProfileData(data, type) {
 
     if (stat === 'winPct') {
       statRow.name = 'Win Rate';
-      statRow.val = Formatter.formatStat('pct', Math.round(data.wins / data.games));
+      statRow.val = `${((data.wins / data.games) * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
       statRow.raw = data.wins / data.games;
     }
     else if (stat === 'heroPool') {
@@ -118,7 +130,7 @@ function processPlayerProfileData(data, type) {
       statRow.val = statRow.raw.toLocaleString(undefined, { maximumFractionDigits: 1 });
     }
     else if (stat === 'levelAdvPct') {
-      statRow.val = Formatter.formatStat('pct', statRow.raw);
+      statRow.val = `${(statRow.raw * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
       statRow.name = 'Level Advantage Time';
     }
     else if (stat === 'hardCCTime') {
@@ -134,7 +146,7 @@ function processPlayerProfileData(data, type) {
       statRow.val = Formatter.formatSeconds(statRow.raw);
     }
     else if (stat === 'KillParticipation') {
-      statRow.val = Formatter.formatStat('pct', statRow.raw);
+      statRow.val = `${(statRow.raw * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
     }
 
     statRows.push(statRow);
@@ -160,6 +172,7 @@ function processPlayerProfileData(data, type) {
   // hero attribute id
   for (let i = 0; i < ret.heroes.length; i++) {
     ret.heroes[i].classname = heroesTalents._heroes[ret.heroes[i].name].attributeId;
+    ret.heroes[i].winPct = Formatter.formatStat('pct', ret.heroes.winPct);
   }
 
   console.log(ret);
@@ -178,8 +191,18 @@ function loadPlayerProfile(socketID, cb) {
     twitch: elem.find('.pp-twitch input').val(),
     twitter: elem.find('.pp-twitter input').val(),
     name: elem.find('.pp-player-name').dropdown('get text'),
+    logo: '',
   };
   const modeText = elem.find('.pp-mode').dropdown('get text');
+
+  // logo
+  const team = elem.find('.pp-team').dropdown('get value');
+  if (team === 'blue') {
+    loadData.logo = $('#team-blue-logo input').val();
+  }
+  else if (team === 'red') {
+    loadData.logo = $('#team-red-logo input').val();
+  }
 
   dataSource.allPlayerStats(loadData.name, function (data) {
     if (data.error) {
@@ -233,6 +256,7 @@ function onPlayerProfileConnect(socket) {
 
   elem.find('.pp-mode').dropdown();
   elem.find('.pp-mode').dropdown('set exactly', 'role-assassin');
+  elem.find('.pp-team').dropdown();
   elem.find('.pp-player-name').dropdown({
     allowAdditions: true,
   });
