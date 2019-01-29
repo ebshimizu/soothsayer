@@ -253,6 +253,28 @@ function toggleBracketWin(winner, id, format) {
   $(`#tournament-bracket .bracket-win[bracket-id="${id}"][team-id="${winner}"]`).addClass('green');
 }
 
+function updateBracketDropdowns() {
+  // populate dropdowns
+  const teams = getStandings();
+  const items = [{
+    name: '',
+    value: '',
+    text: '',
+  }];
+
+  for (const t in teams) {
+    items.push({
+      name: teams[t].team,
+      value: teams[t].team,
+      text: teams[t].team,
+    });
+  }
+
+  $('#tournament-bracket .bracket-team').dropdown('save defaults');
+  $('#tournament-bracket .bracket-team').dropdown('change values', items);
+  $('#tournament-bracket .bracket-team').dropdown('restore defaults');
+}
+
 function createBracketUI(format, formatId) {
   if (format) {
     // create an element for each item in format, following the order listed.
@@ -260,24 +282,8 @@ function createBracketUI(format, formatId) {
       $('#tournament-bracket').append(bracketItem(id, format.rounds[id].title, formatId));
     }
 
-    // populate dropdowns
-    const teams = getStandings();
-    const items = [{
-      name: '',
-      value: '',
-      text: '',
-    }];
-
-    for (const t in teams) {
-      items.push({
-        name: teams[t].team,
-        value: teams[t].team,
-        text: teams[t].team,
-      });
-    }
-
     $('#tournament-bracket .bracket-team').dropdown();
-    $('#tournament-bracket .bracket-team').dropdown('change values', items);
+    updateBracketDropdowns();
   }
 }
 
@@ -370,6 +376,7 @@ function init() {
 
   $(document).on('click', '#tournament-standings .delete-row.button', function (event) {
     $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).remove();
+    updateBracketDropdowns();
   });
 
   $(document).on('click', '#tournament-standings .highlight-row.button', function (event) {
@@ -405,6 +412,8 @@ function init() {
     const format = $(this).attr('format');
     toggleBracketWin(winner, id, format);
   });
+
+  $(document).on('focusout', '#tournament-standings input[name="team"]', updateBracketDropdowns);
 }
 
 function initWithState(state) {
