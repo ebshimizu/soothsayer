@@ -552,6 +552,7 @@ class State {
   updateTournamentData() {
     this.tournament.standings = Tournament.getStandings();
     this.tournament.standingsSettings = Tournament.getStandingsSettings();
+    this.tournament.bracket = Tournament.getBracket();
   }
 
   addStanding(place, team, win, loss, logo) {

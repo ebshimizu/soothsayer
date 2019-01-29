@@ -121,60 +121,90 @@
     
   </div>
   <div class="contained basic ui tab segment" data-tab="tournament" id="tournament">
-    <div class="ui segment">
-      <h2 class="ui dividing header">Tournament Data</h2>
-      <div class="ui info message">
-        <div class="content">
-          <p>
-            The Standings chart will display on the "tournament-standings.html" overlay. Clicking on the star icon
-            on a row will highlight that team in the standings. Clicking on a magnifying glass icon on a row will
-            highlight and mark that
-            row as the focus for the table (check out the Team Focus formats). Record format allows you
-            to specify how match record is formatted on the scoreboard.
-          </p>
+    <h2 class="ui dividing header">Tournament Data</h2>
+    <div class="ui info message">
+      <div class="content">
+        <p>
+          The Standings chart will display on the "tournament-standings.html" overlay. Clicking on the star icon
+          on a row will highlight that team in the standings. Clicking on a magnifying glass icon on a row will
+          highlight and mark that
+          row as the focus for the table (check out the Team Focus formats). Record format allows you
+          to specify how match record is formatted on the scoreboard.
+        </p>
+      </div>
+    </div>
+    <form class="ui form">
+      <div class="fields">
+        <div class="six wide field">
+          <label>Tournament Label</label>
+          <input type="text" name="tournament-name" id="tournament-name">
+        </div>
+        <div class="three wide field">
+          <label>Standings Format</label>
+          <div class="ui fluid selection dropdown" id="tournament-standing-format">
+            <i class="dropdown icon"></i>
+            <div class="text"></div>
+            <div class="menu">
+              <div class="item" data-value="cycle">Cycle</div>
+              <div class="item" data-value="top">Top N</div>
+              <div class="item" data-value="focus">Team Focus</div>
+              <div class="item" data-value="combined">All + Team Focus</div>
+            </div>
+          </div>
+        </div>
+        <div class="two wide field">
+          <label>Standings Limit</label>
+          <div class="ui fluid input" id="tournament-standing-limit">
+            <input type="text" class="has-popup" value="8"  data-position="bottom center" data-content="This is the maximum number of teams that will be shown in Top N mode and Team Focus mode.">
+          </div>
+        </div>
+        <div class="two wide field">
+          <label>Record Format</label>
+          <div class="ui fluid selection dropdown" id="tournament-standing-record-format">
+            <i class="dropdown icon"></i>
+            <div class="text"></div>
+            <div class="menu">
+              <div class="item" data-value="wl">W-L</div>
+              <div class="item" data-value="wld">W-L-D</div>
+              <div class="item" data-value="wdl">W-D-L</div>
+            </div>
+          </div>
+        </div>
+        <div class="three wide field">
+          <label>Record Format</label>
+          <div class="ui fluid selection dropdown" id="tournament-standing-record-format">
+            <i class="dropdown icon"></i>
+            <div class="text"></div>
+            <div class="menu">
+              <div class="item" data-value="wl">W-L</div>
+              <div class="item" data-value="wld">W-L-D</div>
+              <div class="item" data-value="wdl">W-D-L</div>
+              <div class="item" data-value="w">W (points)</div>
+            </div>
+          </div>
+        </div>
+        <div class="three wide field">
+          <label>Bracket Format</label>
+          <div class="ui fluid selection dropdown" id="tournament-bracket-format">
+            <i class="dropdown icon"></i>
+            <div class="text"></div>
+            <div class="menu">
+
+            </div>
+          </div>
         </div>
       </div>
-      <form class="ui form">
-        <div class="fields">
-          <div class="seven wide field">
-            <label>Tournament Label</label>
-            <input type="text" name="tournament-name" id="tournament-name">
-          </div>
-          <div class="three wide field">
-            <label>Standings Format</label>
-            <div class="ui fluid selection dropdown" id="tournament-standing-format">
-              <i class="dropdown icon"></i>
-              <div class="text"></div>
-              <div class="menu">
-                <div class="item" data-value="cycle">Cycle</div>
-                <div class="item" data-value="top">Top N</div>
-                <div class="item" data-value="focus">Team Focus</div>
-                <div class="item" data-value="combined">All + Team Focus</div>
-              </div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Standings Table Limit</label>
-            <div class="ui fluid input" id="tournament-standing-limit">
-              <input type="text" class="has-popup" value="8"  data-position="bottom center" data-content="This is the maximum number of teams that will be shown in Top N mode and Team Focus mode.">
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Record Format</label>
-            <div class="ui fluid selection dropdown" id="tournament-standing-record-format">
-              <i class="dropdown icon"></i>
-              <div class="text"></div>
-              <div class="menu">
-                <div class="item" data-value="wl">W-L</div>
-                <div class="item" data-value="wld">W-L-D</div>
-                <div class="item" data-value="wdl">W-D-L</div>
-                <div class="item" data-value="w">W (points)</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-      <h3 class="ui dividing header">Standings</h3>
+    </form>
+    <div class="ui top attached tabular menu" id="tournament-submenu">
+      <a class="ui active item" data-tab="standings">
+        Standings/Team List
+      </a>
+      <a class="ui item" data-tab="bracket">
+        Bracket
+      </a>
+    </div>
+    <div class="ui bottom attached segment tab active" data-tab="standings">
+      <h3 class="ui dividing header">Standings/Team List</h3>
       <div id="tournament-standings">
         <table class="ui celled table">
           <thead>
@@ -202,6 +232,12 @@
             </tr>
           </tfoot>
         </table>
+      </div>
+    </div>
+    <div class="ui bottom attached segment tab" data-tab="bracket">
+      <h3 class="ui dividing header" id="tournament-bracket-header">Bracket</h3>
+      <div class="ui grid" id="tournament-bracket">
+
       </div>
     </div>
   </div>

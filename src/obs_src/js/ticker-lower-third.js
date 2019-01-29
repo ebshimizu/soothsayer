@@ -43,7 +43,7 @@ class Ticker {
     this.opts = state.ticker.options;
 
     // likely temporary
-    this.opts.delay = 10000;
+    this.opts.delay = 15000;
 
     if (!this.opts.animationMode) this.opts.animationMode = 'fade';
 

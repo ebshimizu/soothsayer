@@ -1,6 +1,67 @@
 const Util = require('./util');
+const Brackets = require('../data/brackets');
 
 let appState;
+
+function bracketItem(id, name, format) {
+  return `
+    <div class="ui eight wide column" bracket-id="${id}" format="${format}">
+      <div class="ui segment">
+        <h4 class="header">${name}</h4>
+        <div class="ui form">
+          <div class="fields">
+            <div class="ten wide field">
+              <label>Team 1</label> 
+              <div class="ui fluid selection dropdown bracket-team" bracket-id="${id}" team-id="1">
+                <i class="dropdown icon"></i>
+                <div class="text"></div>
+                <div class="menu">
+
+                </div>
+              </div>
+            </div>
+            <div class="four wide field">
+              <label>Score</label>
+              <div class="ui fluid input">
+                <input bracket-id="${id}" team-id="1" type="number" />
+              </div>
+            </div>
+            <div class="two wide field">
+              <label>Win</label>
+              <div class="ui icon bracket-win button" format="${format}" bracket-id="${id}" team-id="1">
+                <i class="check icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="ten wide field">
+              <label>Team 2</label> 
+              <div class="ui fluid search selection dropdown bracket-team" bracket-id="${id}" team-id="2">
+                <i class="dropdown icon"></i>
+                <div class="text"></div>
+                <div class="menu">
+
+                </div>
+              </div>
+            </div>
+            <div class="four wide field">
+              <label>Score</label>
+              <div class="ui fluid input">
+                <input bracket-id="${id}" team-id="2" type="number" />
+              </div>
+            </div>
+            <div class="two wide field">
+              <label>Win</label>
+              <div class="ui icon bracket-win button" format="${format}" bracket-id="${id}" team-id="2">
+                <i class="check icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 function rankingRow(row, i) {
   return `
@@ -83,8 +144,33 @@ function renderStandings(data) {
   }
 }
 
+function renderBracket(data) {
+  // so the dropdown is set from the render function, which then triggers this
+  // if there's something in the tournament data
+  // at this point, only the individual rounds need to be iterated
+  $(`#tournament-bracket .bracket-win`).removeClass('green');
+
+  if (data.rounds) {
+    for (let r in data.rounds) {
+      // teams
+      $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="1"]`).dropdown('set exactly', data.rounds[r].team1);
+      $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="2"]`).dropdown('set exactly', data.rounds[r].team2);
+
+      $(`#tournament-bracket input[bracket-id="${r}"][team-id="1"]`).val(data.rounds[r].team1Score);
+      $(`#tournament-bracket input[bracket-id="${r}"][team-id="2"]`).val(data.rounds[r].team2Score);
+
+      // winner
+      const winner = data.rounds[r].winner;
+      if (winner) {
+        $(`#tournament-bracket .bracket-win[bracket-id="${r}"][team-id="${winner}"]`).addClass('green');
+      }
+    }
+  }
+}
+
 function render(data) {
   renderStandings(data.standings);
+  renderBracket(data.bracket);
 }
 
 function getStandings() {
@@ -136,6 +222,140 @@ function getStandingsSettings() {
   };
 }
 
+function toggleBracketWin(winner, id, format) {
+  const winTeam = $(
+    `#tournament-bracket .bracket-team[bracket-id="${id}"][team-id="${winner}"]`,
+  ).dropdown('get value');
+
+  const lose = parseInt(winner) === 1 ? 2 : 1;
+  const loseTeam = $(
+    `#tournament-bracket .bracket-team[bracket-id="${id}"][team-id="${lose}"]`,
+  ).dropdown('get value');
+
+  let winNext = Brackets[format].rounds[id].winnerTo;
+  let loseNext = Brackets[format].rounds[id].loserTo;
+
+  if (winNext) {
+    winNext = winNext.split('.');
+    $(
+      `#tournament-bracket .bracket-team[bracket-id="${winNext[0]}"][team-id="${winNext[1]}"]`,
+    ).dropdown('set exactly', winTeam);
+  }
+
+  if (loseNext) {
+    loseNext = loseNext.split('.');
+    $(
+      `#tournament-bracket .bracket-team[bracket-id="${loseNext[0]}"][team-id="${loseNext[1]}"]`,
+    ).dropdown('set exactly', loseTeam);
+  }
+
+  $(`#tournament-bracket .bracket-win[bracket-id="${id}"]`).removeClass('green');
+  $(`#tournament-bracket .bracket-win[bracket-id="${id}"][team-id="${winner}"]`).addClass('green');
+}
+
+function createBracketUI(format, formatId) {
+  if (format) {
+    // create an element for each item in format, following the order listed.
+    for (const id of format.order) {
+      $('#tournament-bracket').append(bracketItem(id, format.rounds[id].title, formatId));
+    }
+
+    // populate dropdowns
+    const teams = getStandings();
+    const items = [{
+      name: '',
+      value: '',
+      text: '',
+    }];
+
+    for (const t in teams) {
+      items.push({
+        name: teams[t].team,
+        value: teams[t].team,
+        text: teams[t].team,
+      });
+    }
+
+    $('#tournament-bracket .bracket-team').dropdown();
+    $('#tournament-bracket .bracket-team').dropdown('change values', items);
+  }
+}
+
+function updateBracketData(value, text) {
+  // delete bracket data
+  $('#tournament-bracket').html('');
+
+  if (value in Brackets) {
+    // create ui elements
+    createBracketUI(Brackets[value], value);
+
+    // update header
+    $('#tournament-bracket-header').text(`Bracket: ${Brackets[value].name}`);
+
+    // load from state if applicable
+    if (appState && appState.tournament) {
+      renderBracket(appState.tournament.bracket);
+    }
+  }
+}
+
+function loadBracketMenu() {
+  $('#tournament-bracket-format').dropdown({
+    onChange: updateBracketData,
+  });
+
+  const opts = [{
+    name: 'None',
+    value: 'none',
+    text: 'None',
+  }];
+
+  for (const b in Brackets) {
+    opts.push({
+      name: Brackets[b].name,
+      value: b,
+      text: Brackets[b].name,
+    });
+  }
+
+  $('#tournament-bracket-format').dropdown('change values', opts);
+}
+
+// iterate through the ui elements, fill in the blanks
+function getBracketData() {
+  const bracket = {
+    rounds: {},
+    format: $('#tournament-bracket .column').first().attr('format'),
+  };
+
+  if (bracket.format in Brackets) {
+    bracket.title = Brackets[bracket.format].name;
+    bracket.order = Brackets[bracket.format].order;
+  }
+
+  $('#tournament-bracket .column').each(function(i) {
+    const round = {
+      id: $(this).attr('bracket-id'),
+      team1: $(this).find('.bracket-team[team-id="1"]').dropdown('get text'),
+      team2: $(this).find('.bracket-team[team-id="2"]').dropdown('get text'),
+      team1Score: parseInt($(this).find('input[team-id="1"]').val()),
+      team2Score: parseInt($(this).find('input[team-id="2"]').val()),
+    };
+
+    const winButton = $(this).find('.green.button');
+    if (winButton.length > 0) {
+      round.winner = parseInt($(winButton).attr('team-id'));
+    }
+    else {
+      round.winner = null;
+    }
+
+    bracket.rounds[round.id] = round;
+  });
+
+  return bracket;
+}
+
 function init() {
   $('#tournament-standings .add.button').click(function () {
     $('#tournament-standings table.celled tbody').append(
@@ -144,6 +364,9 @@ function init() {
   });
   $('#tournament-starting-format').dropdown();
   $('#tournament-standing-record-format').dropdown();
+  $('#tournament-submenu .item').tab();
+
+  loadBracketMenu();
 
   $(document).on('click', '#tournament-standings .delete-row.button', function (event) {
     $(`#tournament-standings table tr[row-id="${$(this).attr('row-id')}"]`).remove();
@@ -174,6 +397,14 @@ function init() {
       '',
     );
   });
+
+  $(document).on('click', '#tournament-bracket .bracket-win', function (event) {
+    // checks the bracket id
+    const winner = $(this).attr('team-id');
+    const id = $(this).attr('bracket-id');
+    const format = $(this).attr('format');
+    toggleBracketWin(winner, id, format);
+  });
 }
 
 function initWithState(state) {
@@ -185,10 +416,20 @@ function initWithState(state) {
     $('#tournament-standing-limit input').val(appState.tournament.standingsSettings.limit);
 
     if (appState.tournament.standingsSettings.recordFormat) {
-      $('#tournament-standing-record-format').dropdown('set exactly', appState.tournament.standingsSettings.recordFormat);
+      $('#tournament-standing-record-format').dropdown(
+        'set exactly',
+        appState.tournament.standingsSettings.recordFormat,
+      );
     }
     else {
       $('#tournament-standing-record-format').dropdown('set exactly', 'wl');
+    }
+
+    if (appState.tournament.bracket.format) {
+      $('#tournament-bracket-format').dropdown('set exactly', appState.tournament.bracket.format);
+    }
+    else {
+      $('#tournament-bracket-format').dropdown('set exactly', 'none');
     }
   }
   else {
@@ -202,3 +443,4 @@ exports.InitWithState = initWithState;
 exports.render = render;
 exports.getStandings = getStandings;
 exports.getStandingsSettings = getStandingsSettings;
+exports.getBracket = getBracketData;
