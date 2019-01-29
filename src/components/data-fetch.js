@@ -117,9 +117,7 @@ async function heroesLoungeLoadStandingsForDiv(season, div, seasonId) {
       const standingsRows = $(page).find('table.table.table-striped.table-sm tbody tr');
 
       // attempt team logos
-      const teamListReq = await fetch(
-        `http://heroeslounge.gg/api/v1/seasons/${seasonId}/teams`,
-      );
+      const teamListReq = await fetch(`http://heroeslounge.gg/api/v1/seasons/${seasonId}/teams`);
       const teamList = await teamListReq.json();
 
       // convert to object keyed on team names
@@ -316,6 +314,79 @@ async function heroesLoungeLoadUpcoming() {
   return tickerItems;
 }
 
+// playoff loader
+async function heroesLoungeLoadPlayoffs(div, playoffID, divID, divTitle) {
+  try {
+    const playoffReq = await fetch(`https://heroeslounge.gg/api/v1/playoffs/${playoffID}`);
+    const playoff = await playoffReq.json();
+
+    const seasonReq = await fetch(`https://heroeslounge.gg/api/v1/seasons/${playoff.season_id}`);
+    const season = await seasonReq.json();
+
+    // ok so now... what
+    // apparently the slug isn't used???
+    const playoffPageReq = await fetch(
+      `https://heroeslounge.gg/${season.slug}/playoff/${playoff.title}`,
+    );
+    const playoffPage = await playoffPageReq.text();
+
+    // raw html rip
+    appState.clearTournamentData();
+    const standingsRows = $(playoffPage).find(`#${div} table.table-striped.table-sm tbody tr`);
+    standingsRows.each(function (idx) {
+      const standing = parseInt(
+        $(this)
+          .find('th[scope="row"]')
+          .text(),
+      );
+      const team = $(this)
+        .find('a')
+        .text();
+      const win = parseInt(
+        $(this)
+          .find('td')
+          .slice(2, 3)
+          .text(),
+      );
+
+      appState.addStanding(standing, team, win, 0);
+    });
+
+    showMessage(`Loaded Standings for Heroes Lounge Playoff ${playoff.title}`, 'positive');
+    showMessage('Attempting to load logos');
+
+    const teamListReq = await fetch(`http://heroeslounge.gg/api/v1/divisions/${divID}/teams`);
+    const teamList = await teamListReq.json();
+
+    // convert to object keyed on team names
+    const teams = {};
+    for (let i = 0; i < teamList.length; i += 1) {
+      teams[teamList[i].title] = teamList[i];
+    }
+
+    for (let i = 0; i < appState.tournament.standings.length; i++) {
+      let logo = '';
+      if (appState.tournament.standings[i].team in teams) {
+        logo = await heroesLoungeGetLogo(teams[appState.tournament.standings[i].team].id);
+      }
+
+      appState.tournament.standings[i].logo = logo;
+    }
+
+    appState.displayTournamentData();
+
+    const title = `Heroes Lounge | ${playoff.title} ${divTitle}`;
+    $('#tournament-name').val(title);
+    $('#tournament-standing-record-format').dropdown('set exactly', 'w');
+  }
+  catch (e) {
+    showMessage(
+      `Heroes Lounge One Click Setup: Failed to load playoff info for playoff id ${playoffID}. ${e}`,
+      'negative',
+    );
+  }
+}
+
 async function heroesLoungeLoadStandings() {
   // fill in from dropdowns
   $('#heroes-lounge-get-recent').addClass('disabled loading');
@@ -373,25 +444,49 @@ async function heroesLoungeOneClick(type) {
     const divReq = await fetch(`https://heroeslounge.gg/api/v1/divisions/${match.div_id}`);
     const division = await divReq.json();
 
-    const seasonReq = await fetch(`https://heroeslounge.gg/api/v1/seasons/${division.season_id}/`);
-    const season = await seasonReq.json();
+    if (division.season_id) {
+      const seasonReq = await fetch(
+        `https://heroeslounge.gg/api/v1/seasons/${division.season_id}/`,
+      );
+      const season = await seasonReq.json();
 
-    // ok so now...
-    showMessage(`Heroes Lounge: Loading standings and ticker for ${season.title}, ${division.title}...`, 'info');
-    await heroesLoungeLoadTicker(season.slug, division.slug, season.id);
+      // ok so now...
+      showMessage(
+        `Heroes Lounge: Loading standings and ticker for ${season.title}, ${division.title}...`,
+        'info',
+      );
+      await heroesLoungeLoadTicker(season.slug, division.slug, season.id);
+
+      // tournament name suggestion
+      const seasonTitle = season.title.replace('[', '').replace(']', ' ');
+      const divTitle = division.title.replace('Division', 'Div');
+      const title = `Heroes Lounge | ${seasonTitle} ${divTitle}`;
+      $('#tournament-name').val(title);
+    }
+    else if (division.playoff_id) {
+      // playoffs have a special loader
+      await heroesLoungeLoadPlayoffs(
+        division.slug,
+        division.playoff_id,
+        division.id,
+        division.title,
+      );
+
+      const upcoming = await heroesLoungeLoadUpcoming();
+      appState.setTickerItems(upcoming);
+
+      $('#heroes-lounge-get-standings').removeClass('disabled loading');
+      $('#heroes-lounge-get-recent').removeClass('disabled loading');
+
+      appState.updateAndBroadcastTicker();
+    }
 
     // set dropdown text? kinda misleading, division loads async?
     $('#team-blue-score').val('0');
     $('#team-red-score').val('0');
 
-    // tournament name suggestion
-    let seasonTitle = season.title.replace('[', '').replace(']', ' ');
-    let divTitle = division.title.replace('Division', 'Div');
-    const title = `Heroes Lounge | ${seasonTitle} ${divTitle}`;
-    $('#tournament-name').val(title);
-
     appState.updateAndBroadcast();
-    showMessage(`Heroes Lounge One Click Setup Complete`, 'positive');
+    showMessage('Heroes Lounge One Click Setup Complete', 'positive');
   }
   catch (e) {
     showMessage(`Heroes Lounge One Click Load failure: ${e}`, 'negative');

@@ -7,6 +7,9 @@ function record(r, format) {
   else if (format === 'wdl') {
     return `${r.win}-${r.draw}-${r.loss}`;
   }
+  else if (format === 'w') {
+    return `${r.win}`;
+  }
 
   return `${r.win}-${r.loss}`;
 }
