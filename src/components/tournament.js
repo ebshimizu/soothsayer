@@ -339,6 +339,14 @@ function getBracketData() {
     bracket.order = Brackets[bracket.format].order;
   }
 
+  const standings = getStandings();
+
+  // convert to team name key object
+  const logos = {};
+  for (let team of standings) {
+    logos[team.team] = team.logo;
+  }
+
   $('#tournament-bracket .column').each(function(i) {
     const round = {
       id: $(this).attr('bracket-id'),
@@ -347,6 +355,9 @@ function getBracketData() {
       team1Score: parseInt($(this).find('input[team-id="1"]').val()),
       team2Score: parseInt($(this).find('input[team-id="2"]').val()),
     };
+
+    round.team1Logo = logos[round.team1];
+    round.team2Logo = logos[round.team2];
 
     const winButton = $(this).find('.green.button');
     if (winButton.length > 0) {
