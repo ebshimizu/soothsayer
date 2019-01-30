@@ -123,27 +123,6 @@ function rankingRow(row, i) {
   `;
 }
 
-function renderStandings(data) {
-  if (!data) return;
-
-  const tbl = $('#tournament-standings table.celled tbody');
-  tbl.html('');
-
-  // sort standings
-  data.sort(function (a, b) {
-    if (a.place < b.place) return -1;
-
-    if (a.place > b.place) return 1;
-
-    return 0;
-  });
-
-  for (let i = 0; i < data.length; i++) {
-    const r = data[i];
-    tbl.append(rankingRow(r, i));
-  }
-}
-
 function renderBracket(data) {
   // so the dropdown is set from the render function, which then triggers this
   // if there's something in the tournament data
@@ -166,11 +145,6 @@ function renderBracket(data) {
       }
     }
   }
-}
-
-function render(data) {
-  renderStandings(data.standings);
-  renderBracket(data.bracket);
 }
 
 function getStandings() {
@@ -381,6 +355,39 @@ function getBracketData() {
   return bracket;
 }
 
+function renderStandings(data) {
+  if (!data) return;
+
+  const tbl = $('#tournament-standings table.celled tbody');
+  tbl.html('');
+
+  // sort standings
+  data.sort(function (a, b) {
+    if (a.place < b.place) return -1;
+
+    if (a.place > b.place) return 1;
+
+    return 0;
+  });
+
+  for (let i = 0; i < data.length; i++) {
+    const r = data[i];
+    tbl.append(rankingRow(r, i));
+  }
+
+  updateBracketDropdowns();
+}
+
+function render(data) {
+  renderStandings(data.standings);
+  renderBracket(data.bracket);
+}
+
+function resetBracket() {
+  appState.tournament.bracket = {};
+  updateBracketData($('#tournament-bracket-format').dropdown('get value'), $('#tournament-bracket-format').dropdown('get text'));
+}
+
 function init() {
   $('#tournament-standings .add.button').click(function () {
     $('#tournament-standings table.celled tbody').append(
@@ -433,6 +440,7 @@ function init() {
   });
 
   $(document).on('focusout', '#tournament-standings input[name="team"]', updateBracketDropdowns);
+  $('#bracket-reset').click(resetBracket);
 }
 
 function initWithState(state) {

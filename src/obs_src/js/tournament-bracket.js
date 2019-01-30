@@ -18,16 +18,22 @@ function bracketItem(item) {
 
   elem.attr('id', item.id);
   elem.find('.team.one .name').text(item.team1);
-  
+
   if (item.team1 !== '') {
     elem.find('.team.one .score').text(isNaN(item.team1Score) ? '' : item.team1Score);
-    setCSSImage(elem.find('.team.one .logo'), (item.team1Logo && item.team1Logo !== '') ? item.team1Logo : './images/default-logo.png');
+    setCSSImage(
+      elem.find('.team.one .logo'),
+      item.team1Logo && item.team1Logo !== '' ? item.team1Logo : './images/default-logo.png',
+    );
   }
 
   elem.find('.team.two .name').text(item.team2);
   if (item.team2 !== '') {
     elem.find('.team.two .score').text(isNaN(item.team2Score) ? '' : item.team2Score);
-    setCSSImage(elem.find('.team.two .logo'), (item.team2Logo && item.team2Logo !== '') ? item.team2Logo : './images/default-logo.png');
+    setCSSImage(
+      elem.find('.team.two .logo'),
+      item.team2Logo && item.team2Logo !== '' ? item.team2Logo : './images/default-logo.png',
+    );
   }
 
   if (item.winner === 1) {
@@ -66,14 +72,20 @@ class TournamentBracket {
     // final
     if ('Final' in this.bracket.rounds) {
       const final = this.bracket.rounds.Final;
-      
+
       if (final.winner === 1) {
         $('#bracket-winner .name').text(final.team1);
-        setCSSImage($('#bracket-winner .logo'), (final.team1Logo && final.team1Logo !== '') ? final.team1Logo : './images/default-logo.png');
+        setCSSImage(
+          $('#bracket-winner .logo'),
+          final.team1Logo && final.team1Logo !== '' ? final.team1Logo : './images/default-logo.png',
+        );
       }
       else if (final.winner === 2) {
         $('#bracket-winner .name').text(final.team2);
-        setCSSImage($('#bracket-winner .logo'), (final.team2Logo && final.team2Logo !== '') ? final.team2Logo : './images/default-logo.png');
+        setCSSImage(
+          $('#bracket-winner .logo'),
+          final.team2Logo && final.team2Logo !== '' ? final.team2Logo : './images/default-logo.png',
+        );
       }
       else {
         $('#bracket-winner .name').text('');
