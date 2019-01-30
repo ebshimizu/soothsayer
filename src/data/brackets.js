@@ -38,7 +38,7 @@ const RO8 = {
       title: 'Finals',
       winnerTo: null,
       loserTo: null,
-    }
+    },
   },
   order: [
     'QF1',
@@ -52,4 +52,32 @@ const RO8 = {
   name: 'Round of 8',
 };
 
+const RO4 = {
+  rounds: {
+    SF1: {
+      title: 'Semifinal 1',
+      winnerTo: 'Final.1',
+      loserTo: null,
+    },
+    SF2: {
+      title: 'Semifinal 2',
+      winnerTo: 'Final.2',
+      loserTo: null,
+    },
+    Final: {
+      title: 'Finals',
+      winnerTo: null,
+      loserTo: null,
+    },
+  },
+  order: [
+    'SF1',
+    'SF2',
+    'Final',
+  ],
+  name: 'Round of 4',
+};
+
+
 exports.RO8 = RO8;
+exports.RO4 = RO4;
