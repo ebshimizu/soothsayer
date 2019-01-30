@@ -222,15 +222,23 @@ function getStandingsSettings() {
   };
 }
 
-function toggleBracketWin(winner, id, format) {
-  const winTeam = $(
+function toggleBracketWin(winner, id, format, toggleOff) {
+  $(`#tournament-bracket .bracket-win[bracket-id="${id}"]`).removeClass('green');
+
+  let winTeam = $(
     `#tournament-bracket .bracket-team[bracket-id="${id}"][team-id="${winner}"]`,
   ).dropdown('get value');
+  
+  if (toggleOff)
+    winTeam = '';
 
   const lose = parseInt(winner) === 1 ? 2 : 1;
-  const loseTeam = $(
+  let loseTeam = $(
     `#tournament-bracket .bracket-team[bracket-id="${id}"][team-id="${lose}"]`,
   ).dropdown('get value');
+
+  if (toggleOff)
+    loseTeam = '';
 
   let winNext = Brackets[format].rounds[id].winnerTo;
   let loseNext = Brackets[format].rounds[id].loserTo;
@@ -249,8 +257,8 @@ function toggleBracketWin(winner, id, format) {
     ).dropdown('set exactly', loseTeam);
   }
 
-  $(`#tournament-bracket .bracket-win[bracket-id="${id}"]`).removeClass('green');
-  $(`#tournament-bracket .bracket-win[bracket-id="${id}"][team-id="${winner}"]`).addClass('green');
+  if (toggleOff === false)
+    $(`#tournament-bracket .bracket-win[bracket-id="${id}"][team-id="${winner}"]`).addClass('green');
 }
 
 function updateBracketDropdowns() {
@@ -421,7 +429,7 @@ function init() {
     const winner = $(this).attr('team-id');
     const id = $(this).attr('bracket-id');
     const format = $(this).attr('format');
-    toggleBracketWin(winner, id, format);
+    toggleBracketWin(winner, id, format, $(this).hasClass('green'));
   });
 
   $(document).on('focusout', '#tournament-standings input[name="team"]', updateBracketDropdowns);

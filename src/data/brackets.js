@@ -1,3 +1,6 @@
+// note that brackets should all have a Final round, which has some special last-case formatting
+// for the winner of that round.
+
 // round of 8
 const RO8 = {
   rounds: {
