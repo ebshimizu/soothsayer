@@ -456,6 +456,9 @@ function scanThemes(folder) {
         'folderName' in themeData
       ) {
         loadedThemes[themeData.name] = themeData;
+
+        // replace the theme folder in json with where we actually found the theme
+        loadedThemes[themeData.name].folderName = file;
       }
     }
   }
