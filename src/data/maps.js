@@ -76,9 +76,23 @@ const MapPools = {
       'VolskayaFoundry',
     ],
   },
+  SlashHeroesOpen1: {
+    name: '/heroes-open Season 1',
+    maps: [
+      'AlteracPass',
+      'BattlefieldOfEternity',
+      'CursedHollow',
+      'DragonShire',
+      'InfernalShrines',
+      'SkyTemple',
+      'TombOfTheSpiderQueen',
+      'TowersOfDoom',
+      'VolskayaFoundry',
+    ],
+  },
   All: {
     name: 'All Maps',
-    maps: Object.keys(Maps)
+    maps: Object.keys(Maps),
   },
 };
 
