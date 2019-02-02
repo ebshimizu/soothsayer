@@ -11,6 +11,8 @@ function tickerDropdown() {
         <div class="item" data-value="text">Plain Text</div>
         <div class="item" data-value="upcoming">Upcoming Match</div>
         <div class="item" data-value="recent">Recent Result</div>
+        <div class="item" data-value="link">Plain Text + Highlight</div>
+        <div class="item" data-value="image">Image</div>
       </div>
     </div>
   `;
@@ -51,6 +53,30 @@ function tickerItem(r, id) {
             <label>Plain Text</label>
             <div class="ui fluid input">
               <input type="text" name="ticker-subtitle" value="${r.text ? r.text : ''}">
+            </div>
+          </div>
+        </div>
+        <div class="link fields">
+          <div class="sixteen wide field">
+            <label>Highlight Text (at end of Text, or use {$1} to place)</label>
+            <div class="ui fluid input">
+              <input type="text" name="ticker-link" value="${r.link ? r.link : ''}">
+            </div>
+          </div>
+        </div>
+        <div class="image-type fields">
+          <div class="sixteen wide field">
+            <label>Image</label>
+            <div class="ui fluid action input">
+              <input type="text" name="ticker-general-image" value="${r.image ? r.image : ''}">
+              <div class="ui buttons">
+                <div class="ui right attached icon button browse" item-id="${id}">
+                  <i class="folder open icon"></i>
+                </div>
+                <div class="ui left attached icon button erase" item-id="${id}">
+                  <i class="eraser icon"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -167,6 +193,8 @@ function changeTickerMode(mode, id) {
   elem.find('.recent').hide();
   elem.find('.teams').hide();
   elem.find('.text-type').hide();
+  elem.find('.link').hide();
+  elem.find('.image-type').hide();
 
   if (mode === 'upcoming') {
     elem.find('.teams').show();
@@ -179,6 +207,15 @@ function changeTickerMode(mode, id) {
     elem.find('.recent').show();
     elem.find('input[name="ticker-cat"]').val('Recent Results');
     elem.find('h3').text('Recent Result');
+  }
+  else if (mode === 'link') {
+    elem.find('.link').show();
+    elem.find('.text-type').show();
+    elem.find('h3').text('Text with Highlight');
+  }
+  else if (mode === 'image') {
+    elem.find('.image-type').show();
+    elem.find('h3').text('Image');
   }
   else {
     elem.find('.text-type').show();
@@ -249,6 +286,8 @@ function getTickerItemData(elem) {
     twitch: getTickerInput(elem, 'ticker-twitch'),
     upcomingDate: getTickerInput(elem, 'ticker-upcoming-date'),
     text: getTickerInput(elem, 'ticker-subtitle'),
+    link: getTickerInput(elem, 'ticker-link'),
+    image: getTickerInput(elem, 'ticker-general-image'),
   };
 }
 

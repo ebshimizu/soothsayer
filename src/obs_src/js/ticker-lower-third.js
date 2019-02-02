@@ -121,6 +121,12 @@ class Ticker {
     else if (item.mode === 'recent') {
       return this.recentItem(item);
     }
+    else if (item.mode === 'link') {
+      return this.linkItem(item);
+    }
+    else if (item.mode === 'image') {
+      return this.imageItem(item);
+    }
   }
 
   textItem(item) {
@@ -224,6 +230,55 @@ class Ticker {
 
     return elem;
   }
+
+  linkItem(item) {
+    const elem = $(`
+      <div class="text link item">
+        <div class="bg"></div>
+        <div class="util-1"></div>
+        <div class="util-2"></div>
+        <div class="util-3"></div>
+        <div class="content">
+
+        </div>
+      </div>
+    `);
+
+    elem.find('.content').text(item.text);
+    let safeText = elem.find('.content').text();
+
+    // look for replacement string
+    if (safeText.indexOf('{$1}') >= 0) {
+      safeText = safeText.replace('{$1}', '<span class="link"></span>');
+      elem.find('.content').html(safeText);
+      elem.find('.content .link').text(item.link);
+    }
+    else {
+      const link = $('<span class="end link"></span>');
+      link.text(item.link);
+      elem.find('.content').append(link);
+    }
+
+    return elem;
+  }
+
+  imageItem(item) {
+    const elem = $(`
+      <div class="image item">
+        <div class="bg"></div>
+        <div class="util-1"></div>
+        <div class="util-2"></div>
+        <div class="util-3"></div>
+        <div class="content">
+          <div class="image"></div>
+        </div>
+      </div>
+    `);
+
+    setCSSImage(elem.find('.content .image'), item.image);
+    return elem;
+  }
+
 }
 
 $(document).ready(() => {
