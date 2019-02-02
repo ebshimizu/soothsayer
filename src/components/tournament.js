@@ -124,24 +124,26 @@ function rankingRow(row, i) {
 }
 
 function renderBracket(data) {
-  // so the dropdown is set from the render function, which then triggers this
-  // if there's something in the tournament data
-  // at this point, only the individual rounds need to be iterated
-  $(`#tournament-bracket .bracket-win`).removeClass('green');
+  if (data) {
+    // so the dropdown is set from the render function, which then triggers this
+    // if there's something in the tournament data
+    // at this point, only the individual rounds need to be iterated
+    $(`#tournament-bracket .bracket-win`).removeClass('green');
 
-  if (data.rounds) {
-    for (let r in data.rounds) {
-      // teams
-      $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="1"]`).dropdown('set exactly', data.rounds[r].team1);
-      $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="2"]`).dropdown('set exactly', data.rounds[r].team2);
+    if (data.rounds) {
+      for (let r in data.rounds) {
+        // teams
+        $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="1"]`).dropdown('set exactly', data.rounds[r].team1);
+        $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="2"]`).dropdown('set exactly', data.rounds[r].team2);
 
-      $(`#tournament-bracket input[bracket-id="${r}"][team-id="1"]`).val(data.rounds[r].team1Score);
-      $(`#tournament-bracket input[bracket-id="${r}"][team-id="2"]`).val(data.rounds[r].team2Score);
+        $(`#tournament-bracket input[bracket-id="${r}"][team-id="1"]`).val(data.rounds[r].team1Score);
+        $(`#tournament-bracket input[bracket-id="${r}"][team-id="2"]`).val(data.rounds[r].team2Score);
 
-      // winner
-      const winner = data.rounds[r].winner;
-      if (winner) {
-        $(`#tournament-bracket .bracket-win[bracket-id="${r}"][team-id="${winner}"]`).addClass('green');
+        // winner
+        const winner = data.rounds[r].winner;
+        if (winner) {
+          $(`#tournament-bracket .bracket-win[bracket-id="${r}"][team-id="${winner}"]`).addClass('green');
+        }
       }
     }
   }
