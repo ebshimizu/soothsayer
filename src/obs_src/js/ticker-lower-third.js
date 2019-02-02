@@ -168,10 +168,10 @@ class Ticker {
     elem.find('.twitch-handle').text(item.twitch);
 
     if (item.upcomingDate && item.upcomingDate !== '') {
-      elem.find('.date').text(
+      elem.find('.date').html(
         moment(item.upcomingDate)
           .tz(moment.tz.guess())
-          .format('MMM D, h:mma z'),
+          .format('[<span class="month">]MMM[</span>] [<span class="day">]D[</span>], [<span class="time">]h:mma[</span>] [<span class="zone">]z[</span>]'),
       );
     }
     elem.find('.blue.name').text(item.blueTeam);

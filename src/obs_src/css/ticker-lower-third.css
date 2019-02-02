@@ -4,3 +4,10 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
+.day,
+.time,
+.zone
+{
+  margin-left: 0.3em;
+}
