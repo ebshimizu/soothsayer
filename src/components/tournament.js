@@ -272,6 +272,7 @@ function createBracketUI(format, formatId) {
 function updateBracketData(value, text) {
   // delete bracket data
   $('#tournament-bracket').html('');
+  $('#tournament-bracket-header').text('No Bracket Loaded');
 
   if (value in Brackets) {
     // create ui elements
