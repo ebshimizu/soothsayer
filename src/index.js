@@ -24,6 +24,10 @@ ipcMain.on('checkUpdate', function () {
   autoUpdater.checkForUpdatesAndNotify();
 });
 
+ipcMain.on('installAndRelaunch', function () {
+  autoUpdater.quitAndInstall(true, true);
+});
+
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({

@@ -72,3 +72,7 @@ span.license.name {
   right: 10px;
   top: 5px;
 }
+
+#update-status.ready:hover {
+  cursor: pointer;
+}

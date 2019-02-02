@@ -63,8 +63,11 @@ ipcRenderer.on('updateReady', function (event, message) {
   $('#update-status')
     .removeClass('blue')
     .addClass('teal');
-  $('#update-status').text('Update Ready. Close app to update.');
-  showMessage('Update Ready. Close app to update');
+  $('#update-status').text('Update Ready. Click this message to install and relaunch.').addClass('ready');
+
+  // only add the binding when it's ready
+  $('#update-status').click(() => ipcRenderer.send('installAndRelaunch'));
+  showMessage('Update Ready. Click to install and relaunch, or close app to update');
 });
 
 ipcRenderer.on('updateNotify', function (event, version) {
@@ -244,5 +247,6 @@ $(document).ready(() => {
   initGlobal();
   // loadGameUI();
   // initApp();
+
   ipcRenderer.send('checkUpdate');
 });
