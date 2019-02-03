@@ -119,101 +119,110 @@ function extractTheme(theme, url) {
   setDownloadThemeMessage('Extracting Theme', `Downloaded theme to ${theme}. Extracting...`);
   const tmpDir = path.join(app.getPath('userData'), 'theme-tmp');
 
-  fs.emptyDir(tmpDir, function (err) {
-    if (err) {
-      console.log(err);
-      setDownloadThemeMessage(
-        'Error Extracting Theme',
-        `Unable to clean temporary storage location. ${err}.`,
-      );
-      endDownloadModal(false);
-      return;
-    }
-
-    extract(theme, { dir: tmpDir }, function (err) {
+  try {
+    fs.emptyDir(tmpDir, function (err) {
       if (err) {
         console.log(err);
-        setDownloadThemeMessage('Error Extracting Theme', `File might not be a ZIP. ${err}.`);
+        setDownloadThemeMessage(
+          'Error Extracting Theme',
+          `Unable to clean temporary storage location. ${err}.`,
+        );
         endDownloadModal(false);
         return;
       }
 
-      // inspect files
-      const expectedThemeFile = path.join(tmpDir, 'theme.json');
-      console.log(`Checking manifest ${expectedThemeFile}`);
+      extract(theme, { dir: tmpDir }, function (err) {
+        if (err) {
+          console.log(err);
+          setDownloadThemeMessage('Error Extracting Theme', `File might not be a ZIP. ${err}.`);
+          endDownloadModal(false);
+          return;
+        }
 
-      if (fs.existsSync(expectedThemeFile)) {
-        const themeData = fs.readJsonSync(expectedThemeFile, { throws: false });
+        // inspect files
+        const expectedThemeFile = path.join(tmpDir, 'theme.json');
+        console.log(`Checking manifest ${expectedThemeFile}`);
 
-        // check for required themes
-        if (
-          'name' in themeData &&
-          'version' in themeData &&
-          'author' in themeData &&
-          'folderName' in themeData
-        ) {
-          console.log('Copying folder to theme directory');
-          const dest = path.join(appState.theme.themeFolder, themeData.folderName);
+        if (fs.existsSync(expectedThemeFile)) {
+          const themeData = fs.readJsonSync(expectedThemeFile, { throws: false });
 
-          // clear directory for clean install
-          console.log(`Emptying ${dest}`);
-          fs.emptyDir(dest, function (err) {
-            if (err) {
-              console.log(err);
-              setDownloadThemeMessage(
-                'Error Extracting Theme',
-                `Unable to empty existing theme folder ${dest}.`,
-              );
-              endDownloadModal(false);
-              return;
-            }
+          // check for required themes
+          if (
+            'name' in themeData &&
+            'version' in themeData &&
+            'author' in themeData &&
+            'folderName' in themeData
+          ) {
+            console.log('Copying folder to theme directory');
+            const dest = path.join(appState.theme.themeFolder, themeData.folderName);
 
-            // copy
-            fs.copy(tmpDir, dest, {}, function (err) {
+            // clear directory for clean install
+            console.log(`Emptying ${dest}`);
+            fs.emptyDir(dest, function (err) {
               if (err) {
                 console.log(err);
                 setDownloadThemeMessage(
                   'Error Extracting Theme',
-                  'Unable to copy theme to theme folder. Check console for details.',
+                  `Unable to empty existing theme folder ${dest}.`,
                 );
                 endDownloadModal(false);
                 return;
               }
 
-              setDownloadThemeMessage(
-                `Installed ${themeData.name} v${themeData.version}`,
-                `Installed to ${dest}.`,
-              );
-              endDownloadModal(true);
-              scanThemes(appState.theme.themeFolder);
+              // copy
+              fs.copy(tmpDir, dest, {}, function (err) {
+                if (err) {
+                  console.log(err);
+                  setDownloadThemeMessage(
+                    'Error Extracting Theme',
+                    'Unable to copy theme to theme folder. Check console for details.',
+                  );
+                  endDownloadModal(false);
+                  return;
+                }
 
-              // cache url somewhere
-              let themeCache = settings.get('themeCache');
-              if (!themeCache) {
-                themeCache = {};
-              }
-              themeCache[themeData.name] = url;
-              settings.set('themeCache', themeCache);
+                setDownloadThemeMessage(
+                  `Installed ${themeData.name} v${themeData.version}`,
+                  `Installed to ${dest}.`,
+                );
+                endDownloadModal(true);
+                scanThemes(appState.theme.themeFolder);
+
+                // cache url somewhere
+                let themeCache = settings.get('themeCache');
+                if (!themeCache) {
+                  themeCache = {};
+                }
+                themeCache[themeData.name] = url;
+                settings.set('themeCache', themeCache);
+              });
             });
-          });
+          }
+          else {
+            setDownloadThemeMessage(
+              'Error Extracting Theme',
+              `File ${expectedThemeFile} is missing one or more of the required fields: name, version, author, folderName`,
+            );
+            endDownloadModal(false);
+          }
         }
         else {
           setDownloadThemeMessage(
             'Error Extracting Theme',
-            `File ${expectedThemeFile} is missing one or more of the required fields: name, version, author, folderName`,
+            'Unable to find theme.json manifest in downloaded archive.',
           );
           endDownloadModal(false);
         }
-      }
-      else {
-        setDownloadThemeMessage(
-          'Error Extracting Theme',
-          'Unable to find theme.json manifest in downloaded archive.',
-        );
-        endDownloadModal(false);
-      }
+      });
     });
-  });
+  }
+  catch (e) {
+    setDownloadThemeMessage(
+      'Error Extracting Theme',
+      `${e}`,
+    );
+    endDownloadModal(false);
+  }
 }
 
 function downloadTheme() {
@@ -255,30 +264,35 @@ function downloadTheme() {
 }
 
 function startThemeDownload(presetURL) {
-  // show modal
-  $('#download-theme-modal .actions').show();
-  $('#download-theme-modal .message')
-    .removeClass('positive negative')
-    .hide();
-  $('#download-theme-modal .labeled.input').removeClass('disabled');
-  $('#download-theme-modal .done.button').hide();
+  // show modal if theme folder exists
+  if (fs.existsSync(appState.theme.themeFolder)) {
+    $('#download-theme-modal .actions').show();
+    $('#download-theme-modal .message')
+      .removeClass('positive negative')
+      .hide();
+    $('#download-theme-modal .labeled.input').removeClass('disabled');
+    $('#download-theme-modal .done.button').hide();
 
-  if (typeof presetURL === 'string') {
-    $('#theme-download-url').val(presetURL);
+    if (typeof presetURL === 'string') {
+      $('#theme-download-url').val(presetURL);
+    }
+    else {
+      $('#theme-download-url').val('');
+    }
+
+    $('#download-theme-modal')
+      .modal({
+        closable: false,
+        onDeny() {
+          return true;
+        },
+        onApprove: downloadTheme,
+      })
+      .modal('show');
   }
   else {
-    $('#theme-download-url').val('');
+    showMessage('Error: Theme downloads disabled. Theme directory is not set or does not exist. Please set a folder before downloading a theme.', 'error');
   }
-
-  $('#download-theme-modal')
-    .modal({
-      closable: false,
-      onDeny() {
-        return true;
-      },
-      onApprove: downloadTheme,
-    })
-    .modal('show');
 }
 
 function browseThemeFolder() {
