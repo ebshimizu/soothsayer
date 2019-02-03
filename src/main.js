@@ -244,7 +244,12 @@ $(document).ready(() => {
   // createReplayWatcher();
   // $('.bg-dev-tools-button').click(() => bgWindow.webContents.openDevTools());
 
-  initGlobal();
+  try {
+    initGlobal();
+  }
+  catch (e) {
+    showMessage(`App initialization failed. Please file a bug report. ${e}`, 'error');
+  }
   // loadGameUI();
   // initApp();
 

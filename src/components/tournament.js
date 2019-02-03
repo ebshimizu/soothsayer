@@ -449,29 +449,36 @@ function init() {
 function initWithState(state) {
   appState = state;
 
-  if (appState.tournament.standingsSettings) {
-    const standingMode = appState.tournament.standingsSettings.mode;
-    $('#tournament-standing-format').dropdown('set exactly', standingMode);
-    $('#tournament-standing-limit input').val(appState.tournament.standingsSettings.limit);
+  try {
+    if (appState.tournament.standingsSettings) {
+      const standingMode = appState.tournament.standingsSettings.mode;
+      $('#tournament-standing-format').dropdown('set exactly', standingMode);
+      $('#tournament-standing-limit input').val(appState.tournament.standingsSettings.limit);
 
-    if (appState.tournament.standingsSettings.recordFormat) {
-      $('#tournament-standing-record-format').dropdown(
-        'set exactly',
-        appState.tournament.standingsSettings.recordFormat,
-      );
+      if (appState.tournament.standingsSettings.recordFormat) {
+        $('#tournament-standing-record-format').dropdown(
+          'set exactly',
+          appState.tournament.standingsSettings.recordFormat,
+        );
+      }
+      else {
+        $('#tournament-standing-record-format').dropdown('set exactly', 'wl');
+      }
+
+      if (appState.tournament.bracket && appState.tournament.bracket.format) {
+        $('#tournament-bracket-format').dropdown('set exactly', appState.tournament.bracket.format);
+      }
+      else {
+        $('#tournament-bracket-format').dropdown('set exactly', 'none');
+      }
     }
     else {
+      $('#tournament-standing-format').dropdown('set exactly', 'cycle');
       $('#tournament-standing-record-format').dropdown('set exactly', 'wl');
     }
-
-    if (appState.tournament.bracket.format) {
-      $('#tournament-bracket-format').dropdown('set exactly', appState.tournament.bracket.format);
-    }
-    else {
-      $('#tournament-bracket-format').dropdown('set exactly', 'none');
-    }
   }
-  else {
+  catch (e) {
+    showMessage(`Tournament Data intialization failed. Proceeding with defaults. ${e}`, 'warning');
     $('#tournament-standing-format').dropdown('set exactly', 'cycle');
     $('#tournament-standing-record-format').dropdown('set exactly', 'wl');
   }
