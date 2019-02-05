@@ -74,6 +74,12 @@ function createUI() {
           </div>
         </div>
       </div>
+      <div class="ui four wide field">
+        <label>Div S Ticker</label>
+        <div class="ui fluid green button" id="heroes-lounge-divs-ticker">
+          Load Div S Ticker
+        </div>
+      </div>
     </div>
   </div>
   `;
@@ -748,6 +754,44 @@ async function getDivSStandings(headingID) {
   $('.data-grab-option .button').removeClass('disabled loading');
 }
 
+async function loadDivSTicker() {
+  $('.data-grab-option .button').addClass('disabled loading');
+
+  const upcoming = await heroesLoungeLoadUpcoming();
+
+  // reformat recent data into ticker items
+  let items = [
+    {
+      order: 1,
+      mode: 'link',
+      category: 'Heroes Lounge Division S',
+      text: 'Play Heroes of the Storm the way it\'s meant to be played: ',
+      link: 'heroeslounge.gg',
+    },
+    {
+      order: 2,
+      mode: 'link',
+      category: 'Heroes Lounge Division S',
+      text: 'Contribute to the prize pool: ',
+      link: 'crowdfunding.heroeslounge.gg',
+    },
+    {
+      order: 3,
+      mode: 'link',
+      category: 'Heroes Lounge Division S',
+      text: 'Check the latest standings on ',
+      link: 'heroeslounge.gg/divisionS/standings',
+    }
+  ];
+
+  items = items.concat(upcoming);
+
+  appState.setTickerItems(items);
+  appState.updateAndBroadcastTicker();
+
+  $('.data-grab-option .button').removeClass('disabled loading');
+}
+
 function bind(state) {
   appState = state;
 
@@ -759,6 +803,7 @@ function bind(state) {
   $('#heroes-lounge-magic-slugs').click(() => heroesLoungeOneClick('slug'));
   $('#heroes-lounge-divs-standings-na').click(() => getDivSStandings('StandingsNA'));
   $('#heroes-lounge-divs-standings-eu').click(() => getDivSStandings('StandingsEU'));
+  $('#heroes-lounge-divs-ticker').click(loadDivSTicker);
   heroesLoungeInitDropdowns();
 }
 
