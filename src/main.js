@@ -29,7 +29,7 @@ const ipc = require('electron').ipcRenderer;
 // global for debug
 let appState;
 let bgWindow;
-let suppressMessages = true;
+let suppressMessages = false;
 
 // hey so we're gonna stick heroes talents in the global window state because reasons
 window.heroesTalents = new HeroesTalents(
@@ -192,7 +192,6 @@ function initGlobal() {
   DataSource.Init();
 
   initGameLoad();
-  suppressMessages = false;
 }
 
 // game name provided in case game specific init needs to happen later
