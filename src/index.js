@@ -1,9 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let showExitPrompt = true;
 
 autoUpdater.on('checking-for-update', function () {
   mainWindow.webContents.send('updateStatus', 'Checking for Update...');
@@ -26,6 +27,10 @@ ipcMain.on('checkUpdate', function () {
 
 ipcMain.on('installAndRelaunch', function () {
   autoUpdater.quitAndInstall(true, true);
+});
+
+ipcMain.on('showExitPrompt', function (event, val) {
+  showExitPrompt = val;
 });
 
 const createWindow = () => {
@@ -62,6 +67,22 @@ const createWindow = () => {
     }
   });
 
+  mainWindow.on('close', (e) => {
+    if (showExitPrompt) {
+      e.preventDefault(); // Prevents the window from closing 
+      dialog.showMessageBox({
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        title: 'Exit Soothsayer',
+        message: 'Are you sure you want to quit Soothsayer?',
+      }, function (response) {
+          if (response === 0) { // Runs the following if 'Yes' is clicked
+            showExitPrompt = false;
+            mainWindow.close();
+          }
+      });
+    }
+  });
 };
 
 // This method will be called when Electron has finished

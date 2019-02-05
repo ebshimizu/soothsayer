@@ -74,6 +74,15 @@
           </div>
         </div>
         <div class="ui segment">
+          <h2 class="ui dividing header">App Settings</h2>
+          <div class="ui form">
+            <div class="four wide field">
+              <label>Confirm On Exit</label>
+              <div class="ui fluid button" id="confirm-on-exit">Off</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui segment">
           <h2 class="ui dividing header">Theme</h2>
           <div class="ui info message">
             <div class="content">
@@ -309,6 +318,13 @@
       <div class="actions">
         <div class="ui green approve button">Download</div>
         <div class="ui red cancel button">Cancel</div>
+      </div>
+    </div>
+    <div class="ui basic modal" id="quit-confirm">
+      <div class="header">Are you sure you want to quit?</div>
+      <div class="actions">
+        <div class="ui approve button">Yes</div>
+        <div class="ui cancel button">No</div>
       </div>
     </div>
   </body>

@@ -126,6 +126,31 @@ function createReplayWatcher() {
   bgWindow.loadURL(bgPath);
 }
 
+function initConfirmOnExit() {
+  const coe = settings.get('confirmOnExit');
+
+  if (coe === true) {
+    $('#confirm-on-exit').addClass('green').text('On');
+  }
+
+  ipcRenderer.send('showExitPrompt', coe === true);
+
+  $('#confirm-on-exit').click(function () {
+    $(this).toggleClass('green');
+
+    if ($(this).hasClass('green')) {
+      ipcRenderer.send('showExitPrompt', true);
+      $(this).text('On');
+      settings.set('confirmOnExit', true);
+    }
+    else {
+      ipcRenderer.send('showExitPrompt', false);
+      $(this).text('Off');
+      settings.set('confirmOnExit', false);
+    }
+  });
+}
+
 // run once
 function initGlobal() {
   $('.app-version').text(appVersion);
@@ -251,6 +276,9 @@ $(document).ready(() => {
   }
   // loadGameUI();
   // initApp();
+
+  // app settings (not state related)
+  initConfirmOnExit();
 
   ipcRenderer.send('checkUpdate');
 });
