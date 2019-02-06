@@ -170,6 +170,16 @@ async function heroesLoungeGetTeamFull(type) {
             names.push(player.battle_tag.substring(0, player.battle_tag.indexOf('#')));
           }
 
+          for (let i = 0; i < 5; i += 1) {
+            if (p1.length > i) {
+              $(`input[name="blue-p${i + 1}-name"]`).val(p1[i].battle_tag.substring(0, p1[i].battle_tag.indexOf('#')));
+            }
+
+            if (p2.length > i) {
+              $(`input[name="red-p${i + 1}-name"]`).val(p2[i].battle_tag.substring(0, p2[i].battle_tag.indexOf('#')));
+            }
+          }
+
           $('#player-pool').val(names.join('\n'));
           $('#player-pool').focusout();
           showMessage(
