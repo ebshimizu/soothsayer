@@ -338,7 +338,8 @@ body#map-list-only
 
 .map-select-header,
 .picked-by .name,
-.winner .name
+.winner .name,
+.status.win
 {
   display: none;
 }

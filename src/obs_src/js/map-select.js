@@ -4,7 +4,7 @@ const socket = io('http://localhost:3005/');
 class MapSelect {
   constructor(variant) {
     this.name = `Map Draft - ${variant}`;
-    this.tileClasses = 'blue-pick blue-ban red-pick red-ban';
+    this.tileClasses = 'blue-pick blue-ban red-pick red-ban red-win blue-win';
     this.pool = [];
   }
 
@@ -35,7 +35,7 @@ class MapSelect {
     // picks
     for (let g of state.match.games) {
       if (g.map in Maps && g.pick !== '') {
-        this.setTileState(Maps[g.map].classname, `${g.pick}-pick`);
+        this.setTileState(Maps[g.map].classname, `${g.pick}-pick ${g.win !== '' ? `${g.win}-win` : ''}`);
       }
     }
 
@@ -78,7 +78,7 @@ class MapSelect {
     }
   }
 
-  createMapTile(classname,) {
+  createMapTile(classname) {
     return `
       <div class="${classname} map-grid-item">
         <div class="map-tile"></div>
@@ -90,6 +90,11 @@ class MapSelect {
         <div class="status ban">
           <div class="text">
             <div class="text-item">BAN</div>
+          </div>
+        </div>
+        <div class="status win">
+          <div class="text">
+            <div class="text-item">WIN</div>
           </div>
         </div>
       </div>
