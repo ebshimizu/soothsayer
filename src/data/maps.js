@@ -90,6 +90,20 @@ const MapPools = {
       'VolskayaFoundry',
     ],
   },
+  NGSS6: {
+    name: 'NGS Season 6',
+    maps: [
+      'AlteracPass',
+      'BraxisHoldout',
+      'CursedHollow',
+      'DragonShire',
+      'InfernalShrines',
+      'SkyTemple',
+      'TombOfTheSpiderQueen',
+      'TowersOfDoom',
+      'VolskayaFoundry',
+    ],
+  },
   All: {
     name: 'All Maps',
     maps: Object.keys(Maps),
