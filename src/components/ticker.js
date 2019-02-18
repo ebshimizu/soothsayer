@@ -238,6 +238,10 @@ function addItem(data, id) {
   elem.find('.button[name="delete"]').click(() => {
     $(`#ticker-items .ticker-item[item-id="${id}"]`).remove();
   });
+
+  if (data.category) {
+    elem.find('input[name="ticker-cat"]').val(data.category);
+  }
 }
 
 function clearItems() {

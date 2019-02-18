@@ -132,6 +132,10 @@ class TournamentStandings {
       $('#topn-table').prepend('<div class="alt row">All Teams</div>');
     }
 
+    if (this.format === 'w') {
+      $('.standings-table').find('.field.record').text('Points');
+    }
+
     // top n
     let zoomIdx = 0;
     for (let i = 0; i < state.tournament.standings.length; i++) {

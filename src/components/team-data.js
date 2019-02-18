@@ -120,7 +120,7 @@ function updatePlayerPoolMenus() {
 
   if (pool) {
     const values = [];
-    const names = pool.split('\n').sort();
+    const names = pool.split('\n');
     for (let n of names) {
       if (n !== '') {
         values.push({

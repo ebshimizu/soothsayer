@@ -105,7 +105,7 @@ function loadSection(name, text, elem) {
   $('#operate-mode').html(markup);
   initApp(name);
   settings.set('currentGame', name);
-  showMessage(`Loaded controls for ${text} (id: ${name})`, 'positive');
+  //showMessage(`Loaded controls for ${text} (id: ${name})`, 'positive');
 }
 
 // check settings, set game.
