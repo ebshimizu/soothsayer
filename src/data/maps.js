@@ -94,7 +94,7 @@ const MapPools = {
     name: 'NGS Season 6',
     maps: [
       'AlteracPass',
-      'BraxisHoldout',
+      'BattlefieldOfEternity',
       'CursedHollow',
       'DragonShire',
       'InfernalShrines',
