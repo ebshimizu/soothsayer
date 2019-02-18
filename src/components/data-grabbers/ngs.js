@@ -201,7 +201,10 @@ async function loadStandings(divID) {
     const division = divisions[divID];
 
     try {
-      showMessage(`NGS: Attempting to load standings for division ${division.displayName}...`, 'info');
+      showMessage(
+        `NGS: Attempting to load standings for division ${division.displayName}...`,
+        'info',
+      );
 
       const standReq = await fetch(`${baseURL}/standings/get/division`, {
         method: 'POST',
@@ -215,11 +218,9 @@ async function loadStandings(divID) {
       });
       let standings = await standReq.json();
       standings = standings.returnObject.sort(function (a, b) {
-        if (a.standing < b.standing)
-          return -1;
-        if (a.standing > b.standing)
-          return 1;
-        
+        if (a.standing < b.standing) return -1;
+        if (a.standing > b.standing) return 1;
+
         return 0;
       });
 
@@ -233,7 +234,10 @@ async function loadStandings(divID) {
       $('#tournament-standing-record-format').dropdown('set exactly', 'w');
 
       showMessage(`NGS: Loaded standings for division ${division.displayName}`, 'positive');
-      showMessage(`NGS: Attempting to resolve logos for division ${division.displayName} standings...`, 'info');
+      showMessage(
+        `NGS: Attempting to resolve logos for division ${division.displayName} standings...`,
+        'info',
+      );
 
       try {
         // logo resolution
@@ -290,10 +294,8 @@ function scanRecentResults(divSlug, matchList, count = 5) {
 
   // compute top 5, sort based on start time (integer)
   relevantMatches.sort(function (a, b) {
-    if (parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime))
-      return -1;
-    if (parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime))
-      return 1;
+    if (parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime)) return -1;
+    if (parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime)) return 1;
 
     return 0;
   });
@@ -303,11 +305,9 @@ function scanRecentResults(divSlug, matchList, count = 5) {
     match.blueScore = 0;
     match.redScore = 0;
 
-    for (let key in match.other) {
-      if (match.other[key].winner === 'home')
-        match.blueScore += 1;
-      else if (match.other[key].winner === 'away')
-        match.redScore += 1;
+    for (const key in match.other) {
+      if (match.other[key].winner === 'home') match.blueScore += 1;
+      else if (match.other[key].winner === 'away') match.redScore += 1;
     }
   }
 
@@ -381,7 +381,9 @@ async function loadTicker(divID) {
         category: 'Upcoming Matches',
         mode: 'upcoming',
         twitch: c.twitch,
-        upcomingDate: moment(parseInt(c.scheduledTime.startTime)).local().format('YYYY-MM-DD[T]HH:mm'),
+        upcomingDate: moment(parseInt(c.scheduledTime.startTime))
+          .local()
+          .format('YYYY-MM-DD[T]HH:mm'),
       });
     }
 
@@ -400,13 +402,20 @@ async function loadAll() {
     try {
       const match = matches[matchID];
 
-      showMessage(`NGS: Loading all data for match ${$('#ngs-match').dropdown('get text')}`, 'info');
+      showMessage(
+        `NGS: Loading all data for match ${$('#ngs-match').dropdown('get text')}`,
+        'info',
+      );
 
       appState.clearTournamentData();
 
       const divID = $('#ngs-division').dropdown('get value');
 
-      $('#tournament-name').val(`NGS Season ${seasonID} | ${divID in divisions ? `${divisions[divID].displayName} Division` : ''}`);
+      $('#tournament-name').val(
+        `NGS Season ${seasonID} | ${
+          divID in divisions ? `${divisions[divID].displayName} Division` : ''
+        }`,
+      );
 
       // team names + logo
       $('#team-blue-name').val(match.home.teamName);
@@ -455,7 +464,10 @@ async function loadAll() {
         $('#player-pool').val(allMembers.join('\n'));
       }
       catch (e) {
-        showMessage(`NGS: Warning: failed to load team roster, proceeding with data load. ${e}`, 'warning');
+        showMessage(
+          `NGS: Warning: failed to load team roster, proceeding with data load. ${e}`,
+          'warning',
+        );
       }
 
       // standings
