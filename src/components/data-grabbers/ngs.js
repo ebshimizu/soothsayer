@@ -5,7 +5,6 @@ let divisions = {};
 let matches = {};
 const seasonID = 6;
 
-// debug
 const baseURL = 'https://www.nexusgamingseries.org';
 const imageURL = 'https://s3.amazonaws.com/ngs-image-storage';
 const defaultTeamLogo = 'https://s3.amazonaws.com/ngs-image-storage/defaultTeamLogo.png';
