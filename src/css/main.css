@@ -1,6 +1,7 @@
 .contained.tab.segment {
   overflow-y: auto;
   height: calc(100vh - 152px);
+  width: 100%;
 }
 
 #match-data-clear {

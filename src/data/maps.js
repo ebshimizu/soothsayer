@@ -62,19 +62,20 @@ const Maps = {
 };
 
 const MapPools = {
-  HGC2018: {
-    name: 'HGC 2018',
+  HeroesLounge: {
+    name: 'HL EU9/NA2/Div S1',
     maps: [
       'BattlefieldOfEternity',
-      'BraxisHoldout',
-      'CursedHollow',
-      'DragonShire',
       'InfernalShrines',
-      'SkyTemple',
-      'TombOfTheSpiderQueen',
-      'TowersOfDoom',
       'VolskayaFoundry',
-    ],
+      'DragonShire',
+      'TombOfTheSpiderQueen',
+      'SkyTemple',
+      'CursedHollow',
+      'TowersOfDoom',
+      'AlteracPass',
+      'GardenOfTerror',
+    ]
   },
   SlashHeroesOpen1: {
     name: '/heroes-open Season 1',
@@ -95,6 +96,20 @@ const MapPools = {
     maps: [
       'AlteracPass',
       'BattlefieldOfEternity',
+      'CursedHollow',
+      'DragonShire',
+      'InfernalShrines',
+      'SkyTemple',
+      'TombOfTheSpiderQueen',
+      'TowersOfDoom',
+      'VolskayaFoundry',
+    ],
+  },
+  HGC2018: {
+    name: 'HGC 2018',
+    maps: [
+      'BattlefieldOfEternity',
+      'BraxisHoldout',
       'CursedHollow',
       'DragonShire',
       'InfernalShrines',
