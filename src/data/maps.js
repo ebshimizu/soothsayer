@@ -75,7 +75,7 @@ const MapPools = {
       'TowersOfDoom',
       'AlteracPass',
       'GardenOfTerror',
-    ]
+    ],
   },
   SlashHeroesOpen1: {
     name: '/heroes-open Season 1',
