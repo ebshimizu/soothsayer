@@ -64,7 +64,7 @@ function createUI() {
     <h3 class="ui dividing header">Div S Only</h3>
     <div class="fields">
       <div class="ui four wide field">
-        <label>Division S Qualifier Standings</label>
+        <label>Division S Standings</label>
         <div class="ui fluid green buttons">
           <div class="ui left attached green button" id="heroes-lounge-divs-standings-eu">
             Load EU
@@ -172,11 +172,15 @@ async function heroesLoungeGetTeamFull(type) {
 
           for (let i = 0; i < 5; i += 1) {
             if (p1.length > i) {
-              $(`input[name="blue-p${i + 1}-name"]`).val(p1[i].battle_tag.substring(0, p1[i].battle_tag.indexOf('#')));
+              $(`input[name="blue-p${i + 1}-name"]`).val(
+                p1[i].battle_tag.substring(0, p1[i].battle_tag.indexOf('#')),
+              );
             }
 
             if (p2.length > i) {
-              $(`input[name="red-p${i + 1}-name"]`).val(p2[i].battle_tag.substring(0, p2[i].battle_tag.indexOf('#')));
+              $(`input[name="red-p${i + 1}-name"]`).val(
+                p2[i].battle_tag.substring(0, p2[i].battle_tag.indexOf('#')),
+              );
             }
           }
 
@@ -203,7 +207,7 @@ async function heroesLoungeGetTeamFull(type) {
   return teams;
 }
 
-async function heroesLoungeLoadStandingsForDiv(season, div, seasonId) {
+async function heroesLoungeLoadStandingsForDiv(season, div, seasonId, divId) {
   if (!appState) {
     showMessage('App is not initialized yet. Please wait a moment before trying again.');
     return;
@@ -225,7 +229,11 @@ async function heroesLoungeLoadStandingsForDiv(season, div, seasonId) {
       const standingsRows = $(page).find('table.table.table-striped.table-sm tbody tr');
 
       // attempt team logos
-      const teamListReq = await fetch(`http://heroeslounge.gg/api/v1/seasons/${seasonId}/teams`);
+      const teamURL =
+        seasonId === null
+          ? `http://heroeslounge.gg/api/v1/divisions/${divId}/teams`
+          : `http://heroeslounge.gg/api/v1/seasons/${seasonId}/teams`;
+      const teamListReq = await fetch(teamURL);
       const teamList = await teamListReq.json();
 
       // convert to object keyed on team names
@@ -775,7 +783,7 @@ async function loadDivSTicker() {
       order: 1,
       mode: 'link',
       category: 'Heroes Lounge Division S',
-      text: 'Play Heroes of the Storm the way it\'s meant to be played: ',
+      text: "Play Heroes of the Storm the way it's meant to be played: ",
       link: 'heroeslounge.gg',
     },
     {
@@ -791,7 +799,7 @@ async function loadDivSTicker() {
       category: 'Heroes Lounge Division S',
       text: 'Check the latest standings on ',
       link: 'heroeslounge.gg/divisionS/standings',
-    }
+    },
   ];
 
   items = items.concat(upcoming);
@@ -811,8 +819,12 @@ function bind(state) {
   $('#heroes-lounge-get-recent').click(heroesLoungeLoadTicker);
   $('#heroes-lounge-magic').click(() => heroesLoungeOneClick('title'));
   $('#heroes-lounge-magic-slugs').click(() => heroesLoungeOneClick('slug'));
-  $('#heroes-lounge-divs-standings-na').click(() => getDivSStandings('StandingsNA'));
-  $('#heroes-lounge-divs-standings-eu').click(() => getDivSStandings('StandingsEU'));
+  $('#heroes-lounge-divs-standings-na').click(() =>
+    heroesLoungeLoadStandingsForDiv('na-division-s-season-1', 'na-division-s-season-1', null, 105),
+  );
+  $('#heroes-lounge-divs-standings-eu').click(() =>
+    heroesLoungeLoadStandingsForDiv('eu-division-s-season-1', 'eu-division-s-season-1', null, 104),
+  );
   $('#heroes-lounge-divs-ticker').click(loadDivSTicker);
   heroesLoungeInitDropdowns();
 }
