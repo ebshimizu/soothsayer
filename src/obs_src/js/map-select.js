@@ -1,4 +1,3 @@
-
 const socket = io('http://localhost:3005/');
 
 class MapSelect {
@@ -11,13 +10,13 @@ class MapSelect {
   ID() {
     return {
       name: this.name,
-    }
+    };
   }
 
   // changes up the state n stuff
   updateState(state) {
     // check for map pool changes
-    if (!sameMembers(this.pool, state.match.mapPool)) {
+    if (state.match.mapPool && !sameMembers(this.pool, state.match.mapPool)) {
       this.updateMapPool(state.match.mapPool);
     }
 
@@ -26,16 +25,31 @@ class MapSelect {
     // bans
     $('.map-grid-item').removeClass(this.tileClasses);
 
-    if (state.match.blueMapBan in Maps)
-      this.setTileState(Maps[state.match.blueMapBan].classname, 'blue-ban');
+    if (state.match.blueMapBan) {
+      const blueBans = state.match.blueMapBan.split(',');
+      for (const m of blueBans) {
+        if (m in Maps) {
+          this.setTileState(Maps[m].classname, 'blue-ban');
+        }
+      }
+    }
 
-    if (state.match.redMapBan in Maps)
-      this.setTileState(Maps[state.match.redMapBan].classname, 'red-ban');
+    if (state.match.redMapBan) {
+      const redBans = state.match.redMapBan.split(',');
+      for (const m of redBans) {
+        if (m in Maps) {
+          this.setTileState(Maps[m].classname, 'red-ban');
+        }
+      }
+    }
 
     // picks
-    for (let g of state.match.games) {
+    for (const g of state.match.games) {
       if (g.map in Maps && g.pick !== '') {
-        this.setTileState(Maps[g.map].classname, `${g.pick}-pick ${g.win !== '' ? `${g.win}-win` : ''}`);
+        this.setTileState(
+          Maps[g.map].classname,
+          `${g.pick}-pick ${g.win !== '' ? `${g.win}-win` : ''}`,
+        );
       }
     }
 
@@ -60,13 +74,16 @@ class MapSelect {
   }
 
   updateMapPool(pool) {
+    if (!pool) return;
+
     this.pool = pool;
 
     // delete all map tiles
     $('.map-grid-item').remove();
 
     // given array of maps
-    for (let map of pool) {
+
+    for (const map of pool) {
       $('.map-grid-container').append(this.createMapTile(Maps[map].classname));
     }
 
@@ -128,11 +145,16 @@ class MapSelect {
   }
 
   setBannerState(state, game, index) {
-    let elem = $(`.map-select-row[game-number="${index}"]`);
+    const elem = $(`.map-select-row[game-number="${index}"]`);
 
     if (game.pick === 'red' || game.pick === 'blue') {
-      setCSSImage(elem.find('.picked-by .banner-team-logo'), game.pick === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
-      elem.find('.picked-by .name').text(game.pick === 'blue' ? state.blueTeam.name : state.redTeam.name);
+      setCSSImage(
+        elem.find('.picked-by .banner-team-logo'),
+        game.pick === 'blue' ? state.blueTeam.logo : state.redTeam.logo,
+      );
+      elem
+        .find('.picked-by .name')
+        .text(game.pick === 'blue' ? state.blueTeam.name : state.redTeam.name);
     }
     else {
       elem.find('.picked-by').hide();
@@ -140,8 +162,13 @@ class MapSelect {
 
     if (game.win === 'red' || game.win === 'blue') {
       elem.find('.winner').show();
-      setCSSImage(elem.find('.winner .banner-team-logo'), game.win === 'blue' ? state.blueTeam.logo : state.redTeam.logo);
-      elem.find('.winner .name').text(game.win === 'blue' ? state.blueTeam.name : state.redTeam.name);
+      setCSSImage(
+        elem.find('.winner .banner-team-logo'),
+        game.win === 'blue' ? state.blueTeam.logo : state.redTeam.logo,
+      );
+      elem
+        .find('.winner .name')
+        .text(game.win === 'blue' ? state.blueTeam.name : state.redTeam.name);
       elem.addClass(`${game.win} win`);
     }
     else {
@@ -154,16 +181,20 @@ function initMapSelect(variant) {
   // just kinda runs on page load huh
   const mapSelect = new MapSelect(variant);
 
-  socket.on('requestID', () => { 
+  socket.on('requestID', () => {
     socket.emit('reportID', mapSelect.ID());
     socket.emit('requestMapPool');
   });
 
-  socket.on('update', (state) => { mapSelect.updateState.call(mapSelect, state); });
+  socket.on('update', (state) => {
+    mapSelect.updateState.call(mapSelect, state);
+  });
   socket.on('mapPool', (pool) => {
     mapSelect.updateMapPool.call(mapSelect, pool);
     socket.emit('requestState');
   });
 
-  socket.on('changeTheme', (themeDir) => { changeTheme(themeDir, 'map-select.css'); });
+  socket.on('changeTheme', (themeDir) => {
+    changeTheme(themeDir, 'map-select.css');
+  });
 }

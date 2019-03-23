@@ -27,7 +27,10 @@ class State {
     }
     catch (e) {
       console.log(e);
-      showMessage('Error: unable to create text output directory. Check console for details.', 'negative');
+      showMessage(
+        'Error: unable to create text output directory. Check console for details.',
+        'negative',
+      );
     }
 
     Keybinds.setKeybinds(this);
@@ -47,10 +50,10 @@ class State {
     this.ticker = settings.get('ticker');
 
     if (!this.blueTeam) {
-      this.blueTeam = { };
+      this.blueTeam = {};
     }
     if (!this.redTeam) {
-      this.redTeam = { };
+      this.redTeam = {};
     }
     if (!this.match) {
       this.match = {};
@@ -77,7 +80,7 @@ class State {
     if (!this.ticker) {
       this.ticker = {
         items: [],
-        options: {}
+        options: {},
       };
     }
   }
@@ -108,7 +111,9 @@ class State {
     this.overlays[socket.id] = overlayData;
     this.overlays[socket.id].socket = socket;
 
-    $('#overlay-table').append(`<tr socket-id="${socket.id}"><td>${overlayData.name}</td><td>${socket.id}</td></tr>`);
+    $('#overlay-table').append(
+      `<tr socket-id="${socket.id}"><td>${overlayData.name}</td><td>${socket.id}</td></tr>`,
+    );
 
     // lower thirds have an additional callback. this should error if the function is not set.
     if (overlayData.name === 'Lower Third') {
@@ -122,7 +127,9 @@ class State {
   }
 
   unregisterOverlay(socketID) {
-    console.log(`Socket ${socketID} disconnected. Deleted overlay ${this.overlays[socketID].name}.`);
+    console.log(
+      `Socket ${socketID} disconnected. Deleted overlay ${this.overlays[socketID].name}.`,
+    );
     $(`#overlay-table tr[socket-id="${socketID}"]`).remove();
 
     if (this.overlays[socketID].name === 'Lower Third') {
@@ -169,7 +176,7 @@ class State {
     io.sockets.emit('tickerUpdate', this.broadcastSubset());
     showMessage('Ticker Updated', 'positive');
   }
-  
+
   // add things to this section to broadcast to the connected frames
   broadcastSubset() {
     return {
@@ -190,20 +197,50 @@ class State {
 
     // snapshot some stuff to disk
     try {
-      fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team.txt'), this.blueTeam.name, { flag: 'w+' });
-      fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team.txt'), this.redTeam.name, { flag: 'w+' });
-      fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team_score.txt'), this.blueTeam.score, { flag: 'w+' });
-      fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team_score.txt'), this.redTeam.score, { flag: 'w+' });
-      fs.writeFileSync(path.join(this.rootOBS, 'text', 'tournament_name.txt'), this.casters.tournament, { flag: 'w+' });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'blue_team.txt'), this.blueTeam.name, {
+        flag: 'w+',
+      });
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team.txt'), this.redTeam.name, {
+        flag: 'w+',
+      });
+      fs.writeFileSync(
+        path.join(this.rootOBS, 'text', 'blue_team_score.txt'),
+        this.blueTeam.score,
+        { flag: 'w+' },
+      );
+      fs.writeFileSync(path.join(this.rootOBS, 'text', 'red_team_score.txt'), this.redTeam.score, {
+        flag: 'w+',
+      });
+      fs.writeFileSync(
+        path.join(this.rootOBS, 'text', 'tournament_name.txt'),
+        this.casters.tournament,
+        { flag: 'w+' },
+      );
 
       if (this.casters.one) {
-        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_one_name.txt'), this.casters.one.name, { flag: 'w+' });
-        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_one_social.txt'), this.casters.one.social, { flag: 'w+' });
+        fs.writeFileSync(
+          path.join(this.rootOBS, 'text', 'caster_one_name.txt'),
+          this.casters.one.name,
+          { flag: 'w+' },
+        );
+        fs.writeFileSync(
+          path.join(this.rootOBS, 'text', 'caster_one_social.txt'),
+          this.casters.one.social,
+          { flag: 'w+' },
+        );
       }
 
       if (this.casters.two) {
-        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_two_name.txt'), this.casters.two.name, { flag: 'w+' });
-        fs.writeFileSync(path.join(this.rootOBS, 'text', 'caster_two_social.txt'), this.casters.two.social, { flag: 'w+' });
+        fs.writeFileSync(
+          path.join(this.rootOBS, 'text', 'caster_two_name.txt'),
+          this.casters.two.name,
+          { flag: 'w+' },
+        );
+        fs.writeFileSync(
+          path.join(this.rootOBS, 'text', 'caster_two_social.txt'),
+          this.casters.two.social,
+          { flag: 'w+' },
+        );
       }
     }
     catch (e) {
@@ -315,7 +352,10 @@ class State {
     for (const i of [1, 2, 3, 4, 5]) {
       if (this.blueTeam.players) {
         $(`input[name="blue-p${i}-name"]`).val(this.blueTeam.players[i - 1].name);
-        $(`#blue-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.blueTeam.players[i - 1].hero);
+        $(`#blue-p${i}-hero .player-hero-menu`).dropdown(
+          'set exactly',
+          this.blueTeam.players[i - 1].hero,
+        );
       }
       else {
         $(`input[name="blue-p${i}-name"]`).val('');
@@ -324,21 +364,24 @@ class State {
 
       if (this.blueTeam.players) {
         $(`input[name="red-p${i}-name"]`).val(this.redTeam.players[i - 1].name);
-        $(`#red-p${i}-hero .player-hero-menu`).dropdown('set exactly', this.redTeam.players[i - 1].hero);
+        $(`#red-p${i}-hero .player-hero-menu`).dropdown(
+          'set exactly',
+          this.redTeam.players[i - 1].hero,
+        );
       }
       else {
         $(`input[name="red-p${i}-name"]`).val('');
         $(`#red-p${i}-hero .player-hero-menu`).dropdown('clear');
       }
     }
-    
+
     $('#popup-display-mode').dropdown('set exactly', this.miscData.popupDisplayMode);
     $('#popup-anim-time').val(this.miscData.popupAnimLength);
   }
 
   resetTeamData() {
-    this.blueTeam = { };
-    this.redTeam = { };
+    this.blueTeam = {};
+    this.redTeam = {};
 
     this.displayTeamData();
   }
@@ -352,7 +395,7 @@ class State {
 
   swapTeamData() {
     const tmpRed = Object.assign({}, this.redTeam);
-    
+
     // deep copy player data
     if (this.redTeam.players) {
       for (let i = 0; i < this.redTeam.players.length; i++) {
@@ -392,7 +435,7 @@ class State {
   }
 
   getGameData(gameNumber) {
-    let elem = $(`.game-data[game-number="${gameNumber}"]`);
+    const elem = $(`.game-data[game-number="${gameNumber}"]`);
 
     return {
       map: elem.find('.map-menu').dropdown('get value'),
@@ -410,8 +453,14 @@ class State {
     $('#best-of-override').val(this.match.textOverride);
 
     // bans
-    $('#blue-map-ban').dropdown('set exactly', this.match.blueMapBan);
-    $('#red-map-ban').dropdown('set exactly', this.match.redMapBan);
+    $('#blue-map-ban').dropdown(
+      'set exactly',
+      this.match.blueMapBan ? this.match.blueMapBan.split(',') : '',
+    );
+    $('#red-map-ban').dropdown(
+      'set exactly',
+      this.match.redMapBan ? this.match.redMapBan.split(',') : '',
+    );
 
     // individual match data
     this.displayGameData(this.match.bestOf);
@@ -442,10 +491,9 @@ class State {
   createGameData(gameNumber, data) {
     MapData.addGameData(gameNumber);
 
-    if (!data)
-      data = {};
+    if (!data) data = {};
 
-    let elem = $(`.game-data[game-number="${gameNumber}"]`);
+    const elem = $(`.game-data[game-number="${gameNumber}"]`);
     elem.find('.map-menu').dropdown('set exactly', data.map);
     elem.find('.team-pick-menu').dropdown('set exactly', data.pick);
     elem.find('.team-winner-menu').dropdown('set exactly', data.win);
@@ -518,15 +566,23 @@ class State {
 
   setLastReplayData(data) {
     this.lastReplayData = data;
-    
+
     // other handlers after watcher reports
     if (this.lastReplayData.status !== 1) {
-      showMessage(`Error parsing most recent replay file. Status code ${this.lastReplayData.status}`, 'error');
+      showMessage(
+        `Error parsing most recent replay file. Status code ${this.lastReplayData.status}`,
+        'error',
+      );
     }
     else {
-      showMessage(`Received Updated Match Data on ${this.lastReplayData.match.date} from ${this.lastReplayData.match.filename}`, 'info');
+      showMessage(
+        `Received Updated Match Data on ${this.lastReplayData.match.date} from ${
+          this.lastReplayData.match.filename
+        }`,
+        'info',
+      );
     }
-    //console.log(this.lastReplayData);
+    // console.log(this.lastReplayData);
   }
 
   setWatchLocation() {

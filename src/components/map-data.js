@@ -2,7 +2,6 @@ const Maps = require('../data/maps');
 
 let syncMatchScore = false;
 
-
 // looks at the current visible match elements and computes a score
 function syncScoreFromMatchData() {
   const elems = $('.game-data');
@@ -10,7 +9,9 @@ function syncScoreFromMatchData() {
   let redScore = 0;
 
   for (let i = 0; i < elems.length; i++) {
-    const win = $(elems[i]).find('.team-winner-menu').dropdown('get value');  
+    const win = $(elems[i])
+      .find('.team-winner-menu')
+      .dropdown('get value');
     if (win === 'red') {
       redScore += 1;
     }
@@ -29,7 +30,7 @@ function trySyncMatchScore() {
   }
 }
 
-function populateMapDropdown(elem, useNone) {
+function populateMapDropdown(elem, useNone, labels = false) {
   // get map list
   const menus = $(elem).find('.menu');
   const keys = Object.keys(Maps.Maps);
@@ -46,7 +47,7 @@ function populateMapDropdown(elem, useNone) {
   // init the dropdown as well, none of these require callbacks since it's all snapshot on Update
   $(elem).dropdown({
     fullTextSearch: true,
-    useLabels: false,
+    useLabels: labels,
   });
 }
 
@@ -60,7 +61,7 @@ function populateMapPoolPresetDropdown(elem) {
 
   $(elem).dropdown({
     action: 'hide',
-    onChange: setMapPool
+    onChange: setMapPool,
   });
 }
 
@@ -72,7 +73,7 @@ function setMapPool(value, text, $choice) {
 
 // deletes the ui elements for entering data for individual games
 function deleteGameData() {
-  $('.game-data').remove()
+  $('.game-data').remove();
 }
 
 function addGameData(gameNumber) {
@@ -125,6 +126,11 @@ function addGameData(gameNumber) {
   populateMapDropdown(`.game-data[game-number="${gameNumber}"] .map-menu`, true);
 }
 
+function populateMapDropdowns() {
+  populateMapDropdown('.map-menu', false, true);
+  populateMapDropdown('.multi-map-menu', false);
+}
+
 function initMapData() {
   populateMapDropdowns();
   populateMapPoolPresetDropdown('#map-pool-presets');
@@ -134,7 +140,9 @@ function initMapData() {
       syncMatchScore = true;
       trySyncMatchScore();
     },
-    onUnchecked: () => { syncMatchScore = false; },
+    onUnchecked: () => {
+      syncMatchScore = false;
+    },
   });
 }
 
@@ -147,12 +155,6 @@ function initWithState(appState) {
 
   $('#match-data-clear').click(() => appState.resetMatchData());
 }
-
-function populateMapDropdowns() {
-  populateMapDropdown('.map-menu', true);
-  populateMapDropdown('.multi-map-menu', false);
-}
-
 
 exports.Init = initMapData;
 exports.InitWithState = initWithState;
