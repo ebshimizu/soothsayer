@@ -704,6 +704,10 @@ async function loadPlayoffs() {
 
     // ticker
     await loadTicker(divID);
+
+    // commit
+    appState.updateAndBroadcast();
+    appState.updateAndBroadcastTicker();
   }
   catch (e) {
     console.log(e);
