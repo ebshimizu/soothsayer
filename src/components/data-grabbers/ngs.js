@@ -1,4 +1,5 @@
 const moment = require('moment');
+const Tournament = require('../tournament');
 
 let appState;
 let divisions = {};
@@ -39,8 +40,31 @@ function createUI() {
           </div>
         </div>
         <div class="ui two wide field">
-          <label><i class="magic icon"></i> Load Match</label>
+          <label><i class="magic icon"></i> Match</label>
           <div class="ui fluid green button" id="ngs-load-all">Load</div>
+        </div>
+      </div>
+      <h3 class="ui dividing header">Playoffs</h3>
+      <div class="fields">
+        <div class="ui four wide field">
+          <label>Division</label>
+          <div class="ui fluid selection dropdown" id="ngs-division-playoff">
+            <i class="dropdown icon"></i>
+            <div class="text"></div>
+            <div class="menu"></div>
+          </div>
+        </div>
+        <div class="ui ten wide field">
+          <label>Match</label>
+          <div class="ui fluid selection dropdown" id="ngs-playoff-match">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select a Division to list Playoff Matches</div>
+            <div class="menu"></div>
+          </div>
+        </div>
+        <div class="ui two wide field">
+          <label><i class="magic icon"></i> Playoffs</label>
+          <div class="ui fluid green button" id="ngs-load-playoff">Load</div>
         </div>
       </div>
     </div>
@@ -91,6 +115,7 @@ async function getDivisions() {
     }
 
     $('#ngs-division').dropdown('change values', options);
+    $('#ngs-division-playoff').dropdown('change values', options);
     showMessage('NGS: Loaded division list.', 'positive');
 
     // debug
@@ -342,8 +367,6 @@ async function loadTicker(divID) {
     const division = divisions[divID];
     const divSlug = division.divisionConcat;
 
-    showMessage(`NGS: Loading ticker for division ${division.displayName}`, 'info');
-
     // get scheduled matches
     const sched = await fetch(`${baseURL}/schedule/get/matches/scheduled`);
     const matchData = await sched.json();
@@ -387,9 +410,65 @@ async function loadTicker(divID) {
     }
 
     appState.setTickerItems(tickerItems);
+    showMessage(`NGS: Loaded ticker for division ${division.displayName}`, 'positive');
   }
   else {
     showMessage(`NGS: Unable to load ticker. Division not found ${divID}.`, 'warning');
+  }
+}
+
+async function loadMatch(match) {
+  // team names + logo
+  $('#team-blue-name').val(match.home.teamName);
+  $('#team-red-name').val(match.away.teamName);
+  $('#team-blue-score').val(0);
+  $('#team-red-score').val(0);
+
+  if (match.home.logo) {
+    $('#team-blue-logo input').val(`${imageURL}/${match.home.logo}`);
+  }
+  else {
+    $('#team-blue-logo input').val(defaultTeamLogo);
+  }
+
+  if (match.away.logo) {
+    $('#team-red-logo input').val(`${imageURL}/${match.away.logo}`);
+  }
+  else {
+    $('#team-red-logo input').val(defaultTeamLogo);
+  }
+
+  // rosters
+  try {
+    const teamReq = await fetch(`${baseURL}/team/getTeams`, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({ teams: [match.home.teamName, match.away.teamName] }),
+    });
+    const teamData = await teamReq.json();
+
+    console.log(teamData);
+
+    // pretty sure teams are returned in order so...
+    const homeMembers = processRoster(teamData.returnObject[0].teamMembers);
+    const awayMembers = processRoster(teamData.returnObject[1].teamMembers);
+
+    for (let i = 0; i < 5; i += 1) {
+      $(`input[name="blue-p${i + 1}-name"]`).val(homeMembers[i]);
+      $(`input[name="red-p${i + 1}-name"]`).val(awayMembers[i]);
+    }
+
+    const allMembers = homeMembers.concat(awayMembers);
+
+    $('#player-pool').val(allMembers.join('\n'));
+  }
+  catch (e) {
+    showMessage(
+      `NGS: Warning: failed to load team roster, proceeding with data load. ${e}`,
+      'warning',
+    );
   }
 }
 
@@ -416,58 +495,7 @@ async function loadAll() {
         }`,
       );
 
-      // team names + logo
-      $('#team-blue-name').val(match.home.teamName);
-      $('#team-red-name').val(match.away.teamName);
-      $('#team-blue-score').val(0);
-      $('#team-red-score').val(0);
-
-      if (match.home.logo) {
-        $('#team-blue-logo input').val(`${imageURL}/${match.home.logo}`);
-      }
-      else {
-        $('#team-blue-logo input').val(defaultTeamLogo);
-      }
-
-      if (match.away.logo) {
-        $('#team-red-logo input').val(`${imageURL}/${match.away.logo}`);
-      }
-      else {
-        $('#team-red-logo input').val(defaultTeamLogo);
-      }
-
-      // rosters
-      try {
-        const teamReq = await fetch(`${baseURL}/team/getTeams`, {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({ teams: [match.home.teamName, match.away.teamName] }),
-        });
-        const teamData = await teamReq.json();
-
-        console.log(teamData);
-
-        // pretty sure teams are returned in order so...
-        const homeMembers = processRoster(teamData.returnObject[0].teamMembers);
-        const awayMembers = processRoster(teamData.returnObject[1].teamMembers);
-
-        for (let i = 0; i < 5; i += 1) {
-          $(`input[name="blue-p${i + 1}-name"]`).val(homeMembers[i]);
-          $(`input[name="red-p${i + 1}-name"]`).val(awayMembers[i]);
-        }
-
-        const allMembers = homeMembers.concat(awayMembers);
-
-        $('#player-pool').val(allMembers.join('\n'));
-      }
-      catch (e) {
-        showMessage(
-          `NGS: Warning: failed to load team roster, proceeding with data load. ${e}`,
-          'warning',
-        );
-      }
+      loadMatch(match);
 
       // standings
       await loadStandings(divID);
@@ -492,6 +520,198 @@ async function loadAll() {
   }
 }
 
+async function ngsPlayoffChange(value, text) {
+  if (!text) return;
+
+  lockUI();
+
+  try {
+    const divSlug = text
+      .toLowerCase()
+      .split(' ')
+      .join('-');
+
+    const bracketReq = await fetch(`${baseURL}/schedule/fetch/tournament`, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        season: seasonID,
+        division: divSlug,
+      }),
+    });
+    const bracket = await bracketReq.json();
+
+    if (bracket.message === 'No tournament info found') {
+      // silent fail
+      $('#ngs-playoff-match').dropdown('change values', []);
+      unlockUI();
+      return;
+    }
+
+    // list the matches
+    const vals = [];
+    for (const match of bracket.returnObject.tournMatches) {
+      if (match.away) {
+        const name = `${match.home.teamName} vs ${match.away.teamName}`;
+
+        vals.push({
+          name,
+          value: match._id,
+          text: name,
+        });
+      }
+    }
+
+    $('#ngs-playoff-match').dropdown('change values', vals);
+  }
+  catch (e) {
+    console.log(e);
+  }
+
+  unlockUI();
+}
+
+async function loadBracket(divSlug) {
+  try {
+    const bracketReq = await fetch(`${baseURL}/schedule/fetch/tournament`, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        season: seasonID,
+        division: divSlug,
+      }),
+    });
+    const bracket = await bracketReq.json();
+
+    if (bracket.message === 'No tournament info found') {
+      showMessage(`NGS Tournament Load Aborted: ${bracket.message}`, 'warning');
+      return {};
+    }
+
+    // reformat
+    const matchData = {};
+    for (const id in bracket.returnObject.tournMatches) {
+      matchData[bracket.returnObject.tournMatches[id].matchId] =
+        bracket.returnObject.tournMatches[id];
+    }
+
+    // bit of manual data wrangling
+    Tournament.resetBracket();
+    $('#tournament-bracket-format').dropdown('set exactly', 'RO8');
+
+    // and then this should return the right stuff
+    const br = Tournament.getBracket();
+
+    // RO8
+
+    const QF = {};
+    const SF = {};
+
+    // all of the child-less matches are RO8
+    // i don't have scores?
+    for (const id in matchData) {
+      if (matchData[id].idChildren.length === 0) {
+        QF[id] = matchData[id];
+
+        // place the SF key
+        SF[matchData[id].parentId] = matchData[matchData[id].parentId];
+      }
+    }
+
+    // QF
+    let QFid = 1;
+    for (const id in QF) {
+      const match = QF[id];
+      const QFKey = `QF${QFid}`;
+      br.rounds[QFKey].team1 = match.home.teamName;
+      br.rounds[QFKey].team2 = match.away.teamName;
+      br.rounds[QFKey].team1Logo = `${imageURL}/${match.home.logo}`;
+      br.rounds[QFKey].team2Logo = `${imageURL}/${match.away.logo}`;
+      // win/loss/score
+
+      QFid += 1;
+    }
+
+    // SF
+    let SFid = 1;
+    for (const id in SF) {
+      const match = SF[id];
+      if (match.away) {
+        const SFKey = `SF${SFid}`;
+        br.rounds[SFKey].team1 = match.home.teamName;
+        br.rounds[SFKey].team2 = match.away.teamName;
+        br.rounds[SFKey].team1Logo = `${imageURL}/${match.home.logo}`;
+        br.rounds[SFKey].team2Logo = `${imageURL}/${match.away.logo}`;
+      }
+
+      SFid += 1;
+    }
+
+    // finals
+    const finalMatch = matchData[SF[Object.keys(SF)[0]].parentId];
+    if (finalMatch.away) {
+      br.rounds.Final.team1 = finalMatch.home.teamName;
+      br.rounds.Final.team2 = finalMatch.away.teamName;
+      br.rounds.Final.team1Logo = `${imageURL}/${finalMatch.home.logo}`;
+      br.rounds.Final.team2Logo = `${imageURL}/${finalMatch.away.logo}`;
+    }
+
+    console.log(br);
+    appState.tournament.bracket = br;
+    appState.displayTournamentData();
+    showMessage('NGS: Tournament bracket load complete', 'positive');
+
+    return bracket.returnObject.tournMatches;
+  }
+  catch (e) {
+    console.log(e);
+  }
+
+  return {};
+}
+
+async function loadPlayoffs() {
+  // load standings
+  lockUI();
+
+  try {
+    const divID = $('#ngs-division-playoff').dropdown('get value');
+    const divSlug = $('#ngs-division-playoff')
+      .dropdown('get text')
+      .toLowerCase()
+      .split(' ')
+      .join('-');
+
+    // standings have to be first
+    await loadStandings(divID);
+
+    // load bracket
+    const bracketMatches = await loadBracket(divSlug);
+    const matchesByID = {};
+    bracketMatches.forEach((m) => {
+      matchesByID[m._id] = m;
+    });
+
+    // load match
+    const matchID = $('#ngs-playoff-match').dropdown('get value');
+    if (matchID in matchesByID) {
+      loadMatch(matchesByID[matchID]);
+    }
+
+    // ticker
+    await loadTicker(divID);
+  }
+  catch (e) {
+    console.log(e);
+  }
+
+  unlockUI();
+}
+
 function bind(state) {
   appState = state;
 
@@ -501,8 +721,12 @@ function bind(state) {
   $('#ngs-round').dropdown({
     onChange: ngsRoundChange,
   });
+  $('#ngs-division-playoff').dropdown({
+    onChange: ngsPlayoffChange,
+  });
   $('#ngs-match').dropdown();
   $('#ngs-load-all').click(loadAll);
+  $('#ngs-load-playoff').click(loadPlayoffs);
 
   getDivisions();
 }

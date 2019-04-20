@@ -128,21 +128,33 @@ function renderBracket(data) {
     // so the dropdown is set from the render function, which then triggers this
     // if there's something in the tournament data
     // at this point, only the individual rounds need to be iterated
-    $(`#tournament-bracket .bracket-win`).removeClass('green');
+    $('#tournament-bracket .bracket-win').removeClass('green');
 
     if (data.rounds) {
-      for (let r in data.rounds) {
+      for (const r in data.rounds) {
         // teams
-        $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="1"]`).dropdown('set exactly', data.rounds[r].team1);
-        $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="2"]`).dropdown('set exactly', data.rounds[r].team2);
+        $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="1"]`).dropdown(
+          'set exactly',
+          data.rounds[r].team1,
+        );
+        $(`#tournament-bracket .bracket-team[bracket-id="${r}"][team-id="2"]`).dropdown(
+          'set exactly',
+          data.rounds[r].team2,
+        );
 
-        $(`#tournament-bracket input[bracket-id="${r}"][team-id="1"]`).val(data.rounds[r].team1Score);
-        $(`#tournament-bracket input[bracket-id="${r}"][team-id="2"]`).val(data.rounds[r].team2Score);
+        $(`#tournament-bracket input[bracket-id="${r}"][team-id="1"]`).val(
+          data.rounds[r].team1Score,
+        );
+        $(`#tournament-bracket input[bracket-id="${r}"][team-id="2"]`).val(
+          data.rounds[r].team2Score,
+        );
 
         // winner
         const winner = data.rounds[r].winner;
         if (winner) {
-          $(`#tournament-bracket .bracket-win[bracket-id="${r}"][team-id="${winner}"]`).addClass('green');
+          $(`#tournament-bracket .bracket-win[bracket-id="${r}"][team-id="${winner}"]`).addClass(
+            'green',
+          );
         }
       }
     }
@@ -204,17 +216,15 @@ function toggleBracketWin(winner, id, format, toggleOff) {
   let winTeam = $(
     `#tournament-bracket .bracket-team[bracket-id="${id}"][team-id="${winner}"]`,
   ).dropdown('get value');
-  
-  if (toggleOff)
-    winTeam = '';
+
+  if (toggleOff) winTeam = '';
 
   const lose = parseInt(winner) === 1 ? 2 : 1;
   let loseTeam = $(
     `#tournament-bracket .bracket-team[bracket-id="${id}"][team-id="${lose}"]`,
   ).dropdown('get value');
 
-  if (toggleOff)
-    loseTeam = '';
+  if (toggleOff) loseTeam = '';
 
   let winNext = Brackets[format].rounds[id].winnerTo;
   let loseNext = Brackets[format].rounds[id].loserTo;
@@ -233,18 +243,23 @@ function toggleBracketWin(winner, id, format, toggleOff) {
     ).dropdown('set exactly', loseTeam);
   }
 
-  if (toggleOff === false)
-    $(`#tournament-bracket .bracket-win[bracket-id="${id}"][team-id="${winner}"]`).addClass('green');
+  if (toggleOff === false) {
+    $(`#tournament-bracket .bracket-win[bracket-id="${id}"][team-id="${winner}"]`).addClass(
+      'green',
+    );
+  }
 }
 
 function updateBracketDropdowns() {
   // populate dropdowns
   const teams = getStandings();
-  const items = [{
-    name: '',
-    value: '',
-    text: '',
-  }];
+  const items = [
+    {
+      name: '',
+      value: '',
+      text: '',
+    },
+  ];
 
   for (const t in teams) {
     items.push({
@@ -271,7 +286,7 @@ function createBracketUI(format, formatId) {
   }
 }
 
-function updateBracketData(value, text) {
+function updateBracketData(value) {
   // delete bracket data
   $('#tournament-bracket').html('');
   $('#tournament-bracket-header').text('No Bracket Loaded');
@@ -295,11 +310,13 @@ function loadBracketMenu() {
     onChange: updateBracketData,
   });
 
-  const opts = [{
-    name: 'None',
-    value: 'none',
-    text: 'None',
-  }];
+  const opts = [
+    {
+      name: 'None',
+      value: 'none',
+      text: 'None',
+    },
+  ];
 
   for (const b in Brackets) {
     opts.push({
@@ -316,7 +333,9 @@ function loadBracketMenu() {
 function getBracketData() {
   const bracket = {
     rounds: {},
-    format: $('#tournament-bracket .column').first().attr('format'),
+    format: $('#tournament-bracket .column')
+      .first()
+      .attr('format'),
   };
 
   if (bracket.format in Brackets) {
@@ -328,17 +347,29 @@ function getBracketData() {
 
   // convert to team name key object
   const logos = {};
-  for (let team of standings) {
+  for (const team of standings) {
     logos[team.team] = team.logo;
   }
 
-  $('#tournament-bracket .column').each(function(i) {
+  $('#tournament-bracket .column').each(function (i) {
     const round = {
       id: $(this).attr('bracket-id'),
-      team1: $(this).find('.bracket-team[team-id="1"]').dropdown('get text'),
-      team2: $(this).find('.bracket-team[team-id="2"]').dropdown('get text'),
-      team1Score: parseInt($(this).find('input[team-id="1"]').val()),
-      team2Score: parseInt($(this).find('input[team-id="2"]').val()),
+      team1: $(this)
+        .find('.bracket-team[team-id="1"]')
+        .dropdown('get text'),
+      team2: $(this)
+        .find('.bracket-team[team-id="2"]')
+        .dropdown('get text'),
+      team1Score: parseInt(
+        $(this)
+          .find('input[team-id="1"]')
+          .val(),
+      ),
+      team2Score: parseInt(
+        $(this)
+          .find('input[team-id="2"]')
+          .val(),
+      ),
     };
 
     round.team1Logo = logos[round.team1];
@@ -388,7 +419,10 @@ function render(data) {
 
 function resetBracket() {
   appState.tournament.bracket = {};
-  updateBracketData($('#tournament-bracket-format').dropdown('get value'), $('#tournament-bracket-format').dropdown('get text'));
+  updateBracketData(
+    $('#tournament-bracket-format').dropdown('get value'),
+    $('#tournament-bracket-format').dropdown('get text'),
+  );
 }
 
 function init() {
@@ -490,3 +524,4 @@ exports.render = render;
 exports.getStandings = getStandings;
 exports.getStandingsSettings = getStandingsSettings;
 exports.getBracket = getBracketData;
+exports.resetBracket = resetBracket;
