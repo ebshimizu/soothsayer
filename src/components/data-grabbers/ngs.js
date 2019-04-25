@@ -553,7 +553,7 @@ async function ngsPlayoffChange(value, text) {
     // list the matches
     const vals = [];
     for (const match of bracket.returnObject.tournMatches) {
-      if (match.away) {
+      if (match.away && match.home) {
         const name = `${match.home.teamName} vs ${match.away.teamName}`;
 
         vals.push({
@@ -632,6 +632,12 @@ async function loadBracket(divSlug) {
       br.rounds[QFKey].team1Logo = `${imageURL}/${match.home.logo}`;
       br.rounds[QFKey].team2Logo = `${imageURL}/${match.away.logo}`;
       // win/loss/score
+      br.rounds[QFKey].team1Score = match.home.score;
+      br.rounds[QFKey].team2Score = match.away.score;
+
+      if (match.home && match.away && match.home.score >= 0 && match.away.score >= 0) {
+        br.rounds[QFKey].winner = match.home.score > match.away.score ? 1 : 2;
+      }
 
       QFid += 1;
     }
@@ -640,12 +646,22 @@ async function loadBracket(divSlug) {
     let SFid = 1;
     for (const id in SF) {
       const match = SF[id];
-      if (match.away) {
-        const SFKey = `SF${SFid}`;
+      const SFKey = `SF${SFid}`;
+
+      if (match.home) {
         br.rounds[SFKey].team1 = match.home.teamName;
-        br.rounds[SFKey].team2 = match.away.teamName;
         br.rounds[SFKey].team1Logo = `${imageURL}/${match.home.logo}`;
+        br.rounds[SFKey].team1Score = match.home.score;
+      }
+
+      if (match.away) {
+        br.rounds[SFKey].team2 = match.away.teamName;
         br.rounds[SFKey].team2Logo = `${imageURL}/${match.away.logo}`;
+        br.rounds[SFKey].team2Score = match.away.score;
+      }
+
+      if (match.home && match.away && match.home.score >= 0 && match.away.score >= 0) {
+        br.rounds[SFKey].winner = match.home.score > match.away.score ? 1 : 2;
       }
 
       SFid += 1;
@@ -653,11 +669,16 @@ async function loadBracket(divSlug) {
 
     // finals
     const finalMatch = matchData[SF[Object.keys(SF)[0]].parentId];
-    if (finalMatch.away) {
-      br.rounds.Final.team1 = finalMatch.home.teamName;
-      br.rounds.Final.team2 = finalMatch.away.teamName;
-      br.rounds.Final.team1Logo = `${imageURL}/${finalMatch.home.logo}`;
-      br.rounds.Final.team2Logo = `${imageURL}/${finalMatch.away.logo}`;
+    if (finalMatch.away && finalMatch.home) {
+      if (finalMatch.home) {
+        br.rounds.Final.team1 = finalMatch.home.teamName;
+        br.rounds.Final.team1Logo = `${imageURL}/${finalMatch.home.logo}`;
+      }
+
+      if (finalMatch.away) {
+        br.rounds.Final.team2 = finalMatch.away.teamName;
+        br.rounds.Final.team2Logo = `${imageURL}/${finalMatch.away.logo}`;
+      }
     }
 
     console.log(br);
