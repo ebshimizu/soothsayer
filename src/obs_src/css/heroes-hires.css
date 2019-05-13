@@ -1,339 +1,343 @@
-      .Abat {
-        background-image: url('../images/hero-hires/abathur.jpg');
-      }
-    
-      .Alar {
-        background-image: url('../images/hero-hires/alarak.jpg');
-      }
-    
-      .Alex {
-        background-image: url('../images/hero-hires/alexstrasza.jpg');
-      }
-    
-      .HANA {
-        background-image: url('../images/hero-hires/ana.jpg');
-      }
-    
-      .Anub {
-        background-image: url('../images/hero-hires/anubarak.jpg');
-      }
-    
-      .Arts {
-        background-image: url('../images/hero-hires/artanis.jpg');
-      }
-    
-      .Arth {
-        background-image: url('../images/hero-hires/arthas.jpg');
-      }
-    
-      .Auri {
-        background-image: url('../images/hero-hires/auriel.jpg');
-      }
-    
-      .Azmo {
-        background-image: url('../images/hero-hires/azmodan.jpg');
-      }
-    
-      .Fire {
-        background-image: url('../images/hero-hires/blaze.jpg');
-      }
-    
-      .Faer {
-        background-image: url('../images/hero-hires/brightwing.jpg');
-      }
-    
-      .Amaz {
-        background-image: url('../images/hero-hires/cassia.jpg');
-      }
-    
-      .Chen {
-        background-image: url('../images/hero-hires/chen.jpg');
-      }
-    
-      .CCho {
-        background-image: url('../images/hero-hires/cho.jpg');
-      }
-    
-      .Chro {
-        background-image: url('../images/hero-hires/chromie.jpg');
-      }
-    
-      .DECK {
-        background-image: url('../images/hero-hires/deckard.jpg');
-      }
-    
-      .Deha {
-        background-image: url('../images/hero-hires/dehaka.jpg');
-      }
-    
-      .Diab {
-        background-image: url('../images/hero-hires/diablo.jpg');
-      }
-    
-      .DVA0 {
-        background-image: url('../images/hero-hires/dva.jpg');
-      }
-    
-      .L90E {
-        background-image: url('../images/hero-hires/etc.jpg');
-      }
-    
-      .Fals {
-        background-image: url('../images/hero-hires/falstad.jpg');
-      }
-    
-      .FENX {
-        background-image: url('../images/hero-hires/fenix.jpg');
-      }
-    
-      .Gall {
-        background-image: url('../images/hero-hires/gall.jpg');
-      }
-    
-      .Garr {
-        background-image: url('../images/hero-hires/garrosh.jpg');
-      }
-    
-      .Tink {
-        background-image: url('../images/hero-hires/gazlowe.jpg');
-      }
-    
-      .Genj {
-        background-image: url('../images/hero-hires/genji.jpg');
-      }
-    
-      .Genn {
-        background-image: url('../images/hero-hires/greymane.jpg');
-      }
-    
-      .Guld {
-        background-image: url('../images/hero-hires/guldan.jpg');
-      }
-    
-      .Hanz {
-        background-image: url('../images/hero-hires/hanzo.jpg');
-      }
-    
-      .Illi {
-        background-image: url('../images/hero-hires/illidan.jpg');
-      }
-    
-      .Jain {
-        background-image: url('../images/hero-hires/jaina.jpg');
-      }
-    
-      .Crus {
-        background-image: url('../images/hero-hires/johanna.jpg');
-      }
-    
-      .Junk {
-        background-image: url('../images/hero-hires/junkrat.jpg');
-      }
-    
-      .Kael {
-        background-image: url('../images/hero-hires/kaelthas.jpg');
-      }
-    
-      .KelT {
-        background-image: url('../images/hero-hires/kelthuzad.jpg');
-      }
-    
-      .Kerr {
-        background-image: url('../images/hero-hires/kerrigan.jpg');
-      }
-    
-      .Monk {
-        background-image: url('../images/hero-hires/kharazim.jpg');
-      }
-    
-      .Leor {
-        background-image: url('../images/hero-hires/leoric.jpg');
-      }
-    
-      .LiLi {
-        background-image: url('../images/hero-hires/lili.jpg');
-      }
-    
-      .Wiza {
-        background-image: url('../images/hero-hires/liming.jpg');
-      }
-    
-      .Medi {
-        background-image: url('../images/hero-hires/ltmorales.jpg');
-      }
-    
-      .Luci {
-        background-image: url('../images/hero-hires/lucio.jpg');
-      }
-    
-      .Drya {
-        background-image: url('../images/hero-hires/lunara.jpg');
-      }
-    
-      .Maie {
-        background-image: url('../images/hero-hires/maiev.jpg');
-      }
-    
-      .Malf {
-        background-image: url('../images/hero-hires/malfurion.jpg');
-      }
-    
-      .MalG {
-        background-image: url('../images/hero-hires/malganis.jpg');
-      }
-    
-      .MALT {
-        background-image: url('../images/hero-hires/malthael.jpg');
-      }
-    
-      .Mdvh {
-        background-image: url('../images/hero-hires/medivh.jpg');
-      }
-    
-      .MEPH {
-        background-image: url('../images/hero-hires/mephisto.jpg');
-      }
-    
-      .Mura {
-        background-image: url('../images/hero-hires/muradin.jpg');
-      }
-    
-      .Murk {
-        background-image: url('../images/hero-hires/murky.jpg');
-      }
-    
-      .Witc {
-        background-image: url('../images/hero-hires/nazeebo.jpg');
-      }
-    
-      .Nova {
-        background-image: url('../images/hero-hires/nova.jpg');
-      }
+.Abat {
+  background-image: url('../images/hero-hires/abathur.jpg');
+}
 
-      .ORPH {
-        background-image: url('../images/hero-hires/orphea.jpg');
-      }      
-    
-      .Prob {
-        background-image: url('../images/hero-hires/probius.jpg');
-      }
-    
-      .Ragn {
-        background-image: url('../images/hero-hires/ragnaros.jpg');
-      }
-    
-      .Rayn {
-        background-image: url('../images/hero-hires/raynor.jpg');
-      }
-    
-      .Rehg {
-        background-image: url('../images/hero-hires/rehgar.jpg');
-      }
-    
-      .Rexx {
-        background-image: url('../images/hero-hires/rexxar.jpg');
-      }
-    
-      .Samu {
-        background-image: url('../images/hero-hires/samuro.jpg');
-      }
-    
-      .Sgth {
-        background-image: url('../images/hero-hires/sgthammer.jpg');
-      }
-    
-      .Barb {
-        background-image: url('../images/hero-hires/sonya.jpg');
-      }
-    
-      .Stit {
-        background-image: url('../images/hero-hires/stitches.jpg');
-      }
-    
-      .STUK {
-        background-image: url('../images/hero-hires/stukov.jpg');
-      }
-    
-      .Sylv {
-        background-image: url('../images/hero-hires/sylvanas.jpg');
-      }
-    
-      .Tass {
-        background-image: url('../images/hero-hires/tassadar.jpg');
-      }
-    
-      .Butc {
-        background-image: url('../images/hero-hires/thebutcher.jpg');
-      }
-    
-      .Lost {
-        background-image: url('../images/hero-hires/thelostvikings.jpg');
-      }
-    
-      .Thra {
-        background-image: url('../images/hero-hires/thrall.jpg');
-      }
-    
-      .Tra0 {
-        background-image: url('../images/hero-hires/tracer.jpg');
-      }
-    
-      .Tych {
-        background-image: url('../images/hero-hires/tychus.jpg');
-      }
-    
-      .Tyrl {
-        background-image: url('../images/hero-hires/tyrael.jpg');
-      }
-    
-      .Tyrd {
-        background-image: url('../images/hero-hires/tyrande.jpg');
-      }
-    
-      .Uthe {
-        background-image: url('../images/hero-hires/uther.jpg');
-      }
-    
-      .VALE {
-        background-image: url('../images/hero-hires/valeera.jpg');
-      }
-    
-      .Demo {
-        background-image: url('../images/hero-hires/valla.jpg');
-      }
-    
-      .Vari {
-        background-image: url('../images/hero-hires/varian.jpg');
-      }
-    
-      .WHIT {
-        background-image: url('../images/hero-hires/whitemane.jpg');
-      }
-    
-      .Necr {
-        background-image: url('../images/hero-hires/xul.jpg');
-      }
-    
-      .YREL {
-        background-image: url('../images/hero-hires/yrel.jpg');
-      }
-    
-      .Zaga {
-        background-image: url('../images/hero-hires/zagara.jpg');
-      }
-    
-      .Zary {
-        background-image: url('../images/hero-hires/zarya.jpg');
-      }
-    
-      .Zera {
-        background-image: url('../images/hero-hires/zeratul.jpg');
-      }
-    
-      .ZULJ {
-        background-image: url('../images/hero-hires/zuljin.jpg');
-      }
+.Alar {
+  background-image: url('../images/hero-hires/alarak.jpg');
+}
 
-      .IMPE {
-        background-image: url('../images/hero-hires/imperius.jpg');
-      }
+.Alex {
+  background-image: url('../images/hero-hires/alexstrasza.jpg');
+}
+
+.HANA {
+  background-image: url('../images/hero-hires/ana.jpg');
+}
+
+.Andu {
+  background-image: url('../images/hero-hires/anduin.jpg');
+}
+
+.Anub {
+  background-image: url('../images/hero-hires/anubarak.jpg');
+}
+
+.Arts {
+  background-image: url('../images/hero-hires/artanis.jpg');
+}
+
+.Arth {
+  background-image: url('../images/hero-hires/arthas.jpg');
+}
+
+.Auri {
+  background-image: url('../images/hero-hires/auriel.jpg');
+}
+
+.Azmo {
+  background-image: url('../images/hero-hires/azmodan.jpg');
+}
+
+.Fire {
+  background-image: url('../images/hero-hires/blaze.jpg');
+}
+
+.Faer {
+  background-image: url('../images/hero-hires/brightwing.jpg');
+}
+
+.Amaz {
+  background-image: url('../images/hero-hires/cassia.jpg');
+}
+
+.Chen {
+  background-image: url('../images/hero-hires/chen.jpg');
+}
+
+.CCho {
+  background-image: url('../images/hero-hires/cho.jpg');
+}
+
+.Chro {
+  background-image: url('../images/hero-hires/chromie.jpg');
+}
+
+.DECK {
+  background-image: url('../images/hero-hires/deckard.jpg');
+}
+
+.Deha {
+  background-image: url('../images/hero-hires/dehaka.jpg');
+}
+
+.Diab {
+  background-image: url('../images/hero-hires/diablo.jpg');
+}
+
+.DVA0 {
+  background-image: url('../images/hero-hires/dva.jpg');
+}
+
+.L90E {
+  background-image: url('../images/hero-hires/etc.jpg');
+}
+
+.Fals {
+  background-image: url('../images/hero-hires/falstad.jpg');
+}
+
+.FENX {
+  background-image: url('../images/hero-hires/fenix.jpg');
+}
+
+.Gall {
+  background-image: url('../images/hero-hires/gall.jpg');
+}
+
+.Garr {
+  background-image: url('../images/hero-hires/garrosh.jpg');
+}
+
+.Tink {
+  background-image: url('../images/hero-hires/gazlowe.jpg');
+}
+
+.Genj {
+  background-image: url('../images/hero-hires/genji.jpg');
+}
+
+.Genn {
+  background-image: url('../images/hero-hires/greymane.jpg');
+}
+
+.Guld {
+  background-image: url('../images/hero-hires/guldan.jpg');
+}
+
+.Hanz {
+  background-image: url('../images/hero-hires/hanzo.jpg');
+}
+
+.Illi {
+  background-image: url('../images/hero-hires/illidan.jpg');
+}
+
+.Jain {
+  background-image: url('../images/hero-hires/jaina.jpg');
+}
+
+.Crus {
+  background-image: url('../images/hero-hires/johanna.jpg');
+}
+
+.Junk {
+  background-image: url('../images/hero-hires/junkrat.jpg');
+}
+
+.Kael {
+  background-image: url('../images/hero-hires/kaelthas.jpg');
+}
+
+.KelT {
+  background-image: url('../images/hero-hires/kelthuzad.jpg');
+}
+
+.Kerr {
+  background-image: url('../images/hero-hires/kerrigan.jpg');
+}
+
+.Monk {
+  background-image: url('../images/hero-hires/kharazim.jpg');
+}
+
+.Leor {
+  background-image: url('../images/hero-hires/leoric.jpg');
+}
+
+.LiLi {
+  background-image: url('../images/hero-hires/lili.jpg');
+}
+
+.Wiza {
+  background-image: url('../images/hero-hires/liming.jpg');
+}
+
+.Medi {
+  background-image: url('../images/hero-hires/ltmorales.jpg');
+}
+
+.Luci {
+  background-image: url('../images/hero-hires/lucio.jpg');
+}
+
+.Drya {
+  background-image: url('../images/hero-hires/lunara.jpg');
+}
+
+.Maie {
+  background-image: url('../images/hero-hires/maiev.jpg');
+}
+
+.Malf {
+  background-image: url('../images/hero-hires/malfurion.jpg');
+}
+
+.MalG {
+  background-image: url('../images/hero-hires/malganis.jpg');
+}
+
+.MALT {
+  background-image: url('../images/hero-hires/malthael.jpg');
+}
+
+.Mdvh {
+  background-image: url('../images/hero-hires/medivh.jpg');
+}
+
+.MEPH {
+  background-image: url('../images/hero-hires/mephisto.jpg');
+}
+
+.Mura {
+  background-image: url('../images/hero-hires/muradin.jpg');
+}
+
+.Murk {
+  background-image: url('../images/hero-hires/murky.jpg');
+}
+
+.Witc {
+  background-image: url('../images/hero-hires/nazeebo.jpg');
+}
+
+.Nova {
+  background-image: url('../images/hero-hires/nova.jpg');
+}
+
+.ORPH {
+  background-image: url('../images/hero-hires/orphea.jpg');
+}
+
+.Prob {
+  background-image: url('../images/hero-hires/probius.jpg');
+}
+
+.Ragn {
+  background-image: url('../images/hero-hires/ragnaros.jpg');
+}
+
+.Rayn {
+  background-image: url('../images/hero-hires/raynor.jpg');
+}
+
+.Rehg {
+  background-image: url('../images/hero-hires/rehgar.jpg');
+}
+
+.Rexx {
+  background-image: url('../images/hero-hires/rexxar.jpg');
+}
+
+.Samu {
+  background-image: url('../images/hero-hires/samuro.jpg');
+}
+
+.Sgth {
+  background-image: url('../images/hero-hires/sgthammer.jpg');
+}
+
+.Barb {
+  background-image: url('../images/hero-hires/sonya.jpg');
+}
+
+.Stit {
+  background-image: url('../images/hero-hires/stitches.jpg');
+}
+
+.STUK {
+  background-image: url('../images/hero-hires/stukov.jpg');
+}
+
+.Sylv {
+  background-image: url('../images/hero-hires/sylvanas.jpg');
+}
+
+.Tass {
+  background-image: url('../images/hero-hires/tassadar.jpg');
+}
+
+.Butc {
+  background-image: url('../images/hero-hires/thebutcher.jpg');
+}
+
+.Lost {
+  background-image: url('../images/hero-hires/thelostvikings.jpg');
+}
+
+.Thra {
+  background-image: url('../images/hero-hires/thrall.jpg');
+}
+
+.Tra0 {
+  background-image: url('../images/hero-hires/tracer.jpg');
+}
+
+.Tych {
+  background-image: url('../images/hero-hires/tychus.jpg');
+}
+
+.Tyrl {
+  background-image: url('../images/hero-hires/tyrael.jpg');
+}
+
+.Tyrd {
+  background-image: url('../images/hero-hires/tyrande.jpg');
+}
+
+.Uthe {
+  background-image: url('../images/hero-hires/uther.jpg');
+}
+
+.VALE {
+  background-image: url('../images/hero-hires/valeera.jpg');
+}
+
+.Demo {
+  background-image: url('../images/hero-hires/valla.jpg');
+}
+
+.Vari {
+  background-image: url('../images/hero-hires/varian.jpg');
+}
+
+.WHIT {
+  background-image: url('../images/hero-hires/whitemane.jpg');
+}
+
+.Necr {
+  background-image: url('../images/hero-hires/xul.jpg');
+}
+
+.YREL {
+  background-image: url('../images/hero-hires/yrel.jpg');
+}
+
+.Zaga {
+  background-image: url('../images/hero-hires/zagara.jpg');
+}
+
+.Zary {
+  background-image: url('../images/hero-hires/zarya.jpg');
+}
+
+.Zera {
+  background-image: url('../images/hero-hires/zeratul.jpg');
+}
+
+.ZULJ {
+  background-image: url('../images/hero-hires/zuljin.jpg');
+}
+
+.IMPE {
+  background-image: url('../images/hero-hires/imperius.jpg');
+}
