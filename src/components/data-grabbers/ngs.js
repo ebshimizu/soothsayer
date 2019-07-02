@@ -4,7 +4,7 @@ const Tournament = require('../tournament');
 let appState;
 let divisions = {};
 let matches = {};
-const seasonID = 6;
+const seasonID = 7;
 
 const baseURL = 'https://www.nexusgamingseries.org';
 const imageURL = 'https://s3.amazonaws.com/ngs-image-storage';

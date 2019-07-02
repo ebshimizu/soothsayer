@@ -8,7 +8,7 @@ const Maps = {
     classname: 'boe',
   },
   BlackheartsBay: {
-    name: 'Blackheart\'s Bay',
+    name: "Blackheart's Bay",
     classname: 'blackheart',
   },
   BraxisHoldout: {
@@ -62,6 +62,21 @@ const Maps = {
 };
 
 const MapPools = {
+  NGSS7: {
+    name: 'NGS Season 7',
+    maps: [
+      'AlteracPass',
+      'BattlefieldOfEternity',
+      'CursedHollow',
+      'DragonShire',
+      'InfernalShrines',
+      'SkyTemple',
+      'TombOfTheSpiderQueen',
+      'TowersOfDoom',
+      'VolskayaFoundry',
+      'BraxisHoldout',
+    ],
+  },
   HeroesLounge: {
     name: 'HL EU9/NA2/Div S1',
     maps: [
@@ -75,34 +90,6 @@ const MapPools = {
       'TowersOfDoom',
       'AlteracPass',
       'GardenOfTerror',
-    ],
-  },
-  SlashHeroesOpen1: {
-    name: '/heroes-open Season 1',
-    maps: [
-      'AlteracPass',
-      'BattlefieldOfEternity',
-      'CursedHollow',
-      'DragonShire',
-      'InfernalShrines',
-      'SkyTemple',
-      'TombOfTheSpiderQueen',
-      'TowersOfDoom',
-      'VolskayaFoundry',
-    ],
-  },
-  NGSS6: {
-    name: 'NGS Season 6',
-    maps: [
-      'AlteracPass',
-      'BattlefieldOfEternity',
-      'CursedHollow',
-      'DragonShire',
-      'InfernalShrines',
-      'SkyTemple',
-      'TombOfTheSpiderQueen',
-      'TowersOfDoom',
-      'VolskayaFoundry',
     ],
   },
   HGC2018: {
