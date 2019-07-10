@@ -311,15 +311,15 @@ function scanRecentResults(divSlug, matchList, count = 5) {
   const relevantMatches = [];
   for (const match of matchList) {
     // needs to a) match division, b) be completed
-    if (match.divisionConcat === divSlug && match.reported === true) {
+    if (match.season === seasonID && match.divisionConcat === divSlug && match.reported === true) {
       relevantMatches.push(match);
     }
   }
 
   // compute top 5, sort based on start time (integer)
   relevantMatches.sort(function (a, b) {
-    if (parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime)) return -1;
-    if (parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime)) return 1;
+    if (parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime)) return 1;
+    if (parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime)) return -1;
 
     return 0;
   });
