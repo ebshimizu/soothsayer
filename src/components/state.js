@@ -554,6 +554,8 @@ class State {
   updateDataSource() {
     this.dataSource.sotsDBLoc = $('#sots-db-location').val();
     this.dataSource.sotsDBCollection = $('#sots-db-collection').dropdown('get value');
+    this.dataSource.hpApiKey = $('#hp-api-key').val();
+    this.dataSource.hpDivision = $('#hp-division-select').dropdown('get value');
     this.dataSource.dataGrabber = $('#data-grabber-menu').dropdown('get value');
   }
 
@@ -562,6 +564,8 @@ class State {
     $('#sots-db-collection').dropdown('set exactly', this.dataSource.sotsDBCollection);
     $('#data-grabber-menu').dropdown('set exactly', this.dataSource.dataGrabber);
     $('#set-replay-folder').val(this.dataSource.replayFolder);
+    $('#hp-api-key').val(this.dataSource.hpApiKey);
+    $('#hp-division-select').dropdown('set exactly', this.dataSource.hpDivision);
   }
 
   setLastReplayData(data) {

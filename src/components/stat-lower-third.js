@@ -118,6 +118,10 @@ function loadLT(socketID, callback) {
 
   // callback required
   dataSource.getLTData(loadData, function(data) {
+    if (data.player) {
+      loadData.player = data.player;
+    }
+
     elem.find('.lt-load').removeClass('disabled loading').html('<i class="sync icon"></i>');
     elem.find('.lt-loadrun').removeClass('disabled loading').html('<i class="fast forward icon"></i>');
     elem.find('.lt-ez').removeClass('disabled loading');

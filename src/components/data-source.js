@@ -4,11 +4,13 @@
 
 const { dialog } = require('electron').remote;
 const SotsSource = require('./data-sources/sots-db');
+const HPSource = require('./data-sources/heroes-profile');
 let appState;
 
 // data sources
 const DataSources = {
   sots: SotsSource,
+  heroesProfile: HPSource
 };
 
 let activeSource;
@@ -27,6 +29,7 @@ function browseReplayFolder() {
 
 function init() {
   DataSources.sots.init();
+  DataSources.heroesProfile.init();
 
   $('.data-source-options').hide();
   $('#data-source-menu').dropdown({
