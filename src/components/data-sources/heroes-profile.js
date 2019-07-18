@@ -5,7 +5,7 @@ function heroDataCall(hero, player) {
   const base = `${HeroDataURL}?api_key=${$('#hp-api-key').val()}&season=${Season}&division=${$('#hp-division-select').dropdown('get value')}&hero=${hero}`;
 
   if (player) {
-    return `${base}&player=${player}`;
+    return `${base}&battletag=${encodeURIComponent(player)}`;
   }
 
   return base;
@@ -73,17 +73,17 @@ function playerStatsForHero(player, hero, cb, wildcard) {
       D: data.deaths,
       KDA: data.average_kda,
       wildcardName: 'Avg. KDA',
-      wildcardData: data.average_kda,
+      wildcardData: data.average_kda.toFixed(2),
     });
   });
 }
 
-function playerStats() {
-
+function playerStats(player, callback, wildcard) {
+  callback({ error: 'Unsupported stat format' });
 }
 
-function allPlayerStats() {
-
+function allPlayerStats(player, callback) {
+  callback({ error: 'Unsupported stat format' });
 }
 
 exports.init = init;

@@ -18,7 +18,7 @@
     "express": "^4.16.3",
     "extract-zip": "^1.6.7",
     "fs-extra": "^7.0.0",
-    "hots-parser-fallback": "^7.38.2",
+    "hots-parser": "^7.38.2",
     "jquery": "^3.3.1",
     "level-js": "^2.2.4",
     "linvodb3": "^3.25.1",
@@ -43,7 +43,7 @@
     "dist": "electron-builder",
     "start": "electron ./",
     "upload": "electron-builder --x64 --publish always",
-    "protocol": "node ./node_modules/heroprotocol-fallback/postinstall.js"
+    "protocol": "node ./node_modules/heroprotocol/postinstall.js"
   },
   "build": {
     "appId": "com.soothsayer.app",
