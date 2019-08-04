@@ -272,7 +272,7 @@ function constructLTUI(socket) {
                 <div class="item">Assassin</div>
                 <div class="item">Bruiser</div>
                 <div class="item">Flex</div>
-                <div class="item">Support</div>
+                <div class="item">Healer</div>
                 <div class="item">Tank</div>
               </div>
             </div>

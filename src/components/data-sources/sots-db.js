@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 const SotsDB = require('../../stats-of-the-storm/js/database');
 const { dialog } = require('electron').remote;
 const fs = require('fs-extra');

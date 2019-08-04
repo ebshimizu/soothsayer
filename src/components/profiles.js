@@ -5,7 +5,7 @@ const { updatePlayerPoolMenus } = require('./team-data');
 let appState;
 let dataSource;
 
-const generalStatOrder = ['winPct', 'KDA', 'KillParticipation', 'levelAdvPct', 'heroPool'];
+const generalStatOrder = ['winPct', 'KDA', 'KillParticipation', 'levelAdvPct', 'TimeSpentDead', 'heroPool'];
 
 const statOrders = {
   'role-assassin': ['HeroDamage', 'HighestKillStreak'],
@@ -21,7 +21,7 @@ const playerProfileDropdown = `
     <div class="menu">
       <div class="item" data-value="role-assassin">Role: Assassin</div>
       <div class="item" data-value="role-warrior">Role: Warrior</div>
-      <div class="item" data-value="role-support">Role: Support</div>
+      <div class="item" data-value="role-support">Role: Healer</div>
       <div class="item" data-value="role-offlane">Role: Offlane</div>
     </div>
   </div>
@@ -119,16 +119,25 @@ function processPlayerProfileData(data, type) {
 
     if (stat === 'winPct') {
       statRow.name = 'Win Rate';
-      statRow.val = `${((data.wins / data.games) * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
-      statRow.raw = data.wins / data.games;
+
+      if (data.wins) {
+        statRow.val = `${((data.wins / data.games) * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
+        statRow.raw = data.wins / data.games;
+      }
+      else {
+        statRow.val = `${(statRow.raw * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
+      }
     }
     else if (stat === 'ClutchHealsPerformed') {
       statRow.val = statRow.raw.toLocaleString(undefined, { maximumFractionDigits: 1 });
     }
     else if (stat === 'heroPool') {
       statRow.name = 'Hero Pool';
-      statRow.val = data.heroPool;
-      statRow.raw = data.heroPool;
+
+      if (data.heroPool) {
+        statRow.val = data.heroPool;
+        statRow.raw = data.heroPool;
+      }
     }
     else if (stat === 'KDA') {
       statRow.val = statRow.raw.toLocaleString(undefined, { maximumFractionDigits: 1 });
@@ -149,11 +158,16 @@ function processPlayerProfileData(data, type) {
       statRow.name = 'Soft CC Time';
       statRow.val = Formatter.formatSeconds(statRow.raw);
     }
+    else if (stat === 'TimeSpentDead') {
+      statRow.val = Formatter.formatSeconds(statRow.raw)
+    }
     else if (stat === 'KillParticipation') {
       statRow.val = `${(statRow.raw * 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%`;
     }
 
-    statRows.push(statRow);
+    if (statRow.raw !== undefined) {
+      statRows.push(statRow);
+    }
   }
 
   // favored heroes

@@ -34,7 +34,7 @@ function getLabel(type) {
     return 'Warrior';
   }
   else if (type === 'role-support') {
-    return 'Support';
+    return 'Healer';
   }
   else if (type === 'role-offlane') {
     return 'Offlane';
