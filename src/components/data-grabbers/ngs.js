@@ -92,6 +92,7 @@ function lockUI() {
 function unlockUI() {
   $('.ngs-grabber .dropdown').removeClass('loading disabled');
   $('.ngs-grabber .button').removeClass('loading disabled');
+  $('#player-pool').focusout();
 }
 
 async function getDivisions() {
