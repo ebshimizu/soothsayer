@@ -21,6 +21,12 @@ class Draft {
 
     this.setLogo('#blue-team-logo', state.blueTeam.logo);
     this.setLogo('#red-team-logo', state.redTeam.logo);
+
+    $('#draft-wrapper').removeClass('one-caster two-caster');
+    if (state.casters.count === 1)
+      $('#draft-wrapper').addClass('one-caster');
+    else if (state.casters.count === 2)
+      $('#draft-wrapper').addClass('two-caster');
   }
 
   setLogo(id, path) {
