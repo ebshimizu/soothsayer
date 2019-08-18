@@ -154,6 +154,7 @@ function initWithState(appState) {
   });
 
   $('#match-data-clear').click(() => appState.resetMatchData());
+  $('#match-swap-button').click(() => appState.swapMatchData());
 }
 
 exports.Init = initMapData;

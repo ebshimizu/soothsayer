@@ -4,7 +4,8 @@
   width: 100%;
 }
 
-#match-data-clear {
+#match-data-clear,
+#match-swap-button {
   float: right;
 }
 

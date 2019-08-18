@@ -434,6 +434,28 @@ class State {
     }
   }
 
+  swapMatchData() {
+    // ban swap
+    const tmp = this.match.blueMapBan;
+    this.match.blueMapBan = this.match.redMapBan;
+    this.match.redMapBan = tmp;
+
+    // map pick/win swap
+    for (let i = 0; i < this.match.bestOf; i++) {
+      const pick = this.match.games[i].pick;
+      if (pick !== '') {
+        this.match.games[i].pick = pick === 'blue' ? 'red' : 'blue';
+      }
+
+      const win = this.match.games[i].win;
+      if (win !== '') {
+        this.match.games[i].win = win === 'blue' ? 'red' : 'blue';
+      }
+    }
+
+    this.displayMatchData();
+  }
+
   getGameData(gameNumber) {
     const elem = $(`.game-data[game-number="${gameNumber}"]`);
 

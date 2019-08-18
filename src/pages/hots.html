@@ -1,4 +1,8 @@
-<script id="hots-operate-page" class="operate-content" type="text/x-handlebars-template">
+<script
+  id="hots-operate-page"
+  class="operate-content"
+  type="text/x-handlebars-template"
+>
   <div class="ui secondary pointing menu" id="section-menu">
     <a class="active item" data-tab="settings">General</a>
     <a class="item" data-tab="tournament">Tournament</a>
@@ -101,7 +105,7 @@
             <textarea rows="3" id="sidebar-text"></textarea>
           </div>
         </div>
-        <!-- There are no templates that currently use triple casters, so this is here for future use 
+        <!-- There are no templates that currently use triple casters, so this is here for future use
         <div class="fields">
           <div class="twelve wide field">
             <label>Caster 3</label>
@@ -118,7 +122,7 @@
         </div>
       </form>
     </div>
-    
+
   </div>
   <div class="contained basic ui tab segment" data-tab="tournament" id="tournament">
     <h2 class="ui dividing header">Tournament Data</h2>
@@ -525,6 +529,7 @@
     <div class="ui segment">
       <h2 class="ui dividing header">
         Match Setup
+        <div class="ui tiny button" id="match-swap-button">Swap</div>
         <div class="ui tiny red button" id="match-data-clear">Clear Data</div>
       </h2>
       <form class="ui form">
@@ -679,7 +684,7 @@
       <div class="ui info message">
         <div class="content">
           <p>
-            Items might be displayed out-of order below. Ordering is determined by 
+            Items might be displayed out-of order below. Ordering is determined by
             the ordering mode.
             Grouped ordering mode will group items with the same category title together and use order to break ties, while
             absolute ordering mode will use the order value exclusively.
