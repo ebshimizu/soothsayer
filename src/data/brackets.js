@@ -52,6 +52,64 @@ const RO8 = {
   name: 'Round of 8',
 };
 
+// round of 8 with third place match
+const RO83 = {
+  rounds: {
+    QF1: {
+      title: 'Quarterfinal 1',
+      winnerTo: 'SF1.1',
+      loserTo: null,
+    },
+    QF2: {
+      title: 'Quarterfinal 2',
+      winnerTo: 'SF1.2',
+      loserTo: null,
+    },
+    QF3: {
+      title: 'Quarterfinal 3',
+      winnerTo: 'SF2.1',
+      loserTo: null,
+    },
+    QF4: {
+      title: 'Quarterfinal 4',
+      winnerTo: 'SF2.2',
+      loserTo: null,
+    },
+    SF1: {
+      title: 'Semifinal 1',
+      winnerTo: 'Final.1',
+      loserTo: 'Third.1',
+    },
+    SF2: {
+      title: 'Semifinal 2',
+      winnerTo: 'Final.2',
+      loserTo: 'Third.2',
+    },
+    Third: {
+      title: 'Third Place',
+      winnerTo: null,
+      loserTo: null
+    },
+    Final: {
+      title: 'Finals',
+      winnerTo: null,
+      loserTo: null,
+    },
+  },
+  order: [
+    'QF1',
+    'QF2',
+    'QF3',
+    'QF4',
+    'SF1',
+    'SF2',
+    'Third',
+    'Final',
+  ],
+  name: 'Round of 8 with Third Place Match',
+};
+
+
 const RO4 = {
   rounds: {
     SF1: {
@@ -120,8 +178,9 @@ const DE6 = {
     'Final',
   ],
   name: 'Double Elim 6 Teams',
-}
+};
 
 exports.RO8 = RO8;
 exports.RO4 = RO4;
 exports.DE6 = DE6;
+exports.RO83 = RO83;
