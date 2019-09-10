@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 const moment = require('moment');
 const Tournament = require('../tournament');
 
@@ -551,9 +552,21 @@ async function ngsPlayoffChange(value, text) {
       return;
     }
 
+    // retrieve the match objects
+    const matchReq = await fetch(`${baseURL}/schedule/get/match/list`, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        matches: bracket.returnObject.tournInfo[0].matches,
+      }),
+    });
+    const matches = await matchReq.json();
+
     // list the matches
     const vals = [];
-    for (const match of bracket.returnObject.tournMatches) {
+    for (const match of matches.returnObject) {
       if (match.away && match.home) {
         const name = `${match.home.teamName} vs ${match.away.teamName}`;
 
@@ -568,6 +581,7 @@ async function ngsPlayoffChange(value, text) {
     $('#ngs-playoff-match').dropdown('change values', vals);
   }
   catch (e) {
+    showMessage(e, 'negative');
     console.log(e);
   }
 
@@ -593,11 +607,23 @@ async function loadBracket(divSlug) {
       return {};
     }
 
+    // retrieve the match objects
+    const matchReq = await fetch(`${baseURL}/schedule/get/match/list`, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        matches: bracket.returnObject.tournInfo[0].matches,
+      }),
+    });
+    const matches = await matchReq.json()
+
     // reformat
     const matchData = {};
-    for (const id in bracket.returnObject.tournMatches) {
-      matchData[bracket.returnObject.tournMatches[id].matchId] =
-        bracket.returnObject.tournMatches[id];
+    for (const id in matches.returnObject) {
+      matchData[matches.returnObject[id].matchId] =
+        matches.returnObject[id];
     }
 
     // bit of manual data wrangling
