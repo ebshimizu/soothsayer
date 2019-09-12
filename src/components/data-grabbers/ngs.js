@@ -617,7 +617,7 @@ async function loadBracket(divSlug) {
         matches: bracket.returnObject.tournInfo[0].matches,
       }),
     });
-    const matches = await matchReq.json()
+    const matches = await matchReq.json();
 
     // reformat
     const matchData = {};
@@ -713,9 +713,10 @@ async function loadBracket(divSlug) {
     appState.displayTournamentData();
     showMessage('NGS: Tournament bracket load complete', 'positive');
 
-    return bracket.returnObject.tournMatches;
+    return matches.returnObject;
   }
   catch (e) {
+    showMessage(`Error: Failed to load bracket data. ${e}`, 'negative');
     console.log(e);
   }
 
@@ -758,6 +759,7 @@ async function loadPlayoffs() {
     appState.updateAndBroadcastTicker();
   }
   catch (e) {
+    showMessage(`Error: Failed to load playoff data. ${e}`, 'negative');
     console.log(e);
   }
 
