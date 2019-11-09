@@ -17,6 +17,7 @@ const coreThemeFiles = [
   'tournament-standings',
   'ticker-lower-third',
   'hots-player-profile',
+  'tournament-bracket',
 ];
 
 exports.coreThemeFiles = coreThemeFiles;

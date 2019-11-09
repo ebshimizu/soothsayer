@@ -1,9 +1,9 @@
-const HeroDataURL = 'https://heroesprofile.com/API/NGS/HeroStats/';
-const PlayerDataURL = 'https://heroesprofile.com/API/NGS/PlayerProfile';
+const HeroDataURL = 'https://api.heroesprofile.com/api/NGS/Hero/Stat';
+const PlayerDataURL = 'https://api.heroesprofile.com/api/NGS/Player/Profile';
 const Season = 7;
 
 function heroDataCall(hero, player) {
-  const base = `${HeroDataURL}?api_key=${$('#hp-api-key').val()}&season=${Season}&division=${$('#hp-division-select').dropdown('get value')}&hero=${hero}`;
+  const base = `${HeroDataURL}?api_token=${$('#hp-api-key').val()}&season=${Season}&division=${$('#hp-division-select').dropdown('get value')}&hero=${hero}`;
 
   if (player) {
     return `${base}&battletag=${encodeURIComponent(player)}`;
@@ -13,7 +13,7 @@ function heroDataCall(hero, player) {
 }
 
 function playerDataCall(player) {
-  return `${PlayerDataURL}?api_key=${$('#hp-api-key').val()}&season=${Season}&battletag=${encodeURIComponent(player)}`;
+  return `${PlayerDataURL}?api_token=${$('#hp-api-key').val()}&season=${Season}&battletag=${encodeURIComponent(player)}&division=${$('#hp-division-select').dropdown('get value')}&region=1`;
 }
 
 function init() {
