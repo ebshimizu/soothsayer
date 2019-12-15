@@ -62,6 +62,10 @@
   background-image: url('../images/hero-rect/chromie.png');
 }
 
+.DEAT {
+  background-image: url('../images/hero-rect/deathwing.png');
+}
+
 .DECK {
   background-image: url('../images/hero-rect/deckard.png');
 }
