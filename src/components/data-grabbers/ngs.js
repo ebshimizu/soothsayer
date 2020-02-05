@@ -751,6 +751,10 @@ async function loadPlayoffs() {
       loadMatch(matchesByID[matchID]);
     }
 
+    // tournament name
+    const divName = $('#ngs-division-playoff').dropdown('get text');
+    $('#tournament-name').val(`NGS Season ${seasonID} | ${divName} Playoffs`);
+
     // ticker
     await loadTicker(divID);
 
