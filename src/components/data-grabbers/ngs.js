@@ -9,7 +9,8 @@ const seasonID = 8;
 
 const baseURL = 'https://www.nexusgamingseries.org';
 const imageURL = 'https://s3.amazonaws.com/ngs-image-storage';
-const defaultTeamLogo = 'https://s3.amazonaws.com/ngs-image-storage/defaultTeamLogo.png';
+const defaultTeamLogo =
+  'https://s3.amazonaws.com/ngs-image-storage/defaultTeamLogo.png';
 
 function createUI() {
   return `
@@ -254,12 +255,19 @@ async function loadStandings(divID) {
 
       appState.tournament.standings = [];
       for (let i = 0; i < standings.length; i += 1) {
-        appState.addStanding(standings[i].standing, standings[i].teamName, standings[i].points);
+        appState.addStanding(
+          standings[i].standing,
+          standings[i].teamName,
+          standings[i].points,
+        );
         teamNames.push(standings[i].teamName);
       }
       $('#tournament-standing-record-format').dropdown('set exactly', 'w');
 
-      showMessage(`NGS: Loaded standings for division ${division.displayName}`, 'positive');
+      showMessage(
+        `NGS: Loaded standings for division ${division.displayName}`,
+        'positive',
+      );
       showMessage(
         `NGS: Attempting to resolve logos for division ${division.displayName} standings...`,
         'info',
@@ -278,13 +286,16 @@ async function loadStandings(divID) {
         const teamsByName = {};
 
         for (let i = 0; i < teamData.returnObject.length; i += 1) {
-          teamsByName[teamData.returnObject[i].teamName] = teamData.returnObject[i];
+          teamsByName[teamData.returnObject[i].teamName] =
+            teamData.returnObject[i];
         }
 
         for (let i = 0; i < appState.tournament.standings.length; i += 1) {
           const team = appState.tournament.standings[i].team;
           if (team in teamsByName && teamsByName[team].logo) {
-            appState.tournament.standings[i].logo = `${imageURL}/${teamsByName[team].logo}`;
+            appState.tournament.standings[
+              i
+            ].logo = `${imageURL}/${teamsByName[team].logo}`;
           }
           else {
             appState.tournament.standings[i].logo = defaultTeamLogo;
@@ -304,7 +315,10 @@ async function loadStandings(divID) {
     }
   }
   else {
-    showMessage(`NGS: Unable to load standings. Division not found ${divID}.`, 'warning');
+    showMessage(
+      `NGS: Unable to load standings. Division not found ${divID}.`,
+      'warning',
+    );
   }
 }
 
@@ -313,15 +327,23 @@ function scanRecentResults(divSlug, matchList, count = 5) {
   const relevantMatches = [];
   for (const match of matchList) {
     // needs to a) match division, b) be completed
-    if (match.season === seasonID && match.divisionConcat === divSlug && match.reported === true) {
+    if (
+      match.season === seasonID &&
+      match.divisionConcat === divSlug &&
+      match.reported === true
+    ) {
       relevantMatches.push(match);
     }
   }
 
   // compute top 5, sort based on start time (integer)
   relevantMatches.sort(function (a, b) {
-    if (parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime)) return 1;
-    if (parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime)) return -1;
+    if (
+      parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime)
+    ) { return 1; }
+    if (
+      parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime)
+    ) { return -1; }
 
     return 0;
   });
@@ -412,10 +434,16 @@ async function loadTicker(divID) {
     }
 
     appState.setTickerItems(tickerItems);
-    showMessage(`NGS: Loaded ticker for division ${division.displayName}`, 'positive');
+    showMessage(
+      `NGS: Loaded ticker for division ${division.displayName}`,
+      'positive',
+    );
   }
   else {
-    showMessage(`NGS: Unable to load ticker. Division not found ${divID}.`, 'warning');
+    showMessage(
+      `NGS: Unable to load ticker. Division not found ${divID}.`,
+      'warning',
+    );
   }
 }
 
@@ -447,7 +475,9 @@ async function loadMatch(match) {
       headers: new Headers({
         'Content-Type': 'application/json',
       }),
-      body: JSON.stringify({ teams: [match.home.teamName, match.away.teamName] }),
+      body: JSON.stringify({
+        teams: [match.home.teamName, match.away.teamName],
+      }),
     });
     const teamData = await teamReq.json();
 
@@ -483,7 +513,9 @@ async function loadAll() {
       const match = matches[matchID];
 
       showMessage(
-        `NGS: Loading all data for match ${$('#ngs-match').dropdown('get text')}`,
+        `NGS: Loading all data for match ${$('#ngs-match').dropdown(
+          'get text',
+        )}`,
         'info',
       );
 
@@ -510,7 +542,9 @@ async function loadAll() {
     }
     catch (e) {
       showMessage(
-        `NGS: Failed to load match ${$('#ngs-match').dropdown('get text')}. ${e}.`,
+        `NGS: Failed to load match ${$('#ngs-match').dropdown(
+          'get text',
+        )}. ${e}.`,
         'error',
       );
     }
@@ -518,7 +552,10 @@ async function loadAll() {
     unlockUI();
   }
   else {
-    showMessage(`NGS: No match with id ${matchID} found. Load cancelled.`, 'warning');
+    showMessage(
+      `NGS: No match with id ${matchID} found. Load cancelled.`,
+      'warning',
+    );
   }
 }
 
@@ -568,7 +605,9 @@ async function ngsPlayoffChange(value, text) {
     const vals = [];
     for (const match of matches.returnObject) {
       if (match.away && match.home) {
-        const name = `${match.home.teamName} vs ${match.away.teamName}`;
+        const name = `${match.casterName ? `[${match.casterName}]` : ''} ${
+          match.home.teamName
+        } vs ${match.away.teamName}`;
 
         vals.push({
           name,
@@ -622,8 +661,7 @@ async function loadBracket(divSlug) {
     // reformat
     const matchData = {};
     for (const id in matches.returnObject) {
-      matchData[matches.returnObject[id].matchId] =
-        matches.returnObject[id];
+      matchData[matches.returnObject[id].matchId] = matches.returnObject[id];
     }
 
     // bit of manual data wrangling
@@ -662,7 +700,12 @@ async function loadBracket(divSlug) {
       br.rounds[QFKey].team1Score = match.home.score;
       br.rounds[QFKey].team2Score = match.away.score;
 
-      if (match.home && match.away && match.home.score >= 0 && match.away.score >= 0) {
+      if (
+        match.home &&
+        match.away &&
+        match.home.score >= 0 &&
+        match.away.score >= 0
+      ) {
         br.rounds[QFKey].winner = match.home.score > match.away.score ? 1 : 2;
       }
 
@@ -687,7 +730,12 @@ async function loadBracket(divSlug) {
         br.rounds[SFKey].team2Score = match.away.score;
       }
 
-      if (match.home && match.away && match.home.score >= 0 && match.away.score >= 0) {
+      if (
+        match.home &&
+        match.away &&
+        match.home.score >= 0 &&
+        match.away.score >= 0
+      ) {
         br.rounds[SFKey].winner = match.home.score > match.away.score ? 1 : 2;
       }
 
