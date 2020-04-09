@@ -357,6 +357,7 @@ function initWithState(state) {
   appState = state;
   appState.displayTickerData();
   $('#ticker-update').click(() => appState.updateAndBroadcastTicker());
+  $('#ticker-import-standings').click(() => appState.setTickerRanking());
 }
 
 exports.Init = init;

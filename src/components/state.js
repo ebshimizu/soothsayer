@@ -701,6 +701,35 @@ class State {
 
     return items;
   }
+
+  convertScoreboardToTicker() {
+    const items = [];
+    const category = $('#tournament-name').val();
+
+    for (let i = 0; i < this.tournament.standings.length; i++) {
+      const item = this.tournament.standings[i];
+
+      items.push({
+        order: i,
+        category,
+        logo: item.logo,
+        name: item.team,
+        rank: item.place,
+        blueTeam: item.team,
+        blueLogo: item.logo,
+        blueScore: item.place,
+        mode: 'ranking',
+      });
+    }
+
+    return items;
+  }
+
+  setTickerRanking() {
+    this.clearTickerItems();
+    this.setTickerItems(this.convertScoreboardToTicker());
+    this.updateAndBroadcastTicker();
+  }
 }
 
 function constructState(io) {
