@@ -13,6 +13,7 @@ function tickerDropdown() {
         <div class="item" data-value="recent">Recent Result</div>
         <div class="item" data-value="link">Plain Text + Highlight</div>
         <div class="item" data-value="image">Image</div>
+        <div class="item" data-value="ranking">Ranking</div>
       </div>
     </div>
   `;
@@ -127,24 +128,24 @@ function tickerItem(r, id) {
             <label>Blue Team Score</label>
             <div class="ui fluid input">
               <input type="number" name="ticker-blue-score" value="${
-                !isNaN(r.blueScore) ? r.blueScore : ''
-              }">
+  !isNaN(r.blueScore) ? r.blueScore : ''
+}">
             </div>
           </div>
           <div class="three wide field">
             <label>Red Team Score</label>
             <div class="ui fluid input">
               <input type="number" name="ticker-red-score" value="${
-                !isNaN(r.redScore) ? r.redScore : ''
-              }">
+  !isNaN(r.redScore) ? r.redScore : ''
+}">
             </div>
           </div>
           <div class="four wide field" style="display:none;">
             <label>Date</label>
             <div class="ui fluid input">
               <input type="datetime-local" name="ticker-recent-date" value="${
-                r.recentDate ? r.recentDate : ''
-              }">
+  r.recentDate ? r.recentDate : ''
+}">
             </div>
           </div>
         </div>
@@ -160,8 +161,8 @@ function tickerItem(r, id) {
             <label>Date</label>
             <div class="ui fluid input">
               <input type="datetime-local" name="ticker-upcoming-date" value="${
-                r.upcomingDate ? r.upcomingDate : ''
-              }">
+  r.upcomingDate ? r.upcomingDate : ''
+}">
             </div>
           </div>
         </div>
@@ -216,6 +217,11 @@ function changeTickerMode(mode, id) {
   else if (mode === 'image') {
     elem.find('.image-type').show();
     elem.find('h3').text('Image');
+  }
+  else if (mode === 'ranking') {
+    elem.find('.teams').show();
+    elem.find('.recent').show();
+    elem.find('h3').text('Ranking (Use Blue Team)');
   }
   else {
     elem.find('.text-type').show();
@@ -292,6 +298,9 @@ function getTickerItemData(elem) {
     text: getTickerInput(elem, 'ticker-subtitle'),
     link: getTickerInput(elem, 'ticker-link'),
     image: getTickerInput(elem, 'ticker-general-image'),
+    logo: getTickerInput(elem, 'ticker-blue-logo'),
+    name: getTickerInput(elem, 'ticker-blue-team'),
+    rank: parseInt(getTickerInput(elem, 'ticker-blue-score')),
   };
 }
 

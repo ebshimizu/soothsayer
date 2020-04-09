@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const socket = io('http://localhost:3005/');
 
 let lt;
@@ -127,6 +128,9 @@ class Ticker {
     else if (item.mode === 'image') {
       return this.imageItem(item);
     }
+    else if (item.mode === 'ranking') {
+      return this.rankingItem(item);
+    }
   }
 
   textItem(item) {
@@ -222,11 +226,32 @@ class Ticker {
     }
     else {
       elem.find('.red').addClass('draw');
-      elem.find('blue').addClass('draw');
+      elem.find('.blue').addClass('draw');
     }
 
     setCSSImage(elem.find('.blue.logo'), item.blueLogo);
     setCSSImage(elem.find('.red.logo'), item.redLogo);
+
+    return elem;
+  }
+
+  rankingItem(item) {
+    const elem = $(`
+      <div class="ranking item">
+        <div class="bg"></div>
+        <div class="util-1"></div>
+        <div class="util-2"></div>
+        <div class="util-3"></div>
+        <div class="rank"></div>
+        <div class="logo"></div>
+        <div class="name"></div>
+      </div>
+    `);
+
+    // substitution
+    elem.find('.name').text(item.name);
+    elem.find('.rank').text(item.rank);
+    setCSSImage(elem.find('.logo'), item.logo);
 
     return elem;
   }
@@ -278,7 +303,6 @@ class Ticker {
     setCSSImage(elem.find('.content .image'), item.image);
     return elem;
   }
-
 }
 
 $(document).ready(() => {
@@ -293,7 +317,7 @@ $(document).ready(() => {
   socket.on('tickerUpdate', (state) => {
     lt.updateState.call(lt, state);
   });
-  
+
   socket.on('changeTheme', (themeDir) => {
     changeTheme(themeDir, 'ticker-lower-third.css');
   });
