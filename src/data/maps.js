@@ -77,8 +77,23 @@ const MapPools = {
       'BraxisHoldout',
     ],
   },
-  HeroesLounge: {
-    name: 'HL EU9/NA2/Div S1',
+  HeroesLoungeEU: {
+    name: 'HL EU Season 12',
+    maps: [
+      'BattlefieldOfEternity',
+      'InfernalShrines',
+      'VolskayaFoundry',
+      'DragonShire',
+      'TombOfTheSpiderQueen',
+      'SkyTemple',
+      'CursedHollow',
+      'TowersOfDoom',
+      'AlteracPass',
+      'BraxisHoldout',
+    ],
+  },
+  HeroesLoungeNA: {
+    name: 'HL NA Season 4',
     maps: [
       'BattlefieldOfEternity',
       'InfernalShrines',
