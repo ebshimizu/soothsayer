@@ -1,6 +1,6 @@
 const HeroDataURL = 'https://api.heroesprofile.com/api/NGS/Hero/Stat';
 const PlayerDataURL = 'https://api.heroesprofile.com/api/NGS/Player/Profile';
-const Season = 8;
+const Season = 9;
 
 function heroDataCall(hero, player) {
   const base = `${HeroDataURL}?api_token=${$('#hp-api-key').val()}&season=${Season}&division=${$('#hp-division-select').dropdown('get value')}&hero=${hero}`;
