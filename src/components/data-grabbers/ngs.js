@@ -135,10 +135,14 @@ function ngsDivisionChange(value, text, $elem) {
   // update round number (it's round robin so it's based on division team size)
   if (value in divisions) {
     const vals = [];
-    const rounds =
+    let rounds =
       divisions[value].teams.length % 2 === 0
         ? divisions[value].teams.length - 1
         : divisions[value].teams.length;
+
+    if (divisions[value].teams.length <= 8) {
+      rounds *= 2;
+    }
 
     for (let i = 1; i <= rounds; i += 1) {
       vals.push({
@@ -159,7 +163,8 @@ async function ngsRoundChange(value, text, $elem) {
   const payload = {
     season: seasonID,
     round: parseInt(value),
-    division: divisions[$('#ngs-division').dropdown('get value')].divisionConcat,
+    division:
+      divisions[$('#ngs-division').dropdown('get value')].divisionConcat,
   };
 
   try {
@@ -340,10 +345,14 @@ function scanRecentResults(divSlug, matchList, count = 5) {
   relevantMatches.sort(function (a, b) {
     if (
       parseInt(a.scheduledTime.startTime) < parseInt(b.scheduledTime.startTime)
-    ) { return 1; }
+    ) {
+      return 1;
+    }
     if (
       parseInt(a.scheduledTime.startTime) > parseInt(b.scheduledTime.startTime)
-    ) { return -1; }
+    ) {
+      return -1;
+    }
 
     return 0;
   });
@@ -483,9 +492,17 @@ async function loadMatch(match) {
 
     console.log(teamData);
 
-    // pretty sure teams are returned in order so...
-    const homeMembers = processRoster(teamData.returnObject[0].teamMembers);
-    const awayMembers = processRoster(teamData.returnObject[1].teamMembers);
+    // link up returned teams
+    const home =
+      teamData.returnObject[0].teamName_lower === match.home.teamName_lower
+        ? teamData.returnObject[0].teamMembers
+        : teamData.returnObject[1].teamMembers;
+    const away =
+      teamData.returnObject[0].teamName_lower === match.home.teamName_lower
+        ? teamData.returnObject[1].teamMembers
+        : teamData.returnObject[0].teamMembers;
+    const homeMembers = processRoster(home);
+    const awayMembers = processRoster(away);
 
     for (let i = 0; i < 5; i += 1) {
       $(`input[name="blue-p${i + 1}-name"]`).val(homeMembers[i]);
@@ -565,10 +582,7 @@ async function ngsPlayoffChange(value, text) {
   lockUI();
 
   try {
-    const divSlug = text
-      .toLowerCase()
-      .split(' ')
-      .join('-');
+    const divSlug = text.toLowerCase().split(' ').join('-');
 
     const bracketReq = await fetch(`${baseURL}/schedule/fetch/tournament`, {
       method: 'POST',
