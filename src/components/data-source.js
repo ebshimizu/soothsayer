@@ -5,35 +5,42 @@
 const { dialog } = require('electron').remote;
 const SotsSource = require('./data-sources/sots-db');
 const HPSource = require('./data-sources/heroes-profile');
+const RemoteSotsSource = require('./data-sources/remote-sots');
+
 let appState;
 
 // data sources
 const DataSources = {
   sots: SotsSource,
-  heroesProfile: HPSource
+  heroesProfile: HPSource,
+  remoteSots: RemoteSotsSource,
 };
 
 let activeSource;
 
 function browseReplayFolder() {
-  dialog.showOpenDialog({
-    title: 'Set Replay Folder',
-    properties: ['openDirectory'],
-  }, function(files) {
-    if (files) {
-      $('#set-replay-folder').val(files[0]);
-      appState.setWatchLocation();
-    }
-  });
+  dialog.showOpenDialog(
+    {
+      title: 'Set Replay Folder',
+      properties: ['openDirectory'],
+    },
+    function (files) {
+      if (files) {
+        $('#set-replay-folder').val(files[0]);
+        appState.setWatchLocation();
+      }
+    },
+  );
 }
 
 function init() {
   DataSources.sots.init();
   DataSources.heroesProfile.init();
+  DataSources.remoteSots.init();
 
   $('.data-source-options').hide();
   $('#data-source-menu').dropdown({
-    onChange: changeDataSource
+    onChange: changeDataSource,
   });
   $('#set-replay-folder-button').click(browseReplayFolder);
 }
@@ -44,7 +51,7 @@ function initWithState(state) {
   // assign active source, run an activation routine (auto happens on set)
   activeSource = appState.dataSource.active;
   $('#data-source-menu').dropdown('set exactly', activeSource);
-  //appState.setWatchLocation();
+  // appState.setWatchLocation();
 }
 
 function changeDataSource(val) {
@@ -53,8 +60,9 @@ function changeDataSource(val) {
     $('.data-source-options').hide();
     $(`.data-source-options[data-source="${val}"]`).show();
 
-    if (val in DataSources)
+    if (val in DataSources) {
       DataSources[val].activate();
+    }
 
     activeSource = val;
     appState.setDataSource(activeSource);
@@ -64,15 +72,21 @@ function changeDataSource(val) {
 // gets data in the format required by the lower thirds
 // options defined in stat-lower-third's LT dropdown var. (yeahhhhhhh i know not optimal)
 function getLTData(dataConfig, callback) {
-  if (dataConfig.type === 'hero-pbw' ||
-      dataConfig.type === 'hero-pwk') {
+  if (dataConfig.type === 'hero-pbw' || dataConfig.type === 'hero-pwk') {
     heroDraft(dataConfig.hero, callback, dataConfig.wildcard);
   }
   else if (dataConfig.type === 'player-hero') {
-    playerStatsForHero(dataConfig.player, dataConfig.hero, callback, dataConfig.wildcard);
+    playerStatsForHero(
+      dataConfig.player,
+      dataConfig.hero,
+      callback,
+      dataConfig.wildcard,
+    );
   }
-  else if (dataConfig.type === 'player-kwk' ||
-    dataConfig.type === 'player-kww') {
+  else if (
+    dataConfig.type === 'player-kwk' ||
+    dataConfig.type === 'player-kww'
+  ) {
     playerStats(dataConfig.player, callback, dataConfig.wildcard);
   }
   else {
@@ -89,16 +103,19 @@ function heroDraft(hero, callback, wildcard) {
 }
 
 // all draft data for a specific team's hero
-function heroDraftWithTeam(hero, team) {
-
-}
+function heroDraftWithTeam(hero, team) {}
 
 // all player stats for a specific hero
 // Player is a battletag (maybe)
 // required fields:
 // - games, win, winPct, K, D, A, TD, KDA, timeDeadPct, KillParticipation, ToonHandle, BTag
 function playerStatsForHero(player, hero, callback, wildcard) {
-  DataSources[activeSource].playerStatsForHero(player, hero, callback, wildcard);
+  DataSources[activeSource].playerStatsForHero(
+    player,
+    hero,
+    callback,
+    wildcard,
+  );
 }
 
 // all player stats

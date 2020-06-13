@@ -579,6 +579,7 @@ class State {
     this.dataSource.hpApiKey = $('#hp-api-key').val();
     this.dataSource.hpDivision = $('#hp-division-select').dropdown('get value');
     this.dataSource.dataGrabber = $('#data-grabber-menu').dropdown('get value');
+    this.dataSource.remoteURL = $('#remote-sots-url').val();
   }
 
   displayDataSource() {
@@ -588,6 +589,7 @@ class State {
     $('#set-replay-folder').val(this.dataSource.replayFolder);
     $('#hp-api-key').val(this.dataSource.hpApiKey);
     $('#hp-division-select').dropdown('set exactly', this.dataSource.hpDivision);
+    $('#remote-sots-url').val(this.dataSource.remoteURL);
   }
 
   setLastReplayData(data) {

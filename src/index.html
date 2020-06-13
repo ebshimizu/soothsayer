@@ -225,6 +225,7 @@
                 <div class="menu">
                   <div class="item" data-value="0">No Stat Source</div>
                   <div class="item" data-value="sots">Stats of the Storm</div>
+                  <div class="item" data-value="remoteSots">Remote Stats of the Storm</div>
                   <div class="item" data-value="heroesProfile">
                     Heroes Profile (NGS)
                   </div>
@@ -262,6 +263,37 @@
                   >
                     <i class="dropdown icon"></i>
                     <div class="default text">All Matches</div>
+                    <div class="menu">
+                      <!-- populated after DB load -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="data-source-options" data-source="remoteSots">
+              <div class="fields">
+                <div class="eight wide field">
+                  <label>Server URL</label>
+                  <input
+                    type="text"
+                    name="remote-sots-url"
+                    id="remote-sots-url"
+                  />
+                </div>
+                <div class="four wide field">
+                  <label>Get Active Tournaments</label>
+                  <div class="ui fluid green button" id="remote-sots-load">
+                    Load Tournaments
+                  </div>
+                </div>
+                <div class="six wide field">
+                  <label>Tournament</label>
+                  <div
+                    class="ui fluid selection dropdown"
+                    id="remote-sots-tournaments"
+                  >
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select a Tournament</div>
                     <div class="menu">
                       <!-- populated after DB load -->
                     </div>
