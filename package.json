@@ -3,6 +3,7 @@
   "version": "2.0.0-alpha",
   "private": true,
   "scripts": {
+    "start": "vue-cli-service electron:serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
@@ -14,6 +15,8 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "moment": "^2.27.0",
+    "socket.io": "^2.3.0",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
