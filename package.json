@@ -19,7 +19,8 @@
     "socket.io": "^2.3.0",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "vuex-electron": "jean-moreno/vuex-electron"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
