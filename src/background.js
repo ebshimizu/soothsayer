@@ -1,6 +1,18 @@
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, ipcMain } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import path from 'path';
+import fs from 'fs-extra';
+
+// soothsayer server init
+import express from 'express';
+import http from 'http';
+import socketio from 'socket.io';
+import store from './store/index';
+
+const obsSrc = path.join(__static, 'obs_scr');
+const textSrc = path.join(__static, 'obs_src', 'text');
+
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -15,8 +27,10 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 800,
+    minHeight: 400,
+    minWidth: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -85,3 +99,18 @@ if (isDevelopment) {
     });
   }
 }
+
+// application specific code
+// start the socket server
+const socketApp = express()
+const httpServer = http.createServer(socketApp)
+const io = socketio(httpServer, {
+  serveClient: false
+});
+
+httpServer.listen(3005, function() {
+  console.log('Listening on *:3005');
+});
+
+// ensure that text output directory exists
+fs.ensureDirSync(textSrc);
