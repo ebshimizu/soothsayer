@@ -3,6 +3,8 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import path from 'path';
 import fs from 'fs-extra';
+import _ from 'lodash';
+import { MUTATION } from './data/ACTIONS';
 
 // soothsayer server init
 import express from 'express';
@@ -102,11 +104,14 @@ if (isDevelopment) {
 
 // application specific code
 // start the socket server
-const socketApp = express()
-const httpServer = http.createServer(socketApp)
+const socketApp = express();
+const httpServer = http.createServer(socketApp);
 const io = socketio(httpServer, {
-  serveClient: false
+  serveClient: false,
 });
+
+// list of connected overlays
+const sockets = {};
 
 httpServer.listen(3005, function() {
   console.log('Listening on *:3005');
@@ -114,3 +119,40 @@ httpServer.listen(3005, function() {
 
 // ensure that text output directory exists
 fs.ensureDirSync(textSrc);
+
+// socket handlers and update events
+io.on('connection', (socket) => {
+  console.log(`New connection from ${socket.id}. Requesting id.`);
+  socket.emit('requestID');
+  // socket.emit('changeTheme', store.state.theme);
+
+  socket.on('disconnect', function(reason) {
+    // unregister
+  });
+
+  socket.on('reportID', (overlayData) => {
+    // register to app state
+    const dataDupe = _.cloneDeep(overlayData);
+    store.commit(MUTATION.REGISTER_OVERLAY, { id: socket.id, overlayData: dataDupe });
+
+    // store socket id
+    sockets[socket.id] = overlayData;
+    sockets[socket.id].socket = socket;
+
+    if (overlayData.name === 'Lower Third') {
+      // this.onLowerThirdConnect(socket);
+    } else if (overlayData.name === 'Player Profile') {
+      // onPlayerProfileConnect(socket);
+    }
+
+    console.log(`Registered '${overlayData.name}' from ${socket.id}.`);
+  });
+});
+
+ipcMain.on('broadcastUpdate', () => {
+  console.log('updated');
+
+  io.sockets.emit('update', store.state.broadcast);
+
+  // update text
+});

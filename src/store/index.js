@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import { createSharedMutations } from 'vuex-electron';
+import { MUTATION } from '../data/ACTIONS';
 
 Vue.use(Vuex);
 
@@ -39,9 +40,44 @@ export default new Vuex.Store({
         popupDisplayMode: '',
         popupAnimLength: 30,
       },
+      casters: {
+        one: {
+          name: '',
+          social: '',
+          size: 'medium',
+        },
+        two: {
+          name: '',
+          social: '',
+          size: 'medium',
+        },
+        tournament: '',
+        count: 1,
+        sidebar: {
+          title: '',
+          text: '',
+        },
+        frame: 1,
+        eventLogo: '',
+      },
     },
+    overlays: {},
+    playerPool: '',
   },
-  mutations: {},
+  mutations: {
+    [MUTATION.SET_BROADCAST_FIELD](state, { key, value }) {
+      Vue.set(state.broadcast, key, value);
+    },
+    [MUTATION.SET_PLAYER_POOL](state, pool) {
+      state.playerPool = pool;
+    },
+    [MUTATION.REGISTER_OVERLAY](state, { id, overlayData }) {
+      Vue.set(state.overlays, id, overlayData);
+    },
+    [MUTATION.UNREGISTER_OVERLAY](state, id) {
+      Vue.delete(state.overlays, id);
+    }
+  },
   actions: {},
   modules: {},
 });

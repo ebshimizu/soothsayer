@@ -1,56 +1,50 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+    <v-app-bar
+      app
+      dense
+      color="primary"
+    >
+      <v-tabs
+        v-model="activeTab"
+        color="white"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <v-tab>Operate</v-tab>
+        <v-tab>Settings</v-tab>
+      </v-tabs>
+      <v-spacer />
+      <v-btn
+        color="green"
+        @click="update"
+      >
+        UPDATE
       </v-btn>
     </v-app-bar>
-
-    <v-content>
-      <HelloWorld />
-    </v-content>
+    <v-main>
+      <v-tabs-items v-model="activeTab">
+        <v-tab-item><soothsayer-operate /></v-tab-item>
+        <v-tab-item>Settings</v-tab-item>
+      </v-tabs-items>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import SoothsayerOperate from './components/SoothsayerOperate';
+import { ipcRenderer } from 'electron';
 
 export default {
-  name: "App",
-
+  name: 'App',
   components: {
-    HelloWorld
+    SoothsayerOperate,
   },
-
   data: () => ({
-    //
-  })
+    activeTab: 0,
+  }),
+  methods: {
+    update() {
+      ipcRenderer.send('broadcastUpdate');
+    },
+  },
 };
 </script>
