@@ -23,7 +23,7 @@
     <v-main>
       <v-tabs-items v-model="activeTab">
         <v-tab-item><soothsayer-operate /></v-tab-item>
-        <v-tab-item>Settings</v-tab-item>
+        <v-tab-item><soothsayer-settings /></v-tab-item>
       </v-tabs-items>
     </v-main>
   </v-app>
@@ -31,12 +31,14 @@
 
 <script>
 import SoothsayerOperate from './components/SoothsayerOperate';
+import SoothsayerSettings from './components/SoothsayerSettings';
 import { ipcRenderer } from 'electron';
 
 export default {
   name: 'App',
   components: {
     SoothsayerOperate,
+    SoothsayerSettings,
   },
   data: () => ({
     activeTab: 0,

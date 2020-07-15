@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import _ from 'lodash';
 
 import { createSharedMutations } from 'vuex-electron';
 import { MUTATION } from '../data/ACTIONS';
@@ -63,6 +64,7 @@ export default new Vuex.Store({
     },
     overlays: {},
     playerPool: '',
+    log: [],
   },
   mutations: {
     [MUTATION.SET_BROADCAST_FIELD](state, { key, value }) {
@@ -76,6 +78,13 @@ export default new Vuex.Store({
     },
     [MUTATION.UNREGISTER_OVERLAY](state, id) {
       Vue.delete(state.overlays, id);
+    },
+    [MUTATION.ADD_LOG](state, { message, level, time }) {
+      state.log.push({ message, level, time });
+      console.log(`${time} [${level}] ${message}`);
+    },
+    [MUTATION.LOAD_BROADCAST_DATA](state, data) {
+      Vue.set(state, 'broadcast', _.cloneDeep(data));
     }
   },
   actions: {},

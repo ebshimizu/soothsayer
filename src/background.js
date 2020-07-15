@@ -5,6 +5,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import { MUTATION } from './data/ACTIONS';
+import LOG_LEVEL from './data/LOG_LEVEL';
+import settings from 'electron-settings';
 
 // soothsayer server init
 import express from 'express';
@@ -103,6 +105,13 @@ if (isDevelopment) {
 }
 
 // application specific code
+// load data
+const broadcastState = settings.getSync('broadcast');
+if (broadcastState) {
+  store.commit(MUTATION.LOAD_BROADCAST_DATA, broadcastState);
+}
+// other persistent stuff, like player pool, theme, etc.
+
 // start the socket server
 const socketApp = express();
 const httpServer = http.createServer(socketApp);
@@ -122,18 +131,28 @@ fs.ensureDirSync(textSrc);
 
 // socket handlers and update events
 io.on('connection', (socket) => {
-  console.log(`New connection from ${socket.id}. Requesting id.`);
+  store.commit(MUTATION.ADD_LOG, {
+    level: LOG_LEVEL.DEBUG,
+    message: `New connection from ${socket.id}. Requesting id.`,
+    time: new Date(),
+  });
+
   socket.emit('requestID');
   // socket.emit('changeTheme', store.state.theme);
 
   socket.on('disconnect', function(reason) {
     // unregister
+    store.commit(MUTATION.UNREGISTER_OVERLAY, socket.id);
+
+    delete sockets[socket.id];
   });
 
   socket.on('reportID', (overlayData) => {
     // register to app state
-    const dataDupe = _.cloneDeep(overlayData);
-    store.commit(MUTATION.REGISTER_OVERLAY, { id: socket.id, overlayData: dataDupe });
+    store.commit(MUTATION.REGISTER_OVERLAY, {
+      id: socket.id,
+      overlayData: _.cloneDeep(overlayData),
+    });
 
     // store socket id
     sockets[socket.id] = overlayData;
@@ -145,7 +164,25 @@ io.on('connection', (socket) => {
       // onPlayerProfileConnect(socket);
     }
 
-    console.log(`Registered '${overlayData.name}' from ${socket.id}.`);
+    store.commit(MUTATION.ADD_LOG, {
+      level: LOG_LEVEL.DEBUG,
+      message: `Registered '${overlayData.name}' from ${socket.id}.`,
+      time: new Date(),
+    });
+  });
+
+  socket.on('requestState', async () => {
+    // so here we actually want to get the snapshotted state...
+    const snapshot = await settings.get('broadcast');
+    socket.emit('update', snapshot);
+  });
+
+  socket.on('requestTicker', () => {
+    // ticker
+  });
+
+  socket.on('requestMapPool', () => {
+    // map pool
   });
 });
 
@@ -155,4 +192,7 @@ ipcMain.on('broadcastUpdate', () => {
   io.sockets.emit('update', store.state.broadcast);
 
   // update text
+
+  // write settings, don't need to wait
+  settings.set('broadcast', store.state.broadcast);
 });
