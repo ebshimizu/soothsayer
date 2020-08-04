@@ -5,7 +5,7 @@ const Tournament = require('../tournament');
 let appState;
 let divisions = {};
 let matches = {};
-const seasonID = 9;
+const seasonID = 10;
 
 const baseURL = 'https://www.nexusgamingseries.org';
 const imageURL = 'https://s3.amazonaws.com/ngs-image-storage';
@@ -46,7 +46,7 @@ function createUI() {
           <div class="ui fluid green button" id="ngs-load-all">Load</div>
         </div>
       </div>
-      <h3 class="ui dividing header">Playoffs</h3>
+      <h3 class="ui dividing header">Playoffs and Tournaments</h3>
       <div class="fields">
         <div class="ui four wide field">
           <label>Division</label>
@@ -104,6 +104,9 @@ async function getDivisions() {
     const resp = await fetch(`${baseURL}/division/get/all`);
     const divs = await resp.json();
 
+    const tourn = await fetch(`${baseURL}/schedule/fetch/tournament/active`);
+    const tm = await tourn.json();
+
     divisions = {};
     const options = [];
 
@@ -118,7 +121,17 @@ async function getDivisions() {
     }
 
     $('#ngs-division').dropdown('change values', options);
-    $('#ngs-division-playoff').dropdown('change values', options);
+
+    const tOptions = [];
+    for (let i = 0; i < tm.returnObject.length; i += 1) {
+      tOptions.push({
+        value: tm.returnObject[i].tournamentName,
+        text: tm.returnObject[i].tournamentName,
+        name: tm.returnObject[i].tournamentName,
+      });
+    }
+
+    $('#ngs-division-playoff').dropdown('change values', tOptions);
     showMessage('NGS: Loaded division list.', 'positive');
 
     // debug
@@ -324,6 +337,10 @@ async function loadStandings(divID) {
       `NGS: Unable to load standings. Division not found ${divID}.`,
       'warning',
     );
+
+    // reset on fail
+    appState.tournament.standings = [];
+    appState.displayTournamentData();
   }
 }
 
@@ -453,6 +470,9 @@ async function loadTicker(divID) {
       `NGS: Unable to load ticker. Division not found ${divID}.`,
       'warning',
     );
+
+    // clear on fail
+    appState.setTickerItems([]);
   }
 }
 
@@ -582,16 +602,13 @@ async function ngsPlayoffChange(value, text) {
   lockUI();
 
   try {
-    const divSlug = text.toLowerCase().split(' ').join('-');
-
     const bracketReq = await fetch(`${baseURL}/schedule/fetch/tournament`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify({
-        season: seasonID,
-        division: divSlug,
+        tournamentName: value,
       }),
     });
     const bracket = await bracketReq.json();
@@ -642,6 +659,8 @@ async function ngsPlayoffChange(value, text) {
 }
 
 async function loadBracket(divSlug) {
+  let matches;
+
   try {
     const bracketReq = await fetch(`${baseURL}/schedule/fetch/tournament`, {
       method: 'POST',
@@ -649,8 +668,7 @@ async function loadBracket(divSlug) {
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify({
-        season: seasonID,
-        division: divSlug,
+        tournamentName: divSlug,
       }),
     });
     const bracket = await bracketReq.json();
@@ -670,7 +688,7 @@ async function loadBracket(divSlug) {
         matches: bracket.returnObject.tournInfo[0].matches,
       }),
     });
-    const matches = await matchReq.json();
+    matches = await matchReq.json();
 
     // reformat
     const matchData = {};
@@ -780,6 +798,10 @@ async function loadBracket(divSlug) {
   catch (e) {
     showMessage(`Error: Failed to load bracket data. ${e}`, 'negative');
     console.log(e);
+
+    if (matches) {
+      return matches.returnObject;
+    }
   }
 
   return {};
@@ -791,17 +813,12 @@ async function loadPlayoffs() {
 
   try {
     const divID = $('#ngs-division-playoff').dropdown('get value');
-    const divSlug = $('#ngs-division-playoff')
-      .dropdown('get text')
-      .toLowerCase()
-      .split(' ')
-      .join('-');
 
     // standings have to be first
     await loadStandings(divID);
 
     // load bracket
-    const bracketMatches = await loadBracket(divSlug);
+    const bracketMatches = await loadBracket(divID);
     const matchesByID = {};
     bracketMatches.forEach((m) => {
       matchesByID[m._id] = m;
@@ -815,7 +832,7 @@ async function loadPlayoffs() {
 
     // tournament name
     const divName = $('#ngs-division-playoff').dropdown('get text');
-    $('#tournament-name').val(`NGS Season ${seasonID} | ${divName} Playoffs`);
+    $('#tournament-name').val(`NGS Season ${seasonID} | ${divName}`);
 
     // ticker
     await loadTicker(divID);
