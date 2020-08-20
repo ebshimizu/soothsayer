@@ -293,7 +293,7 @@ async function loadStandings(divID) {
 
       try {
         // logo resolution
-        const teamReq = await fetch(`${baseURL}/team/getTeams`, {
+        const teamReq = await fetch(`${baseURL}/team/fetch/teams`, {
           method: 'POST',
           headers: new Headers({
             'Content-Type': 'application/json',
@@ -499,7 +499,7 @@ async function loadMatch(match) {
 
   // rosters
   try {
-    const teamReq = await fetch(`${baseURL}/team/getTeams`, {
+    const teamReq = await fetch(`${baseURL}/team/fetch/teams`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -621,7 +621,7 @@ async function ngsPlayoffChange(value, text) {
     }
 
     // retrieve the match objects
-    const matchReq = await fetch(`${baseURL}/schedule/get/match/list`, {
+    const matchReq = await fetch(`${baseURL}/schedule/fetch/match/list`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -679,7 +679,7 @@ async function loadBracket(divSlug) {
     }
 
     // retrieve the match objects
-    const matchReq = await fetch(`${baseURL}/schedule/get/match/list`, {
+    const matchReq = await fetch(`${baseURL}/schedule/fetch/match/list`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
