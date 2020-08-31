@@ -62,19 +62,19 @@ const Maps = {
 };
 
 const MapPools = {
-  NGSS7: {
-    name: 'NGS Season 7-9',
+  NGSS10: {
+    name: 'NGS Season 10',
     maps: [
       'AlteracPass',
       'BattlefieldOfEternity',
+      'BraxisHoldout',
       'CursedHollow',
       'DragonShire',
+      'HanamuraTemple',
       'InfernalShrines',
-      'SkyTemple',
       'TombOfTheSpiderQueen',
       'TowersOfDoom',
       'VolskayaFoundry',
-      'BraxisHoldout',
     ],
   },
   HeroesLoungeEU: {
