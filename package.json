@@ -43,7 +43,7 @@
     "dist": "electron-builder",
     "start": "electron ./",
     "upload": "electron-builder --x64 --publish always",
-    "protocol": "node ./node_modules/heroprotocol/postinstall.js"
+    "protocol": "node ./node_modules/heroprotocol-fallback/postinstall.js"
   },
   "build": {
     "appId": "com.soothsayer.app",
