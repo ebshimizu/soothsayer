@@ -61,13 +61,14 @@
 @itemLineHeightOffset: (@itemLineHeight - 1em);
 @itemTextTransform: none;
 @itemBoxShadow: none;
+@itemMinHeight: unit(@itemLineHeight + 2 * @itemVerticalPadding, rem);
 
 /* Sub Menu */
 @subMenuTop: 0;
 @subMenuLeft: 100%;
 @subMenuRight: auto;
 @subMenuDistanceAway: -0.5em;
-@subMenuMargin: 0 0 0 @subMenuDistanceAway;
+@subMenuMargin: 0 @subMenuDistanceAway;
 @subMenuBorderRadius: @borderRadius;
 @subMenuZIndex: 21;
 

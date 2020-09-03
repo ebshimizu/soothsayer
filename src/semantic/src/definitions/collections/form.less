@@ -47,6 +47,7 @@
   margin: @fieldMargin;
 }
 
+.ui.form .fields .fields,
 .ui.form .field:last-child,
 .ui.form .fields:last-child .field {
   margin-bottom: 0;
@@ -411,6 +412,43 @@
   border-radius: @inputFocusBorderRadius;
   background: @inputFocusBackground;
   box-shadow: @inputFocusBoxShadow;
+}
+& when (@variationInputAction) {
+  .ui.form .ui.action.input:not([class*="left action"]) {
+    & input:not([type]):focus,
+      input[type="date"]:focus,
+      input[type="datetime-local"]:focus,
+      input[type="email"]:focus,
+      input[type="number"]:focus,
+      input[type="password"]:focus,
+      input[type="search"]:focus,
+      input[type="tel"]:focus,
+      input[type="time"]:focus,
+      input[type="text"]:focus,
+      input[type="file"]:focus,
+      input[type="url"]:focus {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .ui.form .ui[class*="left action"].input {
+    & input:not([type]),
+      input[type="date"],
+      input[type="datetime-local"],
+      input[type="email"],
+      input[type="number"],
+      input[type="password"],
+      input[type="search"],
+      input[type="tel"],
+      input[type="time"],
+      input[type="text"],
+      input[type="file"],
+      input[type="url"] {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+  }
 }
 .ui.form textarea:focus {
   color: @textAreaFocusColor;
@@ -1061,6 +1099,16 @@
 
     vertical-align: middle;
     font-size: @inlineInputSize;
+  }
+
+  .ui.form .inline.fields .field .calendar:not(.popup),
+  .ui.form .inline.field .calendar:not(.popup) {
+    display:inline-block;
+  }
+
+  .ui.form .inline.fields .field .calendar:not(.popup) > .input > input,
+  .ui.form .inline.field .calendar:not(.popup) > .input > input {
+    width: @inlineCalendarWidth;
   }
 
   /* Label */

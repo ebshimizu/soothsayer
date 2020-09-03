@@ -53,6 +53,10 @@
   border-bottom-right-radius: @borderRadius;
 }
 
+.ui.modal > .ui.dimmer {
+  border-radius: inherit;
+}
+
 /*******************************
             Content
 *******************************/
@@ -171,7 +175,7 @@
   border-top: @actionBorder;
   text-align: @actionAlign;
 }
-.ui.modal .actions > .button {
+.ui.modal .actions > .button:not(.fluid) {
   margin-left: @buttonDistance;
 }
 .ui.basic.modal > .actions {
@@ -252,7 +256,7 @@
   .ui.modal .image.content {
     flex-direction: column;
   }
-  .ui.modal .content > .image {
+  .ui.modal > .content > .image {
     display: block;
     max-width: 100%;
     margin: 0 auto !important;
@@ -265,7 +269,7 @@
   }
 
   /*rtl:ignore*/
-  .ui.modal .content > .description {
+  .ui.modal > .content > .description {
     display: block;
     width: 100% !important;
     margin: 0 !important;
@@ -309,6 +313,7 @@
   }
   .ui.basic.modal > .header {
     color: @basicModalHeaderColor;
+    border-bottom: none;
   }
   .ui.basic.modal > .close {
     top: @basicModalCloseTop;
@@ -442,7 +447,7 @@
   }
 }
 
-& when (@variationModalFullscreen) or (@variationModalOverlay) {
+& when (@variationModalFullscreen) or (@variationModalOverlay) or (@variationModalCloseInside) {
   /*--------------
      Full Screen
   ---------------*/
@@ -461,9 +466,11 @@
       border-radius:0;
     }
   }
+  .ui.modal > .close.inside + .header,
   .ui.fullscreen.modal > .header {
     padding-right: @closeHitbox;
   }
+  .ui.modal > .close.inside,
   .ui.fullscreen.modal > .close {
     top: @innerCloseTop;
     right: @innerCloseRight;
@@ -562,7 +569,8 @@
       color: @invertedCloseColor;
     }
   }
-  & when (@variationModalFullscreen) {
+  & when (@variationModalFullscreen) or (@variationModalCloseInside) {
+    .ui.inverted.modal > .close.inside,
     .ui.inverted.fullscreen.modal > .close {
       color: @invertedCloseColor;
     }

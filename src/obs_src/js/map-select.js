@@ -56,7 +56,9 @@ class MapSelect {
     // logos and results
     $('.blue.team-name').text(state.blueTeam.name);
     $('.red.team-name').text(state.redTeam.name);
-    $('.score.blue').text(isNaN(state.blueTeam.score) ? 0 : state.blueTeam.score);
+    $('.score.blue').text(
+      isNaN(state.blueTeam.score) ? 0 : state.blueTeam.score,
+    );
     $('.score.red').text(isNaN(state.redTeam.score) ? 0 : state.redTeam.score);
     setCSSImage('.blue.team-logo', state.blueTeam.logo);
     setCSSImage('.red.team-logo', state.redTeam.logo);
@@ -64,7 +66,9 @@ class MapSelect {
     // results
     $('.map-select-row').remove();
     for (let i = 0; i < state.match.games.length; i++) {
-      $('.map-selection-container').append(this.createMapBanner(state.match.games[i].map, i + 1));
+      $('.map-selection-container').append(
+        this.createMapBanner(state.match.games[i].map, i + 1),
+      );
       this.setBannerState(state, state.match.games[i], i + 1);
     }
   }

@@ -181,7 +181,7 @@ async function ngsRoundChange(value, text, $elem) {
   };
 
   try {
-    const roundReq = await fetch(`${baseURL}/schedule/get/matches`, {
+    const roundReq = await fetch(`${baseURL}/schedule/fetch/matches`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ async function loadStandings(divID) {
         'info',
       );
 
-      const standReq = await fetch(`${baseURL}/standings/get/division`, {
+      const standReq = await fetch(`${baseURL}/standings/fetch/division`, {
         method: 'POST',
         headers: new Headers({
           'Content-Type': 'application/json',
