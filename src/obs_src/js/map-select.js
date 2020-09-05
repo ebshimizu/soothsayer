@@ -159,6 +159,7 @@ class MapSelect {
       elem
         .find('.picked-by .name')
         .text(game.pick === 'blue' ? state.blueTeam.name : state.redTeam.name);
+      elem.find('.picked-by').addClass(game.pick);
     }
     else {
       elem.find('.picked-by').hide();

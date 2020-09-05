@@ -14,3 +14,7 @@ body#single-caster-frame {
 {
   display: none;
 }
+
+#post-game .tournament-name-flex {
+  display: none;
+}
