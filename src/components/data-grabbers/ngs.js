@@ -418,7 +418,7 @@ async function loadTicker(divID) {
     const divSlug = division.divisionConcat;
 
     // get scheduled matches
-    const sched = await fetch(`${baseURL}/schedule/get/matches/scheduled`);
+    const sched = await fetch(`${baseURL}/schedule/get/matches/scheduled?season=${seasonID}`);
     const matchData = await sched.json();
 
     // scan scheduled matches for the following things:
