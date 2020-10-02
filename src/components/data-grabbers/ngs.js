@@ -556,7 +556,12 @@ async function loadAll() {
         'info',
       );
 
+      // reset app state
       appState.clearTournamentData();
+      appState.resetTeamData();
+      appState.resetMatchData();
+      $('#best-of').dropdown('set exactly', '3');
+      $('#map-pool-presets').dropdown('set exactly', 'NGSS10');
 
       const divID = $('#ngs-division').dropdown('get value');
 
@@ -813,6 +818,13 @@ async function loadPlayoffs() {
 
   try {
     const divID = $('#ngs-division-playoff').dropdown('get value');
+
+    // reset app state
+    appState.clearTournamentData();
+    appState.resetTeamData();
+    appState.resetMatchData();
+    $('#best-of').dropdown('set exactly', '3');
+    $('#map-pool-presets').dropdown('set exactly', 'NGSS10');
 
     // standings have to be first
     await loadStandings(divID);
