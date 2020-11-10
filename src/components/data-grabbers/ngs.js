@@ -17,7 +17,7 @@ function createUI() {
     <div class="data-grab-option ngs-grabber" data-source="ngs">
       <h3 class="ui dividing header">Regular Season</h3>
       <div class="fields">
-        <div class="ui four wide field">
+        <div class="ui three wide field">
           <label>Division</label>
           <div class="ui fluid selection dropdown" id="ngs-division">
             <i class="dropdown icon"></i>
@@ -33,7 +33,7 @@ function createUI() {
             <div class="menu"></div>
           </div>
         </div>
-        <div class="ui eight wide field">
+        <div class="ui five wide field">
           <label>Match</label>
           <div class="ui fluid selection dropdown" id="ngs-match">
             <i class="dropdown icon"></i>
@@ -44,6 +44,14 @@ function createUI() {
         <div class="ui two wide field">
           <label><i class="magic icon"></i> Match</label>
           <div class="ui fluid green button" id="ngs-load-all">Load</div>
+        </div>
+        <div class="ui two wide field">
+          <label>Standings</label>
+          <div class="ui fluid green button" id="ngs-load-standings">Standings</div>
+        </div>
+        <div class="ui two wide field">
+          <label>Ticker</label>
+          <div class="ui fluid green button" id="ngs-load-ticker">Ticker</div>
         </div>
       </div>
       <h3 class="ui dividing header">Playoffs and Tournaments</h3>
@@ -418,7 +426,9 @@ async function loadTicker(divID) {
     const divSlug = division.divisionConcat;
 
     // get scheduled matches
-    const sched = await fetch(`${baseURL}/schedule/get/matches/scheduled?season=${seasonID}`);
+    const sched = await fetch(
+      `${baseURL}/schedule/get/matches/scheduled?season=${seasonID}`,
+    );
     const matchData = await sched.json();
 
     // scan scheduled matches for the following things:
@@ -872,6 +882,15 @@ function bind(state) {
   });
   $('#ngs-division-playoff').dropdown({
     onChange: ngsPlayoffChange,
+  });
+  $('#ngs-load-standings').click(() => {
+    const divID = $('#ngs-division').dropdown('get value');
+    loadStandings(divID);
+  });
+  $('#ngs-load-ticker').click(() => {
+    const divID = $('#ngs-division').dropdown('get value');
+    loadTicker(divID);
+    appState.updateAndBroadcastTicker();
   });
   $('#ngs-match').dropdown();
   $('#ngs-load-all').click(loadAll);
