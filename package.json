@@ -1,7 +1,7 @@
 {
   "name": "soothsayer",
   "productName": "soothsayer",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "Soothsayer: A tool for generating OBS overlays for casting some video games.",
   "main": "src/index.js",
   "keywords": [],
@@ -19,6 +19,7 @@
     "extract-zip": "^1.6.7",
     "fomantic-ui": "^2.4.2",
     "fs-extra": "^7.0.0",
+    "heroprotocol": "github:GaryIrick/heroprotocol",
     "hots-parser": "^7.38.2",
     "jquery": "^3.3.1",
     "level-js": "^2.2.4",
@@ -27,8 +28,7 @@
     "medeadown": "^1.1.9",
     "moment": "^2.23.0",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0",
-    "heroprotocol": "github:GaryIrick/heroprotocol"
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "electron": "^4.0.1",

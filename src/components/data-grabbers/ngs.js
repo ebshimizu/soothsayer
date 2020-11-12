@@ -4,6 +4,8 @@ const Tournament = require('../tournament');
 
 let appState;
 let divisions = {};
+let tournamentDivisions = {};
+let tournamentToDivision = {};
 let matches = {};
 const seasonID = 10;
 
@@ -116,10 +118,16 @@ async function getDivisions() {
     const tm = await tourn.json();
 
     divisions = {};
+    tournamentDivisions = {};
+    tournamentToDivision = {};
+
+    // map concat to regular
+    const divKey = {};
     const options = [];
 
     for (let i = 0; i < divs.returnObject.length; i += 1) {
       divisions[divs.returnObject[i]._id] = divs.returnObject[i];
+      divKey[divs.returnObject[i].divisionConcat] = divs.returnObject[i]._id;
 
       options.push({
         value: divs.returnObject[i]._id,
@@ -132,10 +140,24 @@ async function getDivisions() {
 
     const tOptions = [];
     for (let i = 0; i < tm.returnObject.length; i += 1) {
+      let dName = null;
+
+      try {
+        const divConcat = tm.returnObject[i].teamMatches[0].divisionConcat;
+        if (divConcat in divKey) {
+          dName = divisions[divKey[divConcat]].displayName;
+          tournamentToDivision[tm.returnObject[i].tournamentName] = divisions[divKey[divConcat]]._id;
+        }
+      }
+      catch (e) {
+        // just use default
+        dName = tm.returnObject[i].tournamentName;
+      }
+
       tOptions.push({
         value: tm.returnObject[i].tournamentName,
-        text: tm.returnObject[i].tournamentName,
-        name: tm.returnObject[i].tournamentName,
+        text: dName,
+        name: dName,
       });
     }
 
@@ -828,6 +850,8 @@ async function loadPlayoffs() {
 
   try {
     const divID = $('#ngs-division-playoff').dropdown('get value');
+    const divName = $('#ngs-division-playoff').dropdown('get text');
+    const actualDivId = tournamentToDivision[divID];
 
     // reset app state
     appState.clearTournamentData();
@@ -837,7 +861,7 @@ async function loadPlayoffs() {
     $('#map-pool-presets').dropdown('set exactly', 'NGSS10');
 
     // standings have to be first
-    await loadStandings(divID);
+    await loadStandings(actualDivId);
 
     // load bracket
     const bracketMatches = await loadBracket(divID);
@@ -853,11 +877,10 @@ async function loadPlayoffs() {
     }
 
     // tournament name
-    const divName = $('#ngs-division-playoff').dropdown('get text');
     $('#tournament-name').val(`NGS Season ${seasonID} | ${divName}`);
 
     // ticker
-    await loadTicker(divID);
+    await loadTicker(actualDivId);
 
     // commit
     appState.updateAndBroadcast();
