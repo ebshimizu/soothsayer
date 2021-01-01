@@ -9,7 +9,7 @@ let tournamentToDivision = {};
 let matches = {};
 const seasonID = 10;
 
-const baseURL = 'https://www.nexusgamingseries.org';
+const baseURL = 'https://www.nexusgamingseries.org/api';
 const imageURL = 'https://s3.amazonaws.com/ngs-image-storage';
 const defaultTeamLogo =
   'https://s3.amazonaws.com/ngs-image-storage/defaultTeamLogo.png';
