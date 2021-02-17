@@ -63,14 +63,14 @@ const Maps = {
 
 const MapPools = {
   NGSS10: {
-    name: 'NGS Season 10',
+    name: 'NGS Season 11',
     maps: [
       'AlteracPass',
       'BattlefieldOfEternity',
       'BraxisHoldout',
       'CursedHollow',
       'DragonShire',
-      'HanamuraTemple',
+      'GardenOfTerror',
       'InfernalShrines',
       'TombOfTheSpiderQueen',
       'TowersOfDoom',
