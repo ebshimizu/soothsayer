@@ -78,7 +78,7 @@ const MapPools = {
     ],
   },
   HeroesLoungeEU: {
-    name: 'HL EU Season 12',
+    name: 'HL EU Season 16',
     maps: [
       'BattlefieldOfEternity',
       'InfernalShrines',
@@ -89,7 +89,7 @@ const MapPools = {
       'CursedHollow',
       'TowersOfDoom',
       'AlteracPass',
-      'BraxisHoldout',
+      'GardenOfTerror',
     ],
   },
   HeroesLoungeNA: {
