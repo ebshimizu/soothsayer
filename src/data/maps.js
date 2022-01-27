@@ -63,7 +63,7 @@ const Maps = {
 
 const MapPools = {
   NGSS10: {
-    name: 'NGS Season 12',
+    name: 'NGS Season 13',
     maps: [
       'AlteracPass',
       'BattlefieldOfEternity',
