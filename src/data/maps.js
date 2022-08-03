@@ -62,6 +62,22 @@ const Maps = {
 };
 
 const MapPools = {
+  NGSS14: {
+    name: 'NGS Season 14',
+    maps: [
+      'AlteracPass',
+      'BattlefieldOfEternity',
+      'BraxisHoldout',
+      'CursedHollow',
+      'DragonShire',
+      'GardenOfTerror',
+      'InfernalShrines',
+      'SkyTemple',
+      'TombOfTheSpiderQueen',
+      'TowersOfDoom',
+      'VolskayaFoundry',
+    ],
+  },
   NGSS10: {
     name: 'NGS Season 13',
     maps: [
