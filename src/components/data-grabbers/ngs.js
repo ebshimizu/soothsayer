@@ -7,7 +7,7 @@ let divisions = {};
 let tournamentDivisions = {};
 let tournamentToDivision = {};
 let matches = {};
-const seasonID = 16;
+const seasonID = 17;
 
 const baseURL = 'https://www.nexusgamingseries.org/api';
 const imageURL = 'https://s3.amazonaws.com/ngs-image-storage';
